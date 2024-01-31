@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "RASTER.C": "cpp",
+        "TST_RAST.C": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
