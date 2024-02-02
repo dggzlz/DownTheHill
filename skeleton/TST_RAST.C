@@ -5,8 +5,13 @@ int main()
 {
 	void *base = Physbase();
 
-	plot_something_1(base, 100, 100);
-	plot_something_2(base, 200, 200);
+	unsigned short x1, unsigned short y1,
+               unsigned short x2, unsigned short y2,
+               short style, short mode
+	plot_line(unsigned short x1, unsigned short y1,
+               unsigned short x2, unsigned short y2,
+               short style, short mode);
+
 
 	return 0;
 }

@@ -1,7 +1,10 @@
 {
     "files.associations": {
         "RASTER.C": "cpp",
-        "TST_RAST.C": "cpp"
+        "TST_RAST.C": "cpp",
+        "ANIMATE.C": "cpp",
+        "FILL.C": "cpp",
+        "PLOT_CH.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
