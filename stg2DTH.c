@@ -26,7 +26,8 @@ int main()
         int y = 0;
         int row = 200;
         int col = 320;
-              UINT16 invaderBitmap[bitMapsize16] =
+
+        UINT16 invaderBitmap[bitMapsize16] =
         {
                 0x0000,
                 0x0810,
@@ -45,50 +46,55 @@ int main()
                 0x0000
         };
 
-
-        clearScreen(base32);
-        plotPixel(base16, x, y);
+        /*plotPixel(base16, x, y);*/
         plotHorizontal(base32, row);
-        plotVertical(base8, col);
-        plotHorizontal(base32, 383);
+        /*plotVertical(base8, col);*/
+        /*plotHorizontal(base32, 383);*/
         plotBitmap16(base16, 0, 0, invaderBitmap, bitMapsize16);
+        clearScreen(base32);
 
         return 0;
 }
 
 /*
-Name:    
+NAME:    
         clearScreen
-Purpose:
+PURPOSE:
         Clears the screen
-Inputs:
-        UINT32 *base:
+INPUTS:
+        UINT32 *base: 
+        A pointer to the address in frame buffer in longword
         The purpose is to pass to the function
         the location of the top left corner of the 
         screen and access the pixels in longs
                
-Outputs: 
+OUTPUTS: 
         None
-Assumptions:
+
+ASSUMPTIONS:
         This function assumes the resolution is
         exactly 640 x 400 pixels. This function
         also assumes that the framebuffer base pointer
-        base, will be passed as a UINT32.
+        base will be passed as a UINT32.
         Also assumes a type def is made for UINT32.
 */
 
 void clearScreen(UINT32 *base)
 {
         int i, j = 0;
-
-        for(j = 0; j< 400; j++)
+        
+        while (i < 8000){
+                *(base + (i *20)) &= 0x00000000;  
+        }
+        
+       /* for(j = 0; j< 400; j++)
         {
                 for(i = 0; i < 20; i++)
                 {
-                *(base + (j * 20) + i) = 0x00000000; /*instead of setting to zero could perform a clear mask*/
+                *(base + (j * 20) + i) = 0x00000000; instead of setting to zero could perform a clear mask
                 }
                 
-        }
+        }*/
 }
 
 /*

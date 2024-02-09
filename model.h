@@ -1,25 +1,66 @@
+#ifndef MODEL_H
+#define MODEL_H
 
-type def struct
+#include RASTER_H
+
+typedef struct
 {
-UINT32 bitMap[128];
-}BitMap64
+    UINT32 bitmap[128];
 
-type def struct
+} bitmap64;
+
+typedef struct
 {
-BitMap64 snowBoardPlayer;
-int lives;
-unsigned int x;
-unsigned int y = 200;
-unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
+    bitmap64 snowBoardPlayer;
+    int lives;
+    unsigned int x;
+    const unsigned int y = 200;
+    unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
-}snowBoarder;
+} snowboarder;
 
-type def struct
+typedef struct
 {
-BitMap64 tree;
-unsigned int x,y;
-unsigned int upwardSpeed; 
-unsigned int downwardSpeed; 
+    bitmap64 NPCskier;
+    int lives;
+    unsigned int x;
+    unsigned int y;
+    unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
+
+} NPCskier;
+
+typedef struct
+{
+    bitmap64 tree;
+    unsigned int x,y;
+    unsigned int upwardSpeed; 
+
+} tree;
+
+typedef struct
+{
+    bitmap16 score[7];
+	unsigned int score;	/*score of the player*/
+	unsigned int x, y;	/*coordinates for the score bitmap*/
+} scoreCounter; 
 
 
-}tree;
+
+typedef  struct
+{
+    bitmap32 heartsHealth;
+    int lives;
+    unsigned int x, y;
+
+} healthBar;
+
+typedef struct
+{
+	tree tree;
+    healthBar hearts;
+    NPCskier skiers[10];
+    snowboarder snowboarder;
+} Model;
+
+#endif
+
