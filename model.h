@@ -12,8 +12,9 @@ typedef struct
 typedef struct
 {
     bitmap64 snowBoardPlayer;
-    int lives;
+    int lives = 3;
     unsigned int x;
+    int xDelta;
     const unsigned int y = 200;
     unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
@@ -22,10 +23,10 @@ typedef struct
 typedef struct
 {
     bitmap64 NPCskier;
-    int lives;
-    unsigned int x;
-    unsigned int y;
-    unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
+    unsigned int x, y;
+    
+    int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
+    int upwardsSpeed; /*might have to be UINT32 unfortunatly*/
 
 } NPCskier;
 
@@ -33,7 +34,7 @@ typedef struct
 {
     bitmap64 tree;
     unsigned int x,y;
-    unsigned int upwardSpeed; 
+    int upwardSpeed; 
 
 } tree;
 

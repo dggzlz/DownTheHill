@@ -97,9 +97,9 @@ Known Bugs:
         lowest line it will print is 383
 */
 
-void plotHorizontal(UINT32 *base, int row)
+void plotHorizontal(UINT32 *base, int y, int x1, int x2)
 {
-    int count = 20;
+    int count = x2 - x1;
     
     while(count > 0){
       *(base + row * 20 + (20 - count)) = 0xFFFFFFFFF;
