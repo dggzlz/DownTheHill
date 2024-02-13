@@ -97,9 +97,9 @@ Known Bugs:
         lowest line it will print is 383
 */
 
-void plotHorizontal(UINT32 *base, int y, int x1, int x2)
+void plotHorizontal(UINT32 *base, int row)
 {
-    int count = x2 - x1;
+    int count = 20;
     
     while(count > 0){
       *(base + row * 20 + (20 - count)) = 0xFFFFFFFFF;
@@ -198,7 +198,20 @@ void plotBitmap16(UINT16 *base,
     }
 }
 
+/*PLOT_BITMAP_32*/
+void plotBitmap32(UINT32 *base, 
+                    int x, int y,
+                    const UINT32 *bitmap,
+                    unsigned int height)
+{	
+	int i = 0;
+	while (i < height){
+		*(base + i * 20) = bitmap[i];
+		i++;
+	}
+}
 
+/*PLOT BITMAP 64*/
 void plotBitmap64(UINT32 *base, 
                   int x, int y, 
                   const UINT32 *bitmap, 
@@ -216,15 +229,3 @@ void plotBitmap64(UINT32 *base,
     }
 }
 
-/*PLOT_BITMAP_32*/
-void plot_bitmap_32(UINT32 *base, 
-					int x, int y,
-					const UINT32 *bitmap,
-					unsigned int height)
-{	
-	int i = 0;
-	while (i < height){
-		*(base + i * 20) = bitmap[i];
-		i++;
-	}
-}

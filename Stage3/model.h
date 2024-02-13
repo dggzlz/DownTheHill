@@ -3,6 +3,34 @@
 
 #include RASTER_H
 
+/*FUNCTIONS*/
+
+/*SNOWBOARDER BEHAVIOURS*/
+void moveSnowboarder();
+void snowboarderCollidesSkier();
+void snowboarderCollidesObstacle();
+
+/*SKIER BEHAVIOURS*/
+void moveSkier();
+/*void snowboarderCollidesSkier();*/
+void skierCollidesObstacle();
+void skierSpawn();
+void skierDissapears();
+
+/*SCORE BEHAVIOURS*/
+void scoreIncrease();
+
+/*FINAL SCORE BEHAVIOURS*/
+void calcFinalScore();
+
+/*SKIER HIT BEHAVIOURS*/
+void countIncrease();
+
+/*TREE BEHAVIOURS*/
+void moveTree();
+void spawnTree();
+
+/*STRUCTURES*/
 typedef struct
 {
     UINT32 bitmap[128];
@@ -14,7 +42,7 @@ typedef struct
     bitmap64 snowBoardPlayer;
     int lives = 3;
     unsigned int x;
-    int xDelta;
+    int deltaX;
     const unsigned int y = 200;
     unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
@@ -25,8 +53,8 @@ typedef struct
     bitmap64 NPCskier;
     unsigned int x, y;
     
-    int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
-    int upwardsSpeed; /*might have to be UINT32 unfortunatly*/
+    int deltaX; /*might have to be UINT32 unfortunatly*/
+    int deltaY; /*might have to be UINT32 unfortunatly*/
 
 } NPCskier;
 
