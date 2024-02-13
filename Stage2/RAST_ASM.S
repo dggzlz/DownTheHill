@@ -1,17 +1,30 @@
-			xdef		_plot_something_2
+;File: rast_asm.s 
+;Contributers: Marc Schroeder
+;Project: Down the Hill
+;Course: COMP 2659 - Machinery II
+;Section: 001
+;Instructor: Paul Pospisil
+;
+;PURPOSE: This file is part of the raster library (stage 2 of the project), 
+;and it contains the subroutine 'clearScreen'. All credit to the algorithm are 
+;given to Marc Schroeder.
+;
+;The subroutine clears the screen.
+;
+		xdef		_clearScreen
 
-; [TO DO] delete this example function
+base		equ		64		; offset from SP, not A6
 
-y			equ		14
-x			equ		12
-base			equ		8
+_clearScreen:	movem.l		d0-7/a0-6,-(sp)
+		lea		zeros,a0
+		movem.l		(a0)+,d1-7/a1-6
+		movea.l		base(sp),a0
+		adda.l		#32000,a0
+		move.w		#614,d0
+fillLoop:	movem.l		d1-7/a1-6,-(a0)
+		dbra		d0,fillLoop
+		movem.l		d1-5,-(a0)
+		movem.l		(sp)+,d0-7/a0-6
+		rts
 
-_plot_something_2:	link		a6,#0
-			movea.l		base(a6),a0
-			move.w		x(a6),d0
-			move.w		y(a6),d1
-		;	...		...
-			unlk		a6
-			rts
-
-; recall: cc68x assumes d0-2/a0-2 are *not* preserved across subroutine calls!
+zeros:	ds.l		13

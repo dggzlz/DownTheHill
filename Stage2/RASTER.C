@@ -165,14 +165,15 @@ void plotHorizontal(UINT32 *base, int y, int x1, int x2)
  * - When vertical and horizontal line intersect
  */
 
-void plotVertical(char *base, int col)
+void plotVertical(char *base, int x, int y1, int y2)
 {
-    int i = 0;
+    int line,
+        counter = y2-y1, 
+        offset = x / 8 + y1,
+        pattern = 1 << (7 -(7 & x));
 
-    while(i < 400){
-        *(base + i * 80 + (col >> 3)) = 0x80;
-        i++;
-    }
+    for (line = 0; line < counter; line ++)
+        *(base + offset + 80 * line) = pattern;
 }
 
 /*********************PLOT BITMAP 16*********************/

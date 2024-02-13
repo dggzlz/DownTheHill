@@ -18,9 +18,9 @@ void plotBitmap16(UINT16 *base,
                   const UINT16 *bitmap, 
 		  		  unsigned int height);
 void plotBitmap32(UINT32 *base, 
-					int x, int y,
-					const UINT32 *bitmap,
-					unsigned int height);
+				  int x, int y,
+				  const UINT32 *bitmap,
+				  unsigned int height);
 void plotBitmap64(UINT32 *base, 
                   int x, int y, 
                   const UINT32 *bitmap, 
