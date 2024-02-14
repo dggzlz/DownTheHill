@@ -3,54 +3,55 @@
 
 #include RASTER_H
 
-/*FUNCTIONS*/
+/**************BEHAVIOURS FUNCTIONS*******/
 
 /*SNOWBOARDER BEHAVIOURS*/
 void moveSnowboarder();
-void snowboarderCollidesSkier();
-void snowboarderCollidesObstacle();
 
 /*SKIER BEHAVIOURS*/
 void moveSkier();
-/*void snowboarderCollidesSkier();*/
-void skierCollidesObstacle();
 void skierSpawn();
 void skierDissapears();
-
-/*SCORE BEHAVIOURS*/
-void scoreIncrease();
-
-/*FINAL SCORE BEHAVIOURS*/
-void calcFinalScore();
-
-/*SKIER HIT BEHAVIOURS*/
-void countIncrease();
 
 /*TREE BEHAVIOURS*/
 void moveTree();
 void spawnTree();
 
-/*STRUCTURES*/
+/*SCORE BEHAVIOURS*/
+void scoreUpdates();
+
+/*LIVES COUNTER BEHAVIOURS*/
+void liveUpdates();
+
+/*SKIER HIT BEHAVIOURS*/
+void countIncrease();
+
+/***********STRUCTURES************/
 typedef struct
 {
     UINT32 bitmap[128];
 
-} bitmap64;
+} Bitmap64;
 
 typedef struct
 {
-    bitmap64 snowBoardPlayer;
+    UINT32 bitmap[32];
+} Bitmap32;
+
+typedef struct
+{
+    bitmap64 snowboardPlayer;
     int lives = 3;
     unsigned int x;
     int deltaX;
     const unsigned int y = 200;
     unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
-} snowboarder;
+} Snowboarder;
 
 typedef struct
 {
-    bitmap64 NPCskier;
+    bitmap64 npcSkier;
     unsigned int x, y;
     
     int deltaX; /*might have to be UINT32 unfortunatly*/
@@ -64,15 +65,14 @@ typedef struct
     unsigned int x,y;
     int upwardSpeed; 
 
-} tree;
+} Tree;
 
 typedef struct
 {
     bitmap16 score[7];
 	unsigned int score;	/*score of the player*/
 	unsigned int x, y;	/*coordinates for the score bitmap*/
-} scoreCounter; 
-
+} ScoreCounter; 
 
 
 typedef  struct
@@ -81,14 +81,23 @@ typedef  struct
     int lives;
     unsigned int x, y;
 
-} healthBar;
+} Lives;
 
 typedef struct
 {
-	tree tree;
-    healthBar hearts;
+    bitmap32 number;
+    unsigned int counter;
+    unsigned int x, y;
+
+} SkierCounter;
+
+typedef struct
+{
+    Snowboarder snowboarder;
     NPCskier skiers[10];
-    snowboarder snowboarder;
+	Tree tree;
+    Lives hearts[3];
+    SkierCounter skierCounter;
 } Model;
 
 #endif

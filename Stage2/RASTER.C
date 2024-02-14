@@ -203,9 +203,9 @@ void plotVertical(char *base, int x, int y1, int y2)
  *
  */
 void plotBitmap16(UINT16 *base, 
-		  int x, int y, 
+		          int x, int y, 
                   const UINT16 *bitmap, 
-		  unsigned int height)
+		          unsigned int height)
 {
     int i = 0; 
    
@@ -215,12 +215,12 @@ void plotBitmap16(UINT16 *base,
     }
 }
 
-/*********************PLOT BITMAP 16*********************/
+/*********************PLOT BITMAP 32*********************/
 /* 
- * PURPOSE: Plots a given 16x16 bitmap array
+ * PURPOSE: Plots a given 32x32 bitmap array
  * 
  * INPUTS:
- * - base (char Pointer): A pointer to the address in frame buffer in longword. 
+ * - base (UINT32 Pointer): A pointer to the address in frame buffer in longword. 
  *   The purpose is to pass to the function the address of the Physbase()
  *   function which points to the frame buffer on the screen to get access 
  *   to set pixels in the screen. 
@@ -228,12 +228,12 @@ void plotBitmap16(UINT16 *base,
  * - x (int): an integer that represent the x-coordinate by value where the it 
  *  is desired to plot the bitmap.  
  * 
- * - y (int): an integer that represent the y1-coordinate by value where the it 
+ * - y (int): an integer that represent the y-coordinate by value where the it 
  *  is desired to plot the bitmap.
  * 
- * - bitmap (const pointer UINT16): this is the bitmap to be plotted. it is pass 
+ * - bitmap (const pointer UINT32): this is the bitmap to be plotted. it is pass 
  *   as a pointer. Since it is passed as a pointer, it is possible to pass 
- *   arrays. You can only pass bitmaps of 16x16.
+ *   arrays. You can only pass bitmaps of 32x32.
  * 
  * - height (unsigned int): the maximum height that the function will plot. this
  *   also represent the size of the array. 
@@ -241,7 +241,7 @@ void plotBitmap16(UINT16 *base,
  * OUPUTS: None
  *
  */
-void plot_bitmap_32(UINT32 *base, 
+void plotBitmap32(UINT32 *base, 
                     int x, int y,
                     const UINT32 *bitmap,
                     unsigned int height)
@@ -253,12 +253,12 @@ void plot_bitmap_32(UINT32 *base,
 	}
 }
 
-/*********************PLOT BITMAP 16*********************/
+/*********************PLOT BITMAP 64*********************/
 /* 
- * PURPOSE: Plots a given 16x16 bitmap array
+ * PURPOSE: Plots a given 64x64 bitmap array
  * 
  * INPUTS:
- * - base (char Pointer): A pointer to the address in frame buffer in longword. 
+ * - base (UINT32 Pointer): A pointer to the address in frame buffer in longword. 
  *   The purpose is to pass to the function the address of the Physbase()
  *   function which points to the frame buffer on the screen to get access 
  *   to set pixels in the screen. 
@@ -266,18 +266,17 @@ void plot_bitmap_32(UINT32 *base,
  * - x (int): an integer that represent the x-coordinate by value where the it 
  *  is desired to plot the bitmap.  
  * 
- * - y (int): an integer that represent the y1-coordinate by value where the it 
+ * - y (int): an integer that represent the y-coordinate by value where the it 
  *  is desired to plot the bitmap.
  * 
- * - bitmap (const pointer UINT16): this is the bitmap to be plotted. it is pass 
+ * - bitmap (const pointer UINT32): this is the bitmap to be plotted. it is pass 
  *   as a pointer. Since it is passed as a pointer, it is possible to pass 
- *   arrays. You can only pass bitmaps of 16x16.
+ *   arrays. You can only pass bitmaps of 64x64.
  * 
  * - height (unsigned int): the maximum height that the function will plot. this
  *   also represent the size of the array. 
  * 
  * OUPUTS: None
- *
  */
 void plotBitmap64(UINT32 *base, 
                   int x, int y, 
