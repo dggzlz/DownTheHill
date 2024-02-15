@@ -1,4 +1,4 @@
-#include model.h
+#include <model.h>
 
 /*behaviour functions to add:
 
@@ -29,7 +29,13 @@
 - spawnTree
 
 
-void moveSnowboarder();
+
+/*Snowboarder BEHAVIOURS*/
+void moveSnowboarder(Snowboarder *player, int newPosX)
+{
+    player->x += (player->deltaX = newPosX);
+}
+
 void snowboarderCollidesSkier();
 void snowboarderCollidesObstacle();
 
@@ -42,7 +48,7 @@ void skierSpawn(NPCskier *skier){
     skier->y += -2; /*fixed rate that goes upward*/
 }
 
-void moveSkier(NPCskier *skier, int newPosX, int newPosY){
+void moveSkier(NPCskier *skier, int newPosX, int newPosY){ 
 
     skier->x += (skier->deltaX = newPosX);
     skier->y += (skier->deltaY = newPosY);
@@ -69,14 +75,20 @@ void calcFinalScore(scoreCounter *score, ){
 void countIncrease();
 
 /*TREE BEHAVIOURS*/
-void moveTree();
-void spawnTree();
+void moveTree(Tree *tree)
+{
+    tree->y += -4;
+}
+
+void spawnTree(Tree *tree)
+{
+    skier->y = 399; 
+    skier->x = randint(); /*we should design a proper pattern*/
+}
+
+
+void treeDissapears(); /* not sure if this is events as well*/
 
 
 
 
-
-
-
-
-*/

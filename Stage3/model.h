@@ -95,7 +95,7 @@ typedef struct
 {
     Snowboarder snowboarder;
     NPCskier skiers[10];
-	Tree tree;
+	Tree tree[10];
     Lives hearts[3];
     SkierCounter skierCounter;
 } Model;
