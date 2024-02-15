@@ -36,43 +36,20 @@ void moveSnowboarder(Snowboarder *player, int newPosX)
     player->x += (player->deltaX = newPosX);
 }
 
-void snowboarderCollidesSkier();
-void snowboarderCollidesObstacle();
 
 /*SKIER BEHAVIOURS*/
-void skierSpawn(NPCskier *skier){
-    skier->y = 399; 
-    skier->x = randint();
-
-    skier->x += skier->deltaX;
-    skier->y += -2; /*fixed rate that goes upward*/
-}
-
 void moveSkier(NPCskier *skier, int newPosX, int newPosY){ 
 
     skier->x += (skier->deltaX = newPosX);
     skier->y += (skier->deltaY = newPosY);
 }
 
-/*void snowboarderCollidesSkier();*/
-void skierCollidesObstacle(){
-    return;
+void skierSpawn(NPCskier *skier){
+    skier->y = 399; 
+    skier->x = 200;
 }
 
-void skierDissapears();
-
-/*SCORE BEHAVIOURS*/
-void scoreIncrease(scoreCounter *score){
-    score->score += 1;
-}
-
-/*FINAL SCORE BEHAVIOURS*/
-void calcFinalScore(scoreCounter *score, ){
-    
-}
-
-/*SKIER HIT BEHAVIOURS*/
-void countIncrease();
+void skierDisappears();
 
 /*TREE BEHAVIOURS*/
 void moveTree(Tree *tree)
@@ -83,11 +60,19 @@ void moveTree(Tree *tree)
 void spawnTree(Tree *tree)
 {
     skier->y = 399; 
-    skier->x = randint(); /*we should design a proper pattern*/
+    skier->x = 400; /*we should design a proper pattern*/
 }
 
-
 void treeDissapears(); /* not sure if this is events as well*/
+
+/*SCORE BEHAVIOURS*/
+void scoreUpdates();
+
+/*LIVES COUNTER BEHAVIOURS*/
+void liveUpdates();
+
+/*SKIER HIT BEHAVIOURS*/
+void countIncrease();
 
 
 
