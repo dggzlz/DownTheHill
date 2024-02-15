@@ -1,41 +1,10 @@
 #include <model.h>
 
-/*behaviour functions to add:
-
-********************************snowBoarder
-- moveSnowboarder
-- snowBoarderCollidesSkier
-- snowBoarderCollidesObstacle
-
-********************************skier
-- moveSkier
-- snowBoarderCollidesSkier
-- skierCollidesObstacles
-- skierSpawns
-- skierDissapears like my fourth wife
-
-*********************************scoreCounter
--scoreIncrease
-
-*********************************finalScore
-- calculateFinalScore //in game score + (#skiersHit * 3)//
-
-
-*********************************skiersHit
-- countIncrease
-
-*********************************tree
-- moveTree
-- spawnTree
-
-
-
 /*Snowboarder BEHAVIOURS*/
 void moveSnowboarder(Snowboarder *player, int newPosX)
 {
     player->x += (player->deltaX = newPosX);
 }
-
 
 /*SKIER BEHAVIOURS*/
 void moveSkier(NPCskier *skier, int newPosX, int newPosY){ 
@@ -49,8 +18,6 @@ void skierSpawn(NPCskier *skier){
     skier->x = 200;
 }
 
-void skierDisappears();
-
 /*TREE BEHAVIOURS*/
 void moveTree(Tree *tree)
 {
@@ -63,16 +30,28 @@ void spawnTree(Tree *tree)
     skier->x = 400; /*we should design a proper pattern*/
 }
 
-void treeDissapears(); /* not sure if this is events as well*/
-
 /*SCORE BEHAVIOURS*/
-void scoreUpdates();
+void scoreUpdates(ScoreCounter *playerScore)
+{
+    playerScore->score += 1000;
+}
 
 /*LIVES COUNTER BEHAVIOURS*/
-void liveUpdates();
+void updateLives(Lives *lives)
+{
+    lives->numLives += -1;
+    if(lives->numLives == 0)
+    {
+        gameOver();
+    }
+}
 
 /*SKIER HIT BEHAVIOURS*/
-void countIncrease();
+void skierHitCountIncrease(SkierCounter *count)
+{
+    count->hitCounter += 1;
+    count->scoreCounter += 3000;
+}
 
 
 

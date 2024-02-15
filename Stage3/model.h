@@ -21,10 +21,10 @@ void spawnTree();
 void scoreUpdates();
 
 /*LIVES COUNTER BEHAVIOURS*/
-void liveUpdates();
+void updateLives();
 
 /*SKIER HIT BEHAVIOURS*/
-void countIncrease();
+void skierHitCountIncrease();
 
 /***********STRUCTURES************/
 typedef struct
@@ -78,7 +78,7 @@ typedef struct
 typedef  struct
 {
     bitmap32 heartsHealth;
-    int lives;
+    int numLives;
     unsigned int x, y;
 
 } Lives;
@@ -86,7 +86,9 @@ typedef  struct
 typedef struct
 {
     bitmap32 number;
-    unsigned int counter;
+    unsigned int hitCounter;
+    unsigned int scoreCounter;
+
     unsigned int x, y;
 
 } SkierCounter;
