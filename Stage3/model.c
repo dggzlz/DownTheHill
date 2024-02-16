@@ -1,4 +1,4 @@
-#include <model.h>
+#include "model.h"
 
 
 
@@ -24,8 +24,8 @@
  * - The frame buffer pointer base must be a unsigned int (UINT16) value.
  * 
  */
-void moveSnowboarder(Snowboarder *player, int deltaPosX)
-{
+void moveSnowboarder(Snowboarder *player, int deltaPosX){
+
     player->x += (player->deltaX = deltaPosX);
 }
 
@@ -36,9 +36,10 @@ void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY){
     skier->y += (skier->deltaY = deltaPosY);
 }
 
-void skierSpawn(NPCskier *skier){
-    skier->y = 399; 
-    skier->x = 200;
+void skierSpawn(UINT32 *base){
+
+    NPCskier newSkier = {skier,50,399,-5}; /*fixed coordinates for now*/
+    plotBitMap64(base, newTree->x,newTree->y,newSkier->skier,128);
     /*hardcoded for now*/
 }
 
@@ -51,7 +52,7 @@ void moveTree(Tree *tree)
 void spawnTree(UINT32 *base)
 {
     Tree newTree = {tree,50,399,-5};/*fixxed x for now*/
-    plotBitMap64(base, newTree->x,newTree->y,newTree tree,128);
+    plotBitMap64(base, newTree->x, newTree->y, newTree->tree, 128);
 }
 
 /*SCORE BEHAVIOURS*/

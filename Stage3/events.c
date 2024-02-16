@@ -8,41 +8,37 @@
 
 /****ANSYNCHRONOUS EVENTS****/
 
-void moveRequest(){
-    long key = Cnecin();
+UINT32 base = Physbase();
 
-    switch(key) {
+void moveRequest(long sysCall){
+
+    switch(sysCall) {
         case KEY_LEFT:
-            moveSnowboarder(player, -1);
+            moveSnowboarder(player, -5);
             break;
         case KEY_RIGHT:
-            moveSnowboarder(playaer, 1);
+            moveSnowboarder(playaer, 5);
             break;
         default:
             break
     }
 }
 
-void quit(){
-    if (Cnecin() == ESC)
+void quit(long sysCall){
+    if (sysCall == ESC)
         /*To put code to kill the program*/
 
 }        /*triggered by the key Esc from keyboard*/
 
 /****SYNCHRONOUS TIMED EVENTS*****/
 
-void skierSpawn(){
-    spawnSkier();
+void newSkier(){
+    spawnSkier(base);
 } /*every 5 seconds*/
 
-void skierMoves(){
-
-}
- /*every 2 seconds*/
-void skierMovesUp(); /*every 2 seconds*/
 
 void newTree(){
-    spawnTree();
+    spawnTree(base);
 } /*every second*/
 
 void treeMoves(){
@@ -67,18 +63,21 @@ void topCollision(){
 void invincible(); /*triggered by the Obstacle collision or the edge collision*/
 void blink(); /*triggered by the Obstacle collision or the edge collision*/
 
-void decreaseLife(){
+void decreaseLife(Lives lives){
     updatesLives(lives);
 } 
 
-void backToCentre(SnowBoarder *player){
+void backToCentre(Snowboarder *player){
     player->x = 320;
     player->y = 200;
 };
 
 /*Skier Collision*/
-void skierCollision();
-void increaseCounter();
+void skierCollision(NPCskier *skier, SkierCounter *counter){
+    skier->npcSkier
+    skierHitCountIncrease(counter);
+
+}
 
 /*Game ends*/
 void gameOver();
