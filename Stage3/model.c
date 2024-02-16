@@ -39,6 +39,7 @@ void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY){
 void skierSpawn(NPCskier *skier){
     skier->y = 399; 
     skier->x = 200;
+    /*hardcoded for now*/
 }
 
 /*TREE BEHAVIOURS*/
