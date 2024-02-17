@@ -3,7 +3,7 @@
 #include "Stage3/model.c"
 #include "Stage2/raster.h"
 #include "Stage2/raster.c"
-#include "BitMap Arrays/BitMapArrays.h"
+#include "Stage3/bitmaps.h"
 #include "Stage4/renderer.c"
 #include "Stage4/renderer.h"
 #include <osbind.h>
@@ -52,6 +52,9 @@ int main()
     newLife = createLife();
     *lifePointer = newLife;
 
+/*snowboarder initilization*/
+    
+
 /*test 1*/
   printf("Beginning Tree Column Tests\n");
     renderTree(tree1,base);
@@ -66,7 +69,7 @@ int main()
     renderTree(tree10,base);
 
     printf("Tree Column Tests End\n");
-    clearScreen();
+    clearScreen(base);
 
 /*test 2*/
     printf("Test all trees movement\n");
@@ -93,9 +96,10 @@ int main()
     renderTree(tree9,base);
     renderTree(tree10,base);
     treeStart -= 64;
+    clearScreen(base);
     }
     printf("Tree Movement Test End\n");
-    clearScreen();
+    clearScreen(base);
 
 /*test 3*/
     printf("Begin Lives lost Test\n");
@@ -107,6 +111,14 @@ int main()
     updateLives(lifePointer);
     renderLives(lifePointer,base);
     printf("Lives lost Test Ends\n");
+
+/*test 4*/
+    printf("Begin fake player test\n");
+    renderFakePlayer(base,snowBoarder);
+    printf("End fake player test\n");
+/*test 5*/
+    printf("Begin snowboard player test\n");
+
 
 
     return 0;
