@@ -24,8 +24,8 @@
  * - The frame buffer pointer base must be a unsigned int (UINT16) value.
  * 
  */
-void moveSnowboarder(Snowboarder *player, int deltaPosX){
-
+void moveSnowboarder(Snowboarder *player, int deltaPosX)
+{
     player->x += (player->deltaX = deltaPosX);
 }
 
@@ -36,23 +36,28 @@ void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY){
     skier->y += (skier->deltaY = deltaPosY);
 }
 
-void skierSpawn(UINT32 *base){
-
-    NPCskier newSkier = {skier,50,399,-5}; /*fixed coordinates for now*/
-    plotBitMap64(base, newTree->x,newTree->y,newSkier->skier,128);
+void skierSpawn(NPCskier *skier){
+    skier->y = 399; 
+    skier->x = 200;
     /*hardcoded for now*/
 }
 
 /*TREE BEHAVIOURS*/
 void moveTree(Tree *tree)
 {
-    tree->y += -4;
+    tree->y += -10;
 }
 
-void spawnTree(UINT32 *base)
+Tree createTree(unsigned int x) /*for now returning a copy of the struct*/
 {
-    Tree newTree = {tree,50,399,-5};/*fixxed x for now*/
-    plotBitMap64(base, newTree->x, newTree->y, newTree->tree, 128);
+    Tree newTree = {tree,x,400,-10};
+    return newTree;
+}
+
+Lives createLife()
+{
+    Lives newLife = {heartsHealth,3,576,3};
+    return newLife;
 }
 
 /*SCORE BEHAVIOURS*/
@@ -64,10 +69,10 @@ void scoreUpdates(ScoreCounter *playerScore)
 /*LIVES COUNTER BEHAVIOURS*/
 void updateLives(Lives *lives)
 {
-    lives->numLives += -1;
+    lives->numLives -= 1;
     if(lives->numLives == 0)
     {
-        gameOver();
+        printf("gameOver()\n");
     }
 }
 
