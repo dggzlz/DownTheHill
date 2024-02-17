@@ -5,11 +5,12 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
 
-#include "types.h"
+/*#include "types.h"*/
 
 typedef unsigned int UINT16;
 typedef unsigned long UINT32;
 
+void clearScreen(UINT32 *base);
 void plotPixel(UINT16 *base, int x, int y);
 void plotHorizontal(UINT32 *base, int y, int x1, int x2);
 void plotVertical(char *base, int col);

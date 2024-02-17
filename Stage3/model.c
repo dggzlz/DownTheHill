@@ -24,11 +24,12 @@
  * - The frame buffer pointer base must be a unsigned int (UINT16) value.
  * 
  */
+ /*
 Snowboarder createSnowboarder()
 {
-    
-}
 
+}
+*/
 void moveSnowboarder(Snowboarder *player, int deltaPosX)
 {
     player->x += (player->deltaX = deltaPosX);

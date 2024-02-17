@@ -1,5 +1,6 @@
+
 #ifndef BITMAPS_H
-#include BITMAPS_H
+#define BITMAPS_H
 
 typedef unsigned int UINT32;
 /*BITMAP ARRAYS*/
@@ -14,18 +15,18 @@ typedef unsigned int UINT32;
         0x00000000,
         0x03f00fc0,
         0x03f00fc0,
-        0x0ffc3ff0,
-        0x0ffc3ff0,
-        0x3cfffffc,
-        0x3cfffffc,
-        0x3cfffffc,
-        0x3cfffffc,
-        0x33fffffc,
-        0x33fffffc,
-        0x3ffffffc,
-        0x3ffffffc,
-        0x0ffffff0,
-        0x0ffffff0,
+        0x0ffc3f30,
+        0x0ffc3f30,
+        0x3cfff03c,
+        0x3cfff03c,
+        0x3cffc00c,
+        0x3cffc00c,
+        0x33ffff3c,
+        0x33ffff3c,
+        0x3fffff3c,
+        0x3fffff3c,
+        0x0ffffcf0,
+        0x0ffffcf0,
         0x03ffffc0,
         0x03ffffc0,
         0x00ffff00,
@@ -35,7 +36,9 @@ typedef unsigned int UINT32;
         0x000ff000,
         0x000ff000,
         0x0003c000,
-        0x0003c000
+        0x0003c000,
+        0x00000000,
+        0x00000000
 };
         
 UINT32 tree[128] = 

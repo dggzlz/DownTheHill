@@ -1,8 +1,4 @@
-#include "model.h"
-#include "raster.h"
-#include "arrays.h"
-
-
+#include "renderer.c"
 
 
 void renderTree(const Tree *tree, UINT32 *base);

@@ -1,12 +1,7 @@
 /*Test Driver Program*/
-#include "Stage3/model.h"
-#include "Stage3/model.c"
-#include "Stage2/raster.h"
-#include "Stage2/raster.c"
-#include "Stage3/bitmaps.h"
-#include "Stage4/renderer.c"
-#include "Stage4/renderer.h"
-#include <osbind.h>
+
+#include "renderer.c"
+#include "renderer.h"
 #define screenWidth 640
 #define screenHeight 400
 

@@ -1,11 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "Stage3/model.c"
-#include "Stage2/raster.h"
-#include "Stage2/raster.c"
-#include "BitMap Arrays/BitMapArrays.h"
-#include <osbind.h>
+#include "model.c"
+
 
 /**************BEHAVIOURS FUNCTIONS*******/
 
@@ -34,20 +31,12 @@ typedef unsigned long UINT32;
 
 
 /***********STRUCTURES************/
-typedef struct
-{
-    UINT32 bitmap[128];
 
-} Bitmap64;
+
+
 
 typedef struct
 {
-    UINT32 bitmap[32];
-} Bitmap32;
-
-typedef struct
-{
-    Bitmap64 snowBoarder;
     int lives;
     unsigned int x;
     int deltaX;
@@ -58,7 +47,6 @@ typedef struct
 
 typedef struct
 {
-    Bitmap64 npcSkier;
     unsigned int x, y;
     
     int deltaX; /*might have to be UINT32 unfortunatly*/
@@ -68,7 +56,6 @@ typedef struct
 
 typedef struct
 {
-    Bitmap64 tree;
     unsigned int x,y;
     int upwardSpeed; 
 
@@ -76,7 +63,6 @@ typedef struct
 
 typedef struct
 {
-    bitmap16 score[7];
 	unsigned int score;	/*score of the player*/
 	unsigned int x, y;	/*coordinates for the score bitmap*/
 } ScoreCounter; 
@@ -84,7 +70,6 @@ typedef struct
 
 typedef  struct
 {
-    Bitmap32 heartsHealth;
     int numLives;
     unsigned int x, y;
 
@@ -92,7 +77,6 @@ typedef  struct
 
 typedef struct
 {
-    Bitmap32 number;
     unsigned int hitCounter;
     unsigned int scoreCounter;
 
@@ -102,7 +86,6 @@ typedef struct
 
 typedef struct
 {
-    Snowboarder snowboarder;
     NPCskier skiers[10];
 	Tree tree[10];
     Lives hearts[3];
