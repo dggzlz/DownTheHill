@@ -1,38 +1,44 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-/****ANSYNCHRONOUS EVENTS****/
+#include "model.h"
 
-void moveRequest(); /*triggered by the left or right arrows from keyboard*/
-void quit();        /*triggered by the key Esc from keyboard*/
+#define KEY_LEFT 0x004B00000
+#define KEY_RIGHT 0x004D0000
+#define ESC 0x0001001B
 
-/****SYNCHRONOUS TIMED EVENTS*****/
+/*ANSYNCHRONOUS EVENTS*/
+void moveRequest(long sysCall, Snowboarder *player);/*triggered by the left or right arrows from keyboard*/
+void quit(long sysCall); /*triggered by the key Esc from keyboard*/
 
-void skierSpawn(); /*every 5 seconds*/
-void skierMoves(); /*every 2 seconds*/
-void skierMovesUp(); /*every 2 seconds*/
-void treeSpawn(); /*every second*/
-void treeMoves(); /*every 0.5 seconds*/
+/*SYNCHRONOUS TIMED EVENTS*/
 
-/*****CONDITION-BASED EVENTS*****/
+NPCskier newSkier();
+
+void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY);
+
+Tree newTree();
+
+void treeMoves(Tree *tree);
+
+/*CONDITION-BASED EVENTS*/
 
 /*Collisions*/
-void obsCollision(); /*Obstacle collision event triggered by the player hitting the obstacle*/
-void edgeCollision();/* triggered when the player touches either vertical edge*/
-void topCollision(); /* triggered when the obstcale or the skier hits the top edge*/
+void collision();/*Obstacle collision event triggered by the player hitting the obstacle*/
+
 
 /*position reset*/
-void invincible(); /*triggered by the Obstacle collision or the edge collision*/
-void blink(); /*triggered by the Obstacle collision or the edge collision*/
-void decreaseLife(); 
-void backToCentre();
+
+void decreaseLife(Lives *lives);
+
+void backToCentre(Snowboarder *player);
 
 /*Skier Collision*/
-void skierCollision();
-void increaseCounter();
+void skierCollision(NPCskier *skier, SkierCounter *counter);
 
 /*Game ends*/
 void gameOver();
+
 
 
 #endif

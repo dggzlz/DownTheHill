@@ -2,10 +2,10 @@
 #ifndef BITMAPS_H
 #define BITMAPS_H
 
-typedef unsigned int UINT32;
+#include "types.h"
 /*BITMAP ARRAYS*/
 
- UINT32 heartLife[32] =
+UINT32 heartLifeBM[32] =
 {
         0x00000000,
         0x00000000,
@@ -41,7 +41,7 @@ typedef unsigned int UINT32;
         0x00000000
 };
         
-UINT32 tree[128] = 
+UINT32 treeBM[128] = 
 { 
         0x0000000F, 0xF0000000,
         0x0000000F, 0xF0000000,
@@ -109,7 +109,7 @@ UINT32 tree[128] =
         0x000000F0, 0x0F000000
 };
             
-UINT32 snowBoarder[128] = /* still need to edit bitmap*/
+UINT32 snowboarderBM[128] = /* still need to edit bitmap*/
 {     
         0x000001FF, 0x00000000,
         0x00000FFF, 0xE0000000,
@@ -177,7 +177,7 @@ UINT32 snowBoarder[128] = /* still need to edit bitmap*/
         0x0000007E, 0x00000000   		
 };
         
-UINT32 skier[128] = /* suggest adding detail since 64bit now*/
+UINT32 skierBM[128] = /* suggest adding detail since 64bit now*/
 {
         0x00000000, 0x00000000, 0x00000000, 0x00000000, 
         0x00000000, 0x00000000, 0x00000000, 0x00000000, 
@@ -212,5 +212,7 @@ UINT32 skier[128] = /* suggest adding detail since 64bit now*/
         0x00000000, 0x00000000, 0x00000000, 0x00000000, 
         0x00000000, 0x00000000, 0x00000000, 0x00000000 
 };
+
+
 
 #endif

@@ -28,16 +28,16 @@
  */
 
 #include "raster.h"
-
-/***************CLEAR SCREEN******************
-
+/***CLEAR SCREEN******/
+/*
  PURPOSE: It clears the screen by setting each pixel to 0
  
  INPUTS:
- - base (UINT32 Pointer): A pointer to the address in frame 
-   buffer in longword. The purpose is to pass to the function 
-   the address of the Physbase function which points to the 
-   frame buffer on the screen to get access to set pixels in the screen. 
+ 
+base (UINT32 Pointer): A pointer to the address in frame 
+ buffer in longword. The purpose is to pass to the function 
+ the address of the Physbase function which points to the 
+ frame buffer on the screen to get access to set pixels in the screen.
 
  OUTPUTS: None
 
@@ -48,16 +48,15 @@
 */
 
 void clearScreen(UINT32 *base) 
-{       
+{
     int i, j;
 
     for(j = 0; j < 400; j++){
         for(i = 0; i < 20; i++){
-            *(base + (j * 20) + i) &= 0x00000000; /*instead of setting to zero could perform a clear mask*/
+            *(base + (j * 20) + i) &= 0x00000000;
         }
    }
 }
-
 
 /*******************PLOT PIXEL*******************/
 /*

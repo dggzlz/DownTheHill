@@ -1,4 +1,5 @@
 #include "model.h"
+#include "events.h"
 
 
 
@@ -24,14 +25,14 @@
  * - The frame buffer pointer base must be a unsigned int (UINT16) value.
  * 
  */
- /*
-Snowboarder createSnowboarder()
-{
 
+Snowboarder snowboarderSet(){
+    Snowboarder newPlayer = {3, 320, 200, 0};
+    return newPlayer;
 }
-*/
-void moveSnowboarder(Snowboarder *player, int deltaPosX)
-{
+
+void moveSnowboarder(Snowboarder *player, int deltaPosX){
+
     player->x += (player->deltaX = deltaPosX);
 }
 
@@ -42,43 +43,36 @@ void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY){
     skier->y += (skier->deltaY = deltaPosY);
 }
 
-void skierSpawn(NPCskier *skier){
-    skier->y = 399; 
-    skier->x = 200;
-    /*hardcoded for now*/
-}
-
 /*TREE BEHAVIOURS*/
-void moveTree(Tree *tree)
-{
-    tree->y += -10;
+void moveTree(Tree *tree){
+    tree->y += -5;
 }
 
 Tree createTree(unsigned int x) /*for now returning a copy of the struct*/
 {
-    Tree newTree = {tree,x,400,-10};
+    Tree newTree = {0, 400, 10};
     return newTree;
-}
-
-Lives createLife()
-{
-    Lives newLife = {heartsHealth,3,576,3};
-    return newLife;
 }
 
 /*SCORE BEHAVIOURS*/
 void scoreUpdates(ScoreCounter *playerScore)
 {
-    playerScore->score += 1000;
+    playerScore->scorePlayer += 1000;
 }
 
 /*LIVES COUNTER BEHAVIOURS*/
-void updateLives(Lives *lives)
+Lives createLife()
 {
-    lives->numLives -= 1;
+    Lives newLife = {3,576,3};
+    return newLife;
+}
+
+void updatesLives(Lives *lives)
+{
+    lives->numLives += -1;
     if(lives->numLives == 0)
     {
-        printf("gameOver()\n");
+        gameOver();
     }
 }
 

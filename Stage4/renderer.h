@@ -1,15 +1,17 @@
-#include "renderer.c"
+#ifndef RENDERER_H
+#define RENDERER_H
+#include "model.h"
+#include "types.h"
 
 
-void renderTree(const Tree *tree, UINT32 *base);
+void renderPlayer(Snowboarder *player, UINT32 *base32);
+void renderFakePlayer(UINT32 *base32); /*object for 5 second invincibility*/
+void renderskier(NPCskier *skier, UINT32 *base32);
+void renderTree(Tree *tree, UINT32 *base);
+void renderLives(Lives *lives, UINT32 *base32);
 
-void renderLives(const Lives *lives, UINT32 *base32);
 
-void renderskier(const NPCskier *skier, UINT32 *base32);
 
-void renderFakePlayer(UINT32 *base32, const UINT32 *bitmap); /*object for 5 second invincibility*/
-
-void renderPlayer(Snowboarder *player, UINT32 *base32, const UINT32 *bitmap, unsigned int height);
 
 
 /*
@@ -21,3 +23,5 @@ void renderSkierHitCount();
 void renderGameOver();
 
 */
+
+#endif
