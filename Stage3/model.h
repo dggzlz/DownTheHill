@@ -6,7 +6,6 @@
 
 typedef struct
 {
-    int lives;
     unsigned int x;
     unsigned int y;
     int deltaX;
@@ -55,7 +54,7 @@ typedef struct
     Snowboarder snowboarder;
     NPCskier skiers[4];
 	Tree trees[2];
-    Lives hearts[3];
+    Lives hearts;
     SkierCounter skierCounter;
 
 } Model;
@@ -64,27 +63,24 @@ typedef struct
 /**************BEHAVIOURS FUNCTIONS*******/
 
 /*SNOWBOARDER BEHAVIOURS*/
-void moveSnowboarder();
+Snowboarder snowboarderSet();
 
 /*SKIER BEHAVIOURS*/
-/*NPCskier setSkier() to set the inital attributes of the skier*/
-void skierSpawn(); /* set the coordinates where it will spawn*/
-void skierDissapears();
+NPCskier newSkier();
 
 /*TREE BEHAVIOURS*/
-void moveTree();
-/*Tree setTree() set the initial attributes of the tree*/
-/*void treeSpawn() set the coordinates of the tree*/
-Tree createTree(unsigned int x);/*get rid of it, we have new tree in events*/
+Tree newTree();
 
 /*SCORE BEHAVIOURS*/
-void scoreUpdates();
+ScoreCounter newScore();
 
 /*LIVES COUNTER BEHAVIOURS*/
-Lives createLife();
+Lives newLife();
 void updatesLives(Lives *lives);
 
 /*SKIER HIT BEHAVIOURS*/
+SkierCounter newCounter();
+
 void skierHitCountIncrease();
 
 #endif

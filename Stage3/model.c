@@ -25,7 +25,7 @@
  */
 
 Snowboarder snowboarderSet(){
-    Snowboarder newPlayer = {3, 320, 200, 0};
+    Snowboarder newPlayer = {320, 200, 0};
     return newPlayer;
 }
 
@@ -35,16 +35,13 @@ void moveSnowboarder(Snowboarder *player, int deltaPosX){
 }
 
 /*SKIER BEHAVIOURS*/
-void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY){ 
-
-    skier->x += (skier->deltaX = deltaPosX);
-    skier->y += (skier->deltaY = deltaPosY);
+NPCskier newSkier(){
+    NPCskier newSkier = {0, 0, 0, 0};
+    return newSkier;
 }
+
 
 /*TREE BEHAVIOURS*/
-void moveTree(Tree *tree){
-    tree->y += -5;
-}
 
 Tree createTree(unsigned int x) /*for now returning a copy of the struct*/
 {

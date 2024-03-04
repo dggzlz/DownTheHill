@@ -13,10 +13,8 @@ void quit(long sysCall); /*triggered by the key Esc from keyboard*/
 
 /*SYNCHRONOUS TIMED EVENTS*/
 
-NPCskier newSkier(); /*return the skier to be spawned, as well as the coordinates where it will spawn*/
-void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY);
-Tree newTree();
-void treeMoves(Tree *tree);
+void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY); /*TO FIX*/
+void moveTree(Tree *tree);
 
 /*CONDITION-BASED EVENTS*/
 

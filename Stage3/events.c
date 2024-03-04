@@ -26,17 +26,24 @@ void quit(long sysCall){
 
 /****SYNCHRONOUS TIMED EVENTS*****/
 
-NPCskier newSkier(){
-    NPCskier newSkier = {0, 0, 0, 0};
-    return newSkier;
+/*Skier events*/
+void spawnSkier(NPCskier *skier){
+    skier->x = location();
+    skier->y = 399;
 }
 
+void moveSkier(NPCskier *skier){ 
+    skier->y += (skier->deltaY = -2);
+}
 
+/*Tree events*/
 void spawnTree(){
-    
+    tree->x = location();
+    tree->y = 399;
 }
+
 void treeMoves(Tree *tree){
-    tree->y += -5;
+    tree->y += (tree->deltaY = -5);
 } 
 
 /*****CONDITION-BASED EVENTS*****/
