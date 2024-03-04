@@ -47,7 +47,7 @@ int main()
     printf("press a key to continue\n");
     getchar();
     clearScreen(base);
-*/
+
 /*test 3*/
     printf("Begin Lives lost Test\n");
     renderLives(lifePointer,base);

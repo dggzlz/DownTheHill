@@ -32,7 +32,9 @@ NPCskier newSkier(){
 }
 
 
-
+void spawnTree(){
+    
+}
 void treeMoves(Tree *tree){
     tree->y += -5;
 } 

@@ -6,8 +6,8 @@
 
 #include "types.h"
 
-
-void clearScreen(UINT32 *base);
+extern void clearScreen(UINT32 *base);
+/*void clearScreen(UINT32 *base);*/
 void plotPixel(UINT16 *base, int x, int y);
 void plotHorizontal(UINT32 *base, int y, int x1, int x2);
 void plotVertical(char *base, int x, int y1, int y2);

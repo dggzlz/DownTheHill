@@ -47,7 +47,7 @@ base (UINT32 Pointer): A pointer to the address in frame
  base pointer base will be passed as a UINT32.
 */
 
-void clearScreen(UINT32 *base) 
+/*void clearScreen(UINT32 *base) 
 {
     int i, j;
 
@@ -56,7 +56,7 @@ void clearScreen(UINT32 *base)
             *(base + (j * 20) + i) &= 0x00000000;
         }
    }
-}
+}*/
 
 /*******************PLOT PIXEL*******************/
 /*

@@ -13,12 +13,9 @@ void quit(long sysCall); /*triggered by the key Esc from keyboard*/
 
 /*SYNCHRONOUS TIMED EVENTS*/
 
-NPCskier newSkier();
-
+NPCskier newSkier(); /*return the skier to be spawned, as well as the coordinates where it will spawn*/
 void moveSkier(NPCskier *skier, int deltaPosX, int deltaPosY);
-
 Tree newTree();
-
 void treeMoves(Tree *tree);
 
 /*CONDITION-BASED EVENTS*/
@@ -26,11 +23,9 @@ void treeMoves(Tree *tree);
 /*Collisions*/
 void collision();/*Obstacle collision event triggered by the player hitting the obstacle*/
 
-
 /*position reset*/
 
 void decreaseLife(Lives *lives);
-
 void backToCentre(Snowboarder *player);
 
 /*Skier Collision*/

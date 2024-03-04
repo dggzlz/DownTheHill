@@ -1,8 +1,6 @@
 #include "model.h"
 #include "events.h"
 
-
-
 /* NAME: moveSnowboarder
  * PURPOSE: changes the x-coordinate of the snowboarder object
  *  
@@ -50,7 +48,7 @@ void moveTree(Tree *tree){
 
 Tree createTree(unsigned int x) /*for now returning a copy of the struct*/
 {
-    Tree newTree = {0, 400, 10};
+    Tree newTree = {0, 0, 0};
     return newTree;
 }
 
