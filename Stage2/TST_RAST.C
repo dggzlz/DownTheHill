@@ -1,69 +1,91 @@
-#include "raster.h"
 #include <stdio.h>
-#include <osbind.h>
-#include "types.h"
+#include <osbind.h> 
+#include "raster.h"
 
 int main() {
-    
-    char *base8 = Physbase();
-    UINT16 *base16 = Physbase();
-    UINT32 *base32 = Physbase();
-    int x1, y1, x2, y2;
 
-    clearScreen(base32);
-    printf("Starting test program...\nClick enter to continue\n");
-    getchar();
+    UINT8 *base = Physbase();
+        
+       /* Variables for user inputs*/
+    int x1, y1, x2, y2, length, width;
 
+    clearScreen();
+    printf("Starting raster graphics test program with user inputs...\n");
 
-    /***Test plotPixel***/
+    /*** Test plotPixel ***/
     printf("Testing plotPixel...\n");
-    printf("set coordinate x: ");
-    scanf("%d", &x1);
-    printf("set coordinate y: ");
-    scanf("%d", &y1);
-    plotPixel(base16, x1, y1);
-    printf("pixel plotted at given coordinates\n please enter to continue\n");
-    getchar();
-    
-
-    /***Test plotVertical***/
-    printf("Testing plotVertical...\n");
-    printf("Set start coordinate x: ");
-    scanf("%d", &x1);
-
-    printf("Set coordinate y1: ");
-    scanf("%d", &y1);
-    
-    printf("Set coordinate y2: ");
-    scanf("%d", &y2);
-    
-    clearScreen(base32);    
-    plotVertical(base8, x1, y1, y2);
-    printf("Vertical line plotted.\nPlease press Enter to continue.\n");
-    getchar(); /*Wait for user input to continue*/
-
-
-    /***Test plotHorizontal***/
-    printf("Testing plotHorizontal...\n");
-    printf("Set start coordinate y: ");
-    scanf("%d", &y1);
-
-    printf("Set coordinate x1: ");
-    scanf("%d", &x1);
-    
-    printf("Set coordinate x2: ");
-    scanf("%d", &x2);
-    
-    clearScreen(base32);
-    plotHorizontal(base32, y1 , x1 , x2);
-    printf("Horizontal line plotted.\nPlease press Enter to continue.\n");
+    printf("Enter x and y coordinates for the pixel (e.g., 10 10): ");
+    scanf("%d %d", &x1, &y1);
+    printf("Pixel plotted at (%d, %d). Check the screen.\n", x1, y1);
+    plotPixel(base, x1, y1);
+    while (getchar() != '\n');/*clear buffer*/
+    printf("\nPRESS ENTER TO CONTINUE\n");
     getchar(); /* Wait for user input to continue*/
-       
-    /***Test clearScreen***/
-    printf("Testing clearScreen...\n");
-    clearScreen(base32);
+    clearScreen();
+    
+    /*** Test algoBresenham ***/
+    printf("\nTesting algoBresenham...\n");
+    printf("Enter start coordinates x1 and y1 (e.g., 20 20): ");
+    scanf("%d %d", &x1, &y1);
+    printf("Enter end coordinates x2 and y2 (e.g., 100 100): ");
+    scanf("%d %d", &x2, &y2);
+    printf("Line drawn. Check the screen.\n");
+    algoBresenham(base, x1, y1, x2, y2);
+    while (getchar() != '\n');/*clear buffer*/
+    printf("\nPRESS ENTER TO CONTINUE\n");
+    getchar();/* Wait for user input to continue*/
+    clearScreen();
+    
+    /* Clear the screen before drawing bitmaps to ensure visibility*/
+    printf("\nClearing screen for bitmap tests...\n");
+    clearScreen();
+    
+    /*** Test plotBitmap64 ***/
+    printf("\nTesting plotBitmap64...\n");
+    printf("Enter top-left corner coordinates for the bitmap (e.g., 50 50): ");
+    scanf("%d %d", &x1, &y1);
+    printf("64x64 bitmap plotted. Check the screen.\n");
+    plotBitmap64((UINT32 *)base, x1, y1, treeBM, 128);
+    while (getchar() != '\n');/*clear buffer*/
+    printf("\nPRESS ENTER TO CONTINUE\n");
+    getchar(); /* Wait for user input to continue*/
+    clearScreen();
+    
+   
 
-    printf("Test program completed.\n");
+    /*** Test plotBitmap32 ***/
+    printf("\nTesting plotBitmap32...\n");
+    printf("Enter top-left corner coordinates for the bitmap (e.g., 150 150): ");
+    scanf("%d %d", &x1, &y1);
+    printf("32x32 bitmap plotted. Check the screen.\n");
+    plotBitmap32((UINT32 *)base, x1, y1, heartLifeBM, 32);
+    while (getchar() != '\n');/*clear buffer*/
+    printf("\nPRESS ENTER TO CONTINUE\n");
+    getchar(); /* Wait for user input to continue*/
+    clearScreen();
+    
+    
+
+    /* Clear the screen before drawing a rectangle*/
+    printf("\nClearing screen for rectangle test...\n");
+    clearScreen();
+    
+    /*** Test plotRect ***/
+    printf("\nTesting plotRect...\n");
+    printf("Enter top-left corner coordinates for the rectangle (e.g., 200 200): ");
+    scanf("%d %d", &x1, &y1);
+    printf("Enter length and width for the rectangle (e.g., 50 30): ");
+    scanf("%d %d", &length, &width);
+    printf("Rectangle plotted. Check the screen.\n");
+    plotRect(base, x1, y1, length, width);
+    while (getchar() != '\n');/*clear buffer*/
+    printf("\nPRESS ENTER TO CONTINUE\n");
+    getchar(); /* Wait for user input to continue*/
+    clearScreen();
+
+    printf("\nRaster graphics test program completed.\n");
 
     return 0;
 }
+
+
