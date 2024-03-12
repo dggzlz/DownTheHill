@@ -1,3 +1,234 @@
+#include <osbind.h>
+#include <stdio.h>
+#include <unistd.h> /*got from online used for pauses*/
+#define delay 1000000
+#define sirenTime 500000
+#define C4 478
+#define C5 239
+#define C6 120
+#define C7 60
+#define G6 160
+#define F6 90
+#define F7 45
+
+
+	volatile char *PsgRegSelect = 0xFF8800;
+	volatile char *PsgRegWrite  = 0xFF8802;
+    typedef unsigned char UINT8;
+    typedef unsigned long UINT32;
+    UINT8 mixerR7State = 0x3F;/*global variable for tracking state of register 7*/
+    int currentNote = 0;
+UINT32 noteStartTime = 0;
+   
+
+typedef struct
+{
+    int pitch;
+    UINT32 duration;  
+} Note;
+
+Note jumpVanHalen[] = {
+    {C4, 420},
+    {G6, 70},
+    {G6, 70},
+    {F6, 70},
+    {F6, 70},
+    {G6, 70},
+    {G6, 70},
+    {G6, 70},
+    {F6, 70},
+    {C6, 70},
+    {C6, 70},
+    {C6, 140},
+    {G6, 70},
+    {G6, 70},
+    {F6, 70},
+    {F6, 70},
+    {G6, 70},
+    {G6, 140},
+    {G6, 70},
+    {F6, 70},
+    {C6, 70},
+    {C6, 70},
+    {C6, 140},
+    {G6, 70},
+    {G6, 70},
+    {F6, 70},
+    {F6, 70},
+    {G6, 70},
+    {G6, 70},
+    {G6, 70},
+    {F6, 70},
+    {C6, 70},
+    {C6, 70},
+    {C6, 140},
+    {G6, 70},
+    {G6, 70},
+    {F6, 70},
+    {F6, 70},
+    {G6, 70},
+    {G6, 140},
+    {G6, 70},
+    {F6, 70},
+    {C6, 70},
+    {C6, 70},
+    {C6, 140},
+    {F7, 70},
+    {F7, 70},
+    {F7, 70},
+    {C7, 140},
+    {F6, 70},
+    {C6, 70},
+    {C6, 70},
+    {C6, 70},
+    {C6, 140}
+};
+
+    void writePsg(int reg, UINT8 val);
+    void setTone(int channel, int tuning);
+    void setVolume(int channel, int volume);
+    void enableChannel(int channel, int toneOn, int noiseOn);
+    void stopSound();
+
+    void startJumpMusic();
+    void update_music(UINT32 time_elapsed);
+    void playEffectSkiierDeath();
+
+void playEffectRescueCopter();
+void EndGameAmbulance();
+    
+
+int main()
+{
+    
+    long old_ssp = Super(0); 
+
+    printf("Beginnig PSG Tests\n");
+    printf("Channel A Tests with Tone 0x0AA\n");
+    printf("Enabling channel A with Tone(1) and Noise(0)\n");
+    enableChannel(0, 1, 0);
+    printf("BEGIN Channel A Volume Tests");
+    printf("Setting channel A volume to 15(MAX)\n");
+    setVolume(0, 15);
+    usleep(delay);
+    printf("Setting channel A tone to 0x0AA\n");
+    setTone(0, 0x0AA);
+    usleep(delay);
+    printf("Setting channel A volume to 4\n");
+    usleep(delay);
+    setVolume(0, 4);
+    usleep(delay);
+    printf("Setting channel A volume to 7\n");
+    usleep(delay);
+    setVolume(0, 7);
+    usleep(delay);
+    printf("STOPPING SOUND\n");
+    usleep(delay);
+    stopSound();
+
+    printf("Channel B Tests with Tone 0x3EF\n");
+    printf("Enabling channel B with Tone(1) and Noise(0)\n");
+    enableChannel(1, 1, 0);
+    printf("BEGIN Channel B Volume Tests");
+    printf("Setting channel B volume to 15(MAX)\n");
+    setVolume(1, 15);
+    usleep(delay);
+    printf("Setting channel B tone to 0x3EF\n");
+    setTone(1, 0x3EF);
+    usleep(delay);
+    printf("Setting channel B volume to 4\n");
+    usleep(delay);
+    setVolume(1, 4);
+    usleep(delay);
+    printf("Setting channel B volume to 7\n");
+    usleep(delay);
+    setVolume(1, 7);
+    usleep(delay);
+    printf("STOPPING SOUND\n");
+    usleep(delay);
+    stopSound();
+
+    printf("Channel C Tests with Tone 0x123\n");
+    printf("Enabling channel C with Tone(1) and Noise(0)\n");
+    enableChannel(2, 1, 0);
+    printf("BEGIN Channel C Volume Tests");
+    printf("Setting channel C volume to 15(MAX)\n");
+    setVolume(2, 15);
+    usleep(delay);
+    printf("Setting channel C tone to 123\n");
+    setTone(2, 123);
+    usleep(delay);
+    printf("Setting channel C volume to 4\n");
+    usleep(delay);
+    setVolume(2, 4);
+    usleep(delay);
+    printf("Setting channel C volume to 7\n");
+    usleep(delay);
+    setVolume(2, 7);
+    usleep(delay);
+    printf("STOPPING SOUND\n");
+    usleep(delay);
+    stopSound();
+
+    printf("TEST ALL CHANNELS WITH TONE AT ONCE\n");
+    printf("ENABLING ALL CHANNELS WITH TONE\n");
+    enableChannel(0, 1, 0);
+    enableChannel(1, 1, 0);
+    enableChannel(2, 1, 0);
+    printf("Setting all channel volumes to 15(MAX)\n");
+    setVolume(0, 15);
+    setVolume(1, 15);
+    setVolume(2, 15);
+    printf("Setting channel A tone to 0x0AA\n");
+    setTone(0, 0x0AA);
+    printf("Setting channel B tone to 0x3EF\n");
+    setTone(1, 0x3EF);
+    printf("Setting channel C tone to 123\n");
+    setTone(2, 123);
+    usleep(delay);
+    usleep(delay);
+    usleep(delay);
+    usleep(delay);
+    printf("STOPPING SOUND\n");
+    usleep(delay);
+    stopSound();
+    usleep(delay);
+    printf("BEGIN SOUND EFFECTS TEST\n");
+    usleep(delay);
+    printf("PLAYING SKIER HIT\n");
+    usleep(delay);
+    playEffectSkiierDeath();
+    usleep(delay);
+    printf("Press Key to End Sound Effect\n");
+    while (!Cconis())        /* tone now playing, await key */
+        ;
+    while (Cconis())         /* Clear any remaining key press in the buffer */
+        Cconin();
+    stopSound();
+
+    printf("PLAYING RESCUE HELICOPTER\n");
+    playEffectRescueCopter();
+    printf("Press Key to End Sound Effect\n");
+    while (!Cconis())        /* tone now playing, await key */
+        ;
+    while (Cconis())         /* Clear any remaining key press in the buffer */
+        Cconin();
+    stopSound();
+
+     printf("PLAYING AMBULANCE\n");
+    EndGameAmbulance();
+    printf("Press Key to End Sound Effect\n");
+    printf("END SOUNDS EFFECTS");
+
+
+
+
+
+    Super(old_ssp);
+	return 0;
+}
+
+
 /* File: psg.c 
  * Contributers: Juan Diego Serrato, Diego Gonzalez
  * Project: Down the Hill
@@ -19,11 +250,8 @@
  * that supervisor mode will have been entered.
  */
 
-#include "psg.h"
 
-	volatile char *PSG_reg_select = 0xFF8800;
-	volatile char *PSG_reg_write  = 0xFF8802;
-UINT8 mixerR7State = 0x3F;/*global variable for tracking state of register 7*/
+
 
 /***Write To The PSG ***/
 /*
@@ -228,6 +456,7 @@ void stopSound()
     }
 }
 
+
 /***SET NOISE***/
 /*
 Name:
@@ -287,3 +516,59 @@ void setEnvelope(int shape, unsigned int sustain)
 }
 
 
+void startJumpMusic()
+{
+   currentNote = 0;
+   noteStartTime = 0;
+    enableChannel(0, 1, 0);
+    setVolume(0, 15); 
+   setTone(0, jumpVanHalen[currentNote].pitch);
+   
+}
+
+/*used chatgpt for this part*/
+void update_music(UINT32 time_elapsed)
+{
+  
+
+
+        currentNote++;
+        if (currentNote >= 53)
+        {
+            currentNote = 0;
+        }
+        setTone(0, jumpVanHalen[currentNote].pitch);
+        usleep(delay);
+    
+}
+
+void playEffectSkiierDeath()
+{
+    setNoise(0xAA);
+    setEnvelope(0xF, 0x00FF);/* 0x10FF*/
+    enableChannel(2, 0, 1);
+    setVolume(2, 0X10); /*lets envelope control volume*/
+}
+
+void playEffectRescueCopter()
+{
+    setNoise(0x0F);
+    setEnvelope(0x08, 0x00FF);
+    enableChannel(2, 0, 1);
+    setVolume(2, 0X10); /*lets envelope control volume*/
+}
+
+void EndGameAmbulance()/*this function does not adhere to sound effects but we will add it anyway*/
+{
+    setTone(1, 0x0AA);
+    enableChannel(1, 1, 0);
+    setVolume(1, 11); 
+    while (!Cconis())		/* tone now playing, await key */
+        {
+        setTone(1, 0xAA);    
+        usleep(sirenTime); 
+
+        setTone(1, 0xD6);
+        usleep(sirenTime); 
+        }
+}

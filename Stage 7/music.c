@@ -82,6 +82,7 @@ void startJumpMusic()
 {
    currentNote = 0;
    noteStartTime = 0;
+   enableChannel(0, 1, 0)
    setTone(0, jumpVanHalen[currentNote].pitch);
    setVolume(0, 15); 
 }
