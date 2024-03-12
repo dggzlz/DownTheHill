@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <osbind.h> 
 #include "raster.h"
+#include "types.h"
+#include "bitmaps.h"
 
 int main() {
 
@@ -9,7 +11,7 @@ int main() {
        /* Variables for user inputs*/
     int x1, y1, x2, y2, length, width;
 
-    clearScreen();
+    clearScreen((UINT32 *)base);
     printf("Starting raster graphics test program with user inputs...\n");
 
     /*** Test plotPixel ***/
@@ -21,7 +23,7 @@ int main() {
     while (getchar() != '\n');/*clear buffer*/
     printf("\nPRESS ENTER TO CONTINUE\n");
     getchar(); /* Wait for user input to continue*/
-    clearScreen();
+    clearScreen((UINT32 *)base);
     
     /*** Test algoBresenham ***/
     printf("\nTesting algoBresenham...\n");
@@ -34,11 +36,11 @@ int main() {
     while (getchar() != '\n');/*clear buffer*/
     printf("\nPRESS ENTER TO CONTINUE\n");
     getchar();/* Wait for user input to continue*/
-    clearScreen();
+    clearScreen((UINT32 *)base);
     
     /* Clear the screen before drawing bitmaps to ensure visibility*/
     printf("\nClearing screen for bitmap tests...\n");
-    clearScreen();
+    clearScreen((UINT32 *)base);
     
     /*** Test plotBitmap64 ***/
     printf("\nTesting plotBitmap64...\n");
@@ -49,7 +51,7 @@ int main() {
     while (getchar() != '\n');/*clear buffer*/
     printf("\nPRESS ENTER TO CONTINUE\n");
     getchar(); /* Wait for user input to continue*/
-    clearScreen();
+    clearScreen((UINT32 *)base);
     
    
 
@@ -62,13 +64,13 @@ int main() {
     while (getchar() != '\n');/*clear buffer*/
     printf("\nPRESS ENTER TO CONTINUE\n");
     getchar(); /* Wait for user input to continue*/
-    clearScreen();
+    clearScreen((UINT32 *)base);
     
     
 
     /* Clear the screen before drawing a rectangle*/
     printf("\nClearing screen for rectangle test...\n");
-    clearScreen();
+    clearScreen((UINT32 *)base);
     
     /*** Test plotRect ***/
     printf("\nTesting plotRect...\n");
@@ -81,7 +83,7 @@ int main() {
     while (getchar() != '\n');/*clear buffer*/
     printf("\nPRESS ENTER TO CONTINUE\n");
     getchar(); /* Wait for user input to continue*/
-    clearScreen();
+    clearScreen((UINT32 *)base);
 
     printf("\nRaster graphics test program completed.\n");
 

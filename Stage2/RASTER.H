@@ -2,8 +2,8 @@
 #define RASTER_H
 #define screenWidth 640
 #define screenHeight 400
+
 #include "types.h"
-#include "bitmaps.h"
 
 void plotPixel(UINT8 *base, int x, int y);
 void algoBresenham(UINT8 *base, int x1, int y1, int x2, int y2);
@@ -16,6 +16,6 @@ void plotBitmap32(UINT32 *base,
                   const UINT32 *bitmap, 
                   unsigned int height);
 void plotRect(UINT8 *base, int x, int y, int length, int width);
-extern void clearScreen();
+extern void clearScreen(UINT32 *base);
 
 #endif

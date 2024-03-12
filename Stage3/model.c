@@ -58,7 +58,7 @@ void scoreUpdates(ScoreCounter *playerScore)
 /*LIVES COUNTER BEHAVIOURS*/
 Lives createLife()
 {
-    Lives newLife = {3,576,3};
+    Lives newLife = {3, 576, 3};
     return newLife;
 }
 
