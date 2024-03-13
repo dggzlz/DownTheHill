@@ -29,10 +29,6 @@ Snowboarder snowboarderSet(){
     return newPlayer;
 }
 
-void moveSnowboarder(Snowboarder *player, int deltaPosX){
-
-    player->x += (player->deltaX = deltaPosX);
-}
 
 /*SKIER BEHAVIOURS*/
 NPCskier newSkier(){
@@ -43,40 +39,37 @@ NPCskier newSkier(){
 
 /*TREE BEHAVIOURS*/
 
-Tree createTree(unsigned int x) /*for now returning a copy of the struct*/
+Tree newTree(unsigned int x) /*for now returning a copy of the struct*/
 {
     Tree newTree = {0, 0, 0};
     return newTree;
 }
 
 /*SCORE BEHAVIOURS*/
-void scoreUpdates(ScoreCounter *playerScore)
+ScoreCounter newScore()
 {
-    playerScore->scorePlayer += 1000;
+    ScoreCounter score = {0, 0, 0};
+    return score;
 }
 
+
+
 /*LIVES COUNTER BEHAVIOURS*/
-Lives createLife()
+Lives newLife()
 {
     Lives newLife = {3, 576, 3};
     return newLife;
 }
 
-void updatesLives(Lives *lives)
-{
-    lives->numLives += -1;
-    if(lives->numLives == 0)
-    {
-        gameOver();
-    }
-}
+
 
 /*SKIER HIT BEHAVIOURS*/
-void skierHitCountIncrease(SkierCounter *count)
+SkierCounter newCounter()
 {
-    count->hitCounter += 1;
-    count->scoreCounter += 3000;
+    SkierCounter counter = {0, 0, 0, 0};
+    return counter;
 }
+
 
 
 

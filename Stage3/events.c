@@ -9,19 +9,19 @@ void moveRequest(long sysCall, Snowboarder *player){
 
     switch(sysCall) {
         case KEY_LEFT:
-            moveSnowboarder(player, -5);
+            player->x += (player->deltaX = -5);
             break;
         case KEY_RIGHT:
-            moveSnowboarder(player, 5);
+            player->x += (player->deltaX = 5);
             break;
     }
 }
 
 void quit(long sysCall){
     /*if (sysCall == ESC)
-        /*To put code to kill the program*/
+    /*To put code to kill the program*/
 
-}        /*triggered by the key Esc from keyboard*/
+}/*triggered by the key Esc from keyboard*/
 
 
 /****SYNCHRONOUS TIMED EVENTS*****/
@@ -42,32 +42,49 @@ void spawnTree(){
     tree->y = 399;
 }
 
-void treeMoves(Tree *tree){
+void moveTree(Tree *tree){
     tree->y += (tree->deltaY = -5);
 } 
 
 /*****CONDITION-BASED EVENTS*****/
-
+void checkCollision(Snowboarder *player, NPCskier *skier, Tree *tree)
+{
+    /*leave it for later*/
+}
 /*Collisions*/
-void collision(){
-    /*decreaseLife();
-    backToCentre();*/
-} /*Obstacle collision event triggered by the player hitting the obstacle*/
+void collision(Lives *lives, Snowboarder *player){
+    decreaseLife(lives);
+    resetPos(player);
+}/*Obstacle collision event triggered by the player hitting the obstacle*/
 
 
 /*position reset*/
 
 void decreaseLife(Lives *lives){
-    updatesLives(lives);
+    lives->numLives += -1;
+
+    if(lives->numLives == 0)
+    {
+        gameOver();
+    }
 } 
 
-void backToCentre(Snowboarder *player){
+void resetPos(Snowboarder *player){
     player->x = 320;
 }
 
 /*Skier Collision*/
-void skierCollision(NPCskier *skier, SkierCounter *counter){
-    skierHitCountIncrease(counter);
+
+void scoreUpdates(ScoreCounter *playerScore)
+{
+    playerScore->scorePlayer += 1000;
+}
+
+
+void skierHitCountIncrease(SkierCounter *count)
+{
+    count->hitCounter += 1;
+    count->scoreCounter += 3000;
 }
 
 /*Game ends*/

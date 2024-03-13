@@ -6,6 +6,7 @@ int main() {
     /*Initialize game model*/
     printf("Starting test program...\nClick enter to continue\n");
     getchar();
+    while(getchar() != '\n');
     
     Model model = {
         snowboarderSet(),
@@ -24,13 +25,15 @@ int main() {
             createLife(),
             createLife()
         },
-        .skierCounter = {0, 0, 0, 0}
+        .skierCounter = newCounter()
     };
 
-    printf("Player initial position: (%d, %d)\n", model.snowboarder.x, model.snowboarder.y);
-    
-    Tree tree = {256, 400, 0}; 
-    Lives lives = {3, 576, 100};  /*initial lives*/ 
+    printf("Player initial position: (%d, %d)\n", 
+        model.snowboarder.x, model.snowboarder.y);
+    printf("Click enter to continue\n");
+    getchar();
+    while (getchar() != '\n');
+
 
     /*Simulate move left event*/
     moveRequest(KEY_LEFT, &model.snowboarder);
