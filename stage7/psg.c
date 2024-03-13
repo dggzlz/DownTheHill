@@ -20,10 +20,9 @@
  */
 
 #include "psg.h"
-
-	volatile char *PSG_reg_select = 0xFF8800;
-	volatile char *PSG_reg_write  = 0xFF8802;
-UINT8 mixerR7State = 0x3F;/*global variable for tracking state of register 7*/
+	volatile char *PsgRegSelect = 0xFF8800;
+	volatile char *PsgRegWrite  = 0xFF8802;
+        UINT8 mixerR7State = 0x3F;/*global variable for tracking state of register 7*/
 
 /***Write To The PSG ***/
 /*

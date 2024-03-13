@@ -1,4 +1,27 @@
+/* File: effects.c 
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose: This file is part of the Sound Effects 
+ * library (stage 7 of the project), and it contains the 
+ * definitions for the functions prototypes defined on the 
+ * effects.h module.
+ * 
+ * The functions of this library make use of the low level 
+ * programmable sound generator library by making specific 
+ * sound effect noises for certain aspects of the Down The Hill 
+ * franchise.
+ * 
+ * Assumptions: 
+ * To use any function in the psg library it is assumed and required 
+ * that supervisor mode will have been entered.
+ */
 #include "effects.h"
+#include <unistd.h>
+#define sirenTime 500000
 
 
 void playEffectSkiierDeath()
