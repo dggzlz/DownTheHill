@@ -56,21 +56,23 @@ void renderLives(Lives *lives, UINT32 *base32)
 renderModel(const Model *model, UINT32 *base32)
 {
     int i;
-    if(!collisionCheck)
-    {
-        if (key == left)
+        if(!collisionCheck)
         {
-            renderPlayerLeft(model->player, base32);
+            if (key == left)
+            {
+                renderPlayerLeft(model->player, base32);
+            }
+            else if (key == right)
+            {
+                renderPlayerRight(model->player, base32);
+            }
         }
-        else if (key == right)
+        else
+        renderFakePlayer(base32);
+        for(i = 0; i < trees.size; i++)
         {
-            renderPlayerRight(model->player, base32);
+            renderTree(model->tree, base32);
         }
+        renderLives(model->lives,base32);
+        renderSkierHitCount(model->newCounter,base32);
     }
-    else
-    renderFakePlayer(base32);
-    for(i = 0; i < treeArray.size; i++)
-    {
-        renderTree(model->tree, base32);
-    }
-}
