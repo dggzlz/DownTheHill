@@ -51,11 +51,35 @@ void moveTree(Tree *tree){
 /*****CONDITION-BASED EVENTS*****/
 bool checkCollision(Snowboarder *player, NPCskier *skier, Tree *tree)
 {
-    bool isCollision; 
-    if (player->x == 0 || (player->x + 64) == 399)
+    bool isCollision;
+    int i = 0;
+    int playerBoundX = player->x;
+    int playerBoundY = player->y;
+    int skierBoundX = skier->x;
+    int skierBoundY = skier->y;
+    int treeBoundX = tree->x;
+    int treeBoundY = tree->y; 
+
+    /*
+    if ((obstacle y <= player y + 64 && obstacle y >= player y)
+            || (obstacle y+64 <= player y + 64 && obstacle y+64 >= player y))
+            && player x <= obstacle x + 64 && player x +64 >= obstacle x 
+        collision is true   
+    
+    */
+    /*checking edges collisions*/
+    if (player->x == 0 || (player->x + 64) == 639){
         isCollision = true;
-    else if ((player->x + 64) == skier->x || player->x == (skier->x + 64))
+    }
+    /*checking skier collision*/
+    else if ((player->x + 64) == skier->x || player->x == (skier->x + 64)){
         isCollision = true;
+    }
+    else if ((player->y + 64) == skier->y){
+        isCollision = true;
+    }
+    else if (){}
+
     /*leave it for later*/
 }
 /*Collisions*/

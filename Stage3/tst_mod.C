@@ -27,7 +27,6 @@ int main() {
     printf("initial values for the skier #1 {%d, %d, %d, %d}\n", 
         &(model.skiers[0].x), &(model.skiers[0].y), 
         &(model.skiers[0].deltaX), &(model.skiers[0].deltaY));
-.
     spawnTree(&(model.trees[0]));    
     spawnTree(&(model.trees[1]));  
 
