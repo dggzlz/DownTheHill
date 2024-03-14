@@ -47,10 +47,11 @@ void moveTree(Tree *tree){
 } 
 
 /*****CONDITION-BASED EVENTS*****/
-void checkCollision(Snowboarder *player, NPCskier *skier, Tree *tree)
+bool checkCollision(Snowboarder *player, NPCskier *skier, Tree *tree)
 {
     /*leave it for later*/
 }
+
 /*Collisions*/
 void collision(Lives *lives, Snowboarder *player){
     decreaseLife(lives);

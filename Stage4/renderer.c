@@ -29,14 +29,15 @@ void renderFakePlayer(UINT32 *base32) /*object for 5 second invincibility*/
 
 void renderSkier(NPCskier *skier, UINT32 *base32)
 {
+    if(skier->x >= 0 && skier->x <= 576 && skier->y >= 0 && skier->y <= 336)/*does this work considering unsigned?*/
     plotBitmap64(base32, skier->x, skier->y, skierBM, 128);
 }
 
 
 void renderTree(Tree *tree, UINT32 *base32)
 {
+    if(tree->x >= 0 && tree->x <= 576 && tree->y >= 0 && tree->y <= 336)
     plotBitmap64(base32,tree->x, tree->y, treeBM, 128);
-    /*printf("tree located at x: %d, y: %d\n", tree->x,tree->y);*/
 }
 
 void renderLives(Lives *lives, UINT32 *base32)
@@ -56,7 +57,7 @@ void renderLives(Lives *lives, UINT32 *base32)
 renderModel(const Model *model, UINT32 *base32)
 {
     int i;
-        if(!collisionCheck)
+        if(!checkCollision)
         {
             if (key == left)
             {
@@ -76,3 +77,9 @@ renderModel(const Model *model, UINT32 *base32)
         renderLives(model->lives,base32);
         renderSkierHitCount(model->newCounter,base32);
     }
+
+    /*NEED TO CREATE BITMAPS FOR FONTS
+void renderSkierHitCount();
+*/
+
+/*void renderGameOver();*/
