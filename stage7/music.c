@@ -24,7 +24,7 @@ typedef struct
 Note jumpVanHalen[] = {
     {C4, 420},
     {G6, 70},
-    {G6, 70},
+    {G6, 70}, 
     {F6, 70},
     {F6, 70},
     {G6, 70},

@@ -47,7 +47,7 @@ void renderSkier(NPCskier *skier, UINT32 *base32)
 void renderTree(Tree *tree, UINT32 *base32)
 {
     if(tree->x >= 1 && tree->x <= 575 && tree->y >= 0 && tree->y <= 336)
-    plotBitmap64(base32,tree->x, tree->y, treeBM, 128);
+        plotBitmap64(base32,tree->x, tree->y, treeBM, 128);
 }
 
 void renderLives(Lives *lives, UINT32 *base32)
@@ -66,28 +66,12 @@ void renderLives(Lives *lives, UINT32 *base32)
 
 renderModel(const Model *model, UINT32 *base32)
 {
-    int i;
-    int j;
-    if(!checkCollision())
-    
-        renderPlayer(model->player, base32, model->player->posture);   
-    
-    else
-        renderFakePlayer(base32);
-    
-    for(i = 0; i < numOfTrees; i++)
-    {
-        renderTree(model->tree, base32);
-    }
-
-    for(j = 0; j < numOfSkiers; j++)
-    {
-        renderSkier(model->skier, base32);
-    }
-    
+    renderPlayer(model->player, base32, model->player->posture);   
+    renderFakePlayer(base32);
+    renderTree(model->tree, base32);
+    renderSkier(model->skier, base32);
     renderLives(model->lives,base32);
   /*  renderSkierHitCount(model->newCounter,base32);*/
-    
 }
 
     /*NEED TO CREATE BITMAPS FOR FONTS
