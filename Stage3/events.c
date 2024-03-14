@@ -1,5 +1,7 @@
 #include "events.h"
 #include "model.h"
+#include "bool.h"
+#include "keys.h"
 #include <osbind.h>
 
 
@@ -49,9 +51,13 @@ void moveTree(Tree *tree){
 /*****CONDITION-BASED EVENTS*****/
 bool checkCollision(Snowboarder *player, NPCskier *skier, Tree *tree)
 {
+    bool isCollision; 
+    if (player->x == 0 || (player->x + 64) == 399)
+        isCollision = true;
+    else if ((player->x + 64) == skier->x || player->x == (skier->x + 64))
+        isCollision = true;
     /*leave it for later*/
 }
-
 /*Collisions*/
 void collision(Lives *lives, Snowboarder *player){
     decreaseLife(lives);

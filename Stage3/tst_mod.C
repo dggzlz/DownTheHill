@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "model.h"
 #include "events.h"
+#include "keys.h"
 
 int main() {
     /*Initialize game model*/

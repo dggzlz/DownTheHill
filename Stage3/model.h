@@ -1,9 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-short numOfTrees 6
-short numOfSkiers 3
-
 
 /*STRUCTURES*/
 
@@ -12,7 +9,6 @@ typedef struct
     unsigned int x;
     unsigned int y;
     int deltaX;
-    char posture;
     /*unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
 } Snowboarder;
@@ -20,8 +16,8 @@ typedef struct
 typedef struct
 {
     unsigned int x, y;
-    int deltaX; 
-    int deltaY; 
+    int deltaX; /*might have to be UINT32 unfortunatly*/
+    int deltaY; /*might have to be UINT32 unfortunatly*/
 
 } NPCskier;
 
@@ -56,8 +52,8 @@ typedef struct
 typedef struct
 {
     Snowboarder snowboarder;
-    NPCskier skiers[numOfSkiers];
-	Tree trees[numOfTrees];
+    NPCskier skiers[4];
+	Tree trees[2];
     Lives hearts;
     SkierCounter skierCounter;
 
