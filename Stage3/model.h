@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+short numOfTrees = 6;
+short numOfSkiers = 3;
 
 /*STRUCTURES*/
 
@@ -9,6 +11,7 @@ typedef struct
     unsigned int x;
     unsigned int y;
     int deltaX;
+    char posture;
     /*unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
 } Snowboarder;

@@ -9,17 +9,25 @@ int main() {
     Model model;
 
     printf("Starting test program...\nClick enter to continue\n");
-    getchar();
-    while(getchar() != '\n');
-    
-    
+    getchar(); 
 
+    printf("setting the snowboarder's initial values\n");
     snowboarderSet(&(model.snowboarder));
-
+    printf("initial values for the player {%d, %d, %d, %c}\n", 
+        &(model.snowboarder.x), &(model.snowboarder.y), 
+        &(model.snowboarder.deltaX), &(model.snowboarder.posture));
+    while (getchar() != '\n');/*clear buffer*/    
+    printf("press enter to continue\n");
+    
+    printf("setting values for the skiers\n");
     spawnSkier(&(model.skiers[0]));
     spawnSkier(&(model.skiers[1]));
     spawnSkier(&(model.skiers[2]));
 
+    printf("initial values for the skier #1 {%d, %d, %d, %d}\n", 
+        &(model.skiers[0].x), &(model.skiers[0].y), 
+        &(model.skiers[0].deltaX), &(model.skiers[0].deltaY));
+.
     spawnTree(&(model.trees[0]));    
     spawnTree(&(model.trees[1]));  
 
