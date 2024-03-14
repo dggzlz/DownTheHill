@@ -4,52 +4,67 @@
 
 int main() {
     /*Initialize game model*/
+    
+    Model model;
+
     printf("Starting test program...\nClick enter to continue\n");
     getchar();
     while(getchar() != '\n');
     
-    Model model = {
-        snowboarderSet(),
-        .skiers = {
-            newSkier(),
-            newSkier(),
-            newSkier(),
-            newSkier()
-        },
-        .trees = {
-            createTree(),
-            createTree()
-        },
-        .hearts = {
-            createLife(),
-            createLife(),
-            createLife()
-        },
-        .skierCounter = newCounter()
-    };
+    
+
+    snowboarderSet(&(model.snowboarder));
+
+    spawnSkier(&(model.skiers[0]));
+    spawnSkier(&(model.skiers[1]));
+    spawnSkier(&(model.skiers[2]));
+
+    spawnTree(&(model.trees[0]));    
+    spawnTree(&(model.trees[1]));  
+
+    newLife(&(model.hearts));
+    newCounter(&(model.skierCounter));  
 
     printf("Player initial position: (%d, %d)\n", 
         model.snowboarder.x, model.snowboarder.y);
     printf("Click enter to continue\n");
     getchar();
-    while (getchar() != '\n');
+    while(getchar() != '\n');
 
 
     /*Simulate move left event*/
-    moveRequest(KEY_LEFT, &model.snowboarder);
-    printf("Player position after moving left: (%d, %d)\n", model.snowboarder.x, model.snowboarder.y);
+    printf("calling moveRequest to move the player\n");
+    moveRequest(KEY_LEFT, &(model.snowboarder));
+    printf("Player position after moving left: (%d, %d)\n", 
+        model.snowboarder.x, model.snowboarder.y);
+    printf("Press enter to continue\n");
+    getchar();
+    while(getchar() != '\n');
 
     /*Simulate move right event*/
-    moveRequest(KEY_RIGHT, &model.snowboarder);
-    printf("Player position after moving right: (%d, %d)\n", model.snowboarder.x, model.snowboarder.y);
+    printf("calling moveRequest to move the player\n");
+    moveRequest(KEY_RIGHT, &(model.snowboarder));
+    printf("Player position after moving right: (%d, %d)\n", 
+        model.snowboarder.x, model.snowboarder.y);
+    printf("Press enter to continue\n");
+    getchar();
+    while (getchar() != '\n');
 
     /*Simulate move right event again*/
-    moveRequest(KEY_RIGHT, &model.snowboarder);
-    printf("Player position after moving right again: (%d, %d)\n", model.snowboarder.x, model.snowboarder.y);
+    printf("calling moveRequest to move the player\n");
+    moveRequest(KEY_RIGHT, &(model.snowboarder));
+    printf("Player position after moving right: (%d, %d)\n", 
+        model.snowboarder.x, model.snowboarder.y);
+    printf("Press enter to continue\n");
+    getchar();
+    while (getchar() != '\n');
 
     /*Simulate tree movement*/
-    treeMoves(&tree);
-    printf("Tree position after moving: (%d, %d)\n", tree.x, tree.y);
+    moveTree(&(model.trees[1]));
+    printf("Tree position after moving: (%d, %d)\n", model.trees[1].x, model.trees[1].y);
+    printf("Press enter to continue\n");
+    getchar();
+    while (getchar() != '\n');
 
     return 0;
 }

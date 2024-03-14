@@ -1,7 +1,7 @@
 CC := cc68x
 CCFLAGS := -g
 
-model_objects := tst_mod.o model.o events.o
+model_objects :=  model.o events.o tst_mod.o
 model_exe := tst_mod
 
 model_tests : $(model_objects)

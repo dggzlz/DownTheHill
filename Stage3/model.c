@@ -24,50 +24,41 @@
  * 
  */
 
-Snowboarder snowboarderSet(){
-    Snowboarder newPlayer = {320, 200, 0};
-    return newPlayer;
+void snowboarderSet(Snowboarder *player){
+    player->x = 320;
+    player->y =200; 
+    player->deltaX = 0;
 }
 
 
-/*SKIER BEHAVIOURS*/
-NPCskier newSkier(){
-    NPCskier newSkier = {0, 0, 0, 0};
-    return newSkier;
-}
-
-
-/*TREE BEHAVIOURS*/
-
-Tree newTree(unsigned int x) /*for now returning a copy of the struct*/
-{
-    Tree newTree = {0, 0, 0};
-    return newTree;
-}
 
 /*SCORE BEHAVIOURS*/
-ScoreCounter newScore()
+void newScore(ScoreCounter *score)
 {
-    ScoreCounter score = {0, 0, 0};
-    return score;
+    score->scorePlayer = 0;
+    score->x = 0;
+    score->y = 0;
 }
 
 
 
 /*LIVES COUNTER BEHAVIOURS*/
-Lives newLife()
+void newLife(Lives *life)
 {
-    Lives newLife = {3, 576, 3};
-    return newLife;
+    life->numLives = 3;
+    life->x = 0;
+    life->y = 0;
 }
 
 
 
 /*SKIER HIT BEHAVIOURS*/
-SkierCounter newCounter()
+void newCounter(SkierCounter *counter)
 {
-    SkierCounter counter = {0, 0, 0, 0};
-    return counter;
+    counter->hitCounter = 0;
+    counter->scoreCounter = 0;
+    counter->x = 0;
+    counter->y = 0;
 }
 
 

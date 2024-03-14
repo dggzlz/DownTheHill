@@ -28,7 +28,7 @@ void quit(long sysCall){
 
 /*Skier events*/
 void spawnSkier(NPCskier *skier){
-    skier->x = location();
+    skier->x = 0;
     skier->y = 399;
 }
 
@@ -37,13 +37,13 @@ void moveSkier(NPCskier *skier){
 }
 
 /*Tree events*/
-void spawnTree(){
-    tree->x = location();
+void spawnTree(Tree *tree){
+    tree->x = 200;
     tree->y = 399;
 }
 
 void moveTree(Tree *tree){
-    tree->y += (tree->deltaY = -5);
+    tree->y += (tree->upwardSpeed = -5);
 } 
 
 /*****CONDITION-BASED EVENTS*****/

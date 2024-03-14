@@ -63,25 +63,16 @@ typedef struct
 /**************BEHAVIOURS FUNCTIONS*******/
 
 /*SNOWBOARDER BEHAVIOURS*/
-Snowboarder snowboarderSet();
-
-/*SKIER BEHAVIOURS*/
-NPCskier newSkier();
-
-/*TREE BEHAVIOURS*/
-Tree newTree();
+void snowboarderSet(Snowboarder *player);
 
 /*SCORE BEHAVIOURS*/
-ScoreCounter newScore();
+void newScore(ScoreCounter *score);
 
 /*LIVES COUNTER BEHAVIOURS*/
-Lives newLife();
-void updatesLives(Lives *lives);
+void newLife(Lives *life);
 
 /*SKIER HIT BEHAVIOURS*/
-SkierCounter newCounter();
-
-void skierHitCountIncrease();
+void newCounter(SkierCounter *counter);
 
 #endif
 
