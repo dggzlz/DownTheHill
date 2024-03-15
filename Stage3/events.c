@@ -2,6 +2,7 @@
 #include "model.h"
 #include "bool.h"
 #include "keys.h"
+#include "rand.h"
 #include <osbind.h>
 
 
@@ -31,8 +32,15 @@ void quit(long sysCall){
 
 /*Skier events*/
 void spawnSkier(NPCskier *skier){
-    skier->x = 0;
+    int newPosition = rand(3);
+
+    while (newPosition == 0 || newPosition == 10)
+        newPosition = rand(3);
+
+    skier->x = newPosition * 64;
     skier->y = 399;
+    skier->deltaX = 0;
+    skier->deltaY = 0;
 }
 
 void moveSkier(NPCskier *skier){ 
@@ -41,8 +49,14 @@ void moveSkier(NPCskier *skier){
 
 /*Tree events*/
 void spawnTree(Tree *tree){
-    tree->x = 200;
+    int newPosition = rand(0);
+
+    while (newPosition == 0 || newPosition == 10)
+        newPosition = rand(0);
+
+    tree->x = newPosition * 64;
     tree->y = 399;
+    tree->upwardSpeed = 0;
 }
 
 void moveTree(Tree *tree){

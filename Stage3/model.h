@@ -1,8 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-short numOfTrees = 6;
-short numOfSkiers = 3;
+#define numOfTrees 6
+#define numOfSkiers 3
 
 /*STRUCTURES*/
 typedef struct {
@@ -14,17 +14,17 @@ typedef struct {
 
 typedef struct
 {
-    unsigned int x;
-    unsigned int y;
+    int x;
+    int y;
     int deltaX;
     char posture;
-    /*unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
+    /*int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
 } Snowboarder;
 
 typedef struct
 {
-    unsigned int x, y;
+    int x, y;
     int deltaX; /*might have to be UINT32 unfortunatly*/
     int deltaY; /*might have to be UINT32 unfortunatly*/
 
@@ -32,29 +32,29 @@ typedef struct
 
 typedef struct
 {
-    unsigned int x,y;
+    int x,y;
     int upwardSpeed; 
 
 } Tree;
 
 typedef struct
 {
-	unsigned int scorePlayer;	/*score of the player*/
-	unsigned int x, y;	/*coordinates for the score bitmap*/
+	int scorePlayer;	/*score of the player*/
+	int x, y;	/*coordinates for the score bitmap*/
 } ScoreCounter; 
 
 
 typedef struct
 {
     int numLives;
-    unsigned int x, y;
+    int x, y;
 } Lives;
 
 typedef struct
 {
-    unsigned int hitCounter;
-    unsigned int scoreCounter;
-    unsigned int x, y;
+    int hitCounter;
+    int scoreCounter;
+    int x, y;
 
 } SkierCounter;
 

@@ -5,7 +5,6 @@
 #include "bool.h"
 
 
-
 /****ANSYNCHRONOUS EVENTS****/
 
 void moveRequest(long sysCall, Snowboarder *player);

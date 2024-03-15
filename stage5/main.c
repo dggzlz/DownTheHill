@@ -1,8 +1,8 @@
 #include "input.h"
-#include ".\stage4\bitmaps.h"
-#include "types.h"
-#include "raster.h"
-#include "model.h"
+#include "..\stage4\bitmaps.h"
+#include "..\stage2\types.h"
+#include "..\stage2\RASTER.H"
+#include "..\stage3\model.h"
 
 
 long getTime();
@@ -13,25 +13,7 @@ int main(){
     UINT32 timeThen = 0, timeNow, timeElapsed;
     timeNow = getTime();
 
-    Model model = {
-        snowboarderSet(),
-        .skiers = {
-            newSkier(),
-            newSkier(),
-            newSkier(),
-            newSkier()
-        },
-        .trees = {
-            createTree(),
-            createTree()
-        },
-        .hearts = {
-            createLife(),
-            createLife(),
-            createLife()
-        },
-        .skierCounter = {0, 0, 0, 0}
-    };
+    Model model;
 
     timeElapsed = timeNow - timeThen;
 

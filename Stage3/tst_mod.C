@@ -17,8 +17,8 @@ int main() {
     snowboarderSet(&(model.snowboarder));
 
     printf("initial values for the player {x:%d, y:%d, deltax:%d, posture:%c}\n", 
-        &(model.snowboarder.x), &(model.snowboarder.y), 
-        &(model.snowboarder.deltaX), &(model.snowboarder.posture));
+        model.snowboarder.x, model.snowboarder.y, 
+        model.snowboarder.deltaX, model.snowboarder.posture);
     
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
@@ -32,17 +32,17 @@ int main() {
 
     /*SKIER #1*/
     printf("initial values for the skier #1 {x:%d, y:%d, delta x:%d, delta y:%d}\n", 
-        &(model.skiers[0].x), &(model.skiers[0].y), 
-        &(model.skiers[0].deltaX), &(model.skiers[0].deltaY));
+        model.skiers[0].x, model.skiers[0].y, 
+        model.skiers[0].deltaX, model.skiers[0].deltaY);
     /*SKIER #2*/
     printf("initial values for the skier #2 {x:%d, y:%d, delta x:%d, delta y:%d}\n", 
-        &(model.skiers[1].x), &(model.skiers[1].y), 
-        &(model.skiers[1].deltaX), &(model.skiers[1].deltaY));
+        model.skiers[1].x, model.skiers[1].y, 
+        model.skiers[1].deltaX, model.skiers[1].deltaY);
 
     /*SKIER #3*/
     printf("initial values for the skier #3 {x:%d, y:%d, delta x:%d, delta y:%d}\n", 
-        &(model.skiers[2].x), &(model.skiers[2].y), 
-        &(model.skiers[2].deltaX), &(model.skiers[2].deltaY));
+        model.skiers[2].x, model.skiers[2].y, 
+        model.skiers[2].deltaX, model.skiers[2].deltaY);
 
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
@@ -55,13 +55,13 @@ int main() {
 
     /*TREE #1*/
     printf("initial values for the tree #1 {x:%d, y:%d, speed:%d}\n", 
-        &(model.trees[0].x), &(model.trees[0].y), 
-        &(model.trees[0].upwardSpeed));
+        model.trees[0].x, model.trees[0].y, 
+        model.trees[0].upwardSpeed);
     
     /*TREE #2*/
     printf("initial values for the tree #2 {x:%d, y:%d, speed:%d}\n", 
-        &(model.trees[1].x), &(model.trees[1].y), 
-        &(model.trees[1].upwardSpeed));
+        model.trees[1].x, model.trees[1].y, 
+        model.trees[1].upwardSpeed);
 
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
@@ -72,7 +72,7 @@ int main() {
     newScore(&(model.score));
     
     printf("initial values for the score {score:%d, x:%d, y:%d}\n", 
-        &(model.score.scorePlayer), &(model.score.x), &(model.score.y));
+        model.score.scorePlayer, model.score.x, model.score.y);
     
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
@@ -83,7 +83,7 @@ int main() {
     newLife(&(model.hearts));
 
     printf("initial values for the lives {lives #:%d, x:%d, y:%d}\n", 
-        &(model.hearts.numLives), &(model.hearts.x), &(model.hearts.y));
+        model.hearts.numLives, model.hearts.x, model.hearts.y);
     
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
@@ -94,8 +94,8 @@ int main() {
     newCounter(&(model.skierCounter));  
 
     printf("initial values for the lives {counter:%d, score:%d, x:%d, y:%d}\n", 
-        &(model.skierCounter.hitCounter), &(model.skierCounter.scoreCounter), 
-        &(model.skierCounter.x), &(model.skierCounter.y));
+        model.skierCounter.hitCounter, model.skierCounter.scoreCounter, 
+        model.skierCounter.x, model.skierCounter.y);
     
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
@@ -149,16 +149,20 @@ int main() {
     getchar();
 
     moveTree(&(model.trees[1]));
-    printf("Tree #1 position after moving: (%d, %d)\n", model.trees[1].x, model.trees[1].y);
+    printf("Tree #1 position after moving: (%d, %d)\n", 
+        model.trees[1].x, model.trees[1].y);
 
     moveTree(&(model.trees[1]));
-    printf("Tree #1 position after moving for a second time: (%d, %d)\n", model.trees[1].x, model.trees[1].y);
+    printf("Tree #1 position after moving for a second time: (%d, %d)\n", 
+        model.trees[1].x, model.trees[1].y);
 
     moveSkier(&(model.skiers[1]));
-    printf("skier #1 position after moving: (%d, %d)\n", model.skiers[1].x, model.skiers[1].y);
+    printf("skier #1 position after moving: (%d, %d)\n", model.skiers[1].x, 
+        model.skiers[1].y);
 
     moveTree(&(model.trees[1]));
-    printf("skier #1 position after moving for a second time: (%d, %d)\n", model.skiers[1].x, model.skiers[1].y);
+    printf("skier #1 position after moving for a second time: (%d, %d)\n", 
+        model.skiers[1].x, model.skiers[1].y);
 
     /***TESTING COLLISIONS***/
     while (getchar() != '\n');/*clear buffer*/  
@@ -196,7 +200,7 @@ int main() {
     printf("testing collision with obstacles now\n");
     collisionObs(&(model.hearts), &(model.snowboarder));
     printf("values after the collision: player's x: %d, lives #:%d", 
-        model.hearts.numLives, model.snowboarder.x);
+         model.snowboarder.x, model.hearts.numLives);
 
     while (getchar() != '\n');/*clear buffer*/  
     printf("press enter to continue.\n");
@@ -205,7 +209,7 @@ int main() {
     printf("testing collision with skier...\n");
     collisionSkier(&(model.score), &(model.skierCounter));
     printf("values after the collision with skier: score:%d, skier counter:%d\n", 
-        model.hearts.numLives, model.snowboarder.x);
+        model.skierCounter.scoreCounter, model.skierCounter.hitCounter);
 
     printf("program terminated\n");
 
