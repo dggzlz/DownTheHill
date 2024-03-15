@@ -2,6 +2,7 @@
 #define EVENTS_H
 
 #include "model.h"
+#include "bool.h"
 
 
 
@@ -23,17 +24,22 @@ void spawnTree(Tree *tree);
 void moveTree(Tree *tree);
 
 /*****CONDITION-BASED EVENTS*****/
-void checkCollision(Snowboarder *player, NPCskier *skier, Tree *tree);
+
 /*Collisions*/
-void collision(Lives *lives, Snowboarder *player);
+bool checkCollisionObs(Snowboarder *player, Tree *tree);
+bool checkCollisionSkier(Snowboarder *player, NPCskier *skier);
+
+void collisionObs(Lives *lives, Snowboarder *player);
+void collisionSkier(ScoreCounter *score, SkierCounter *counter);
 
 /*position reset*/
-
 void decreaseLife(Lives *lives);
 void resetPos(Snowboarder *player);
+
 /*Skier Collision*/
 void scoreUpdates(ScoreCounter *playerScore);
 void skierHitCountIncrease(SkierCounter *count);
+
 /*Game ends*/
 void gameOver();
 

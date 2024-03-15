@@ -1,60 +1,70 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+short numOfTrees = 6;
+short numOfSkiers = 3;
+
 /*STRUCTURES*/
+typedef struct {
+        int minX;
+        int maxX;
+        int minY;
+        int maxY;
+} BoundingBox;
 
 typedef struct
 {
-    int x;
-    int y;
+    unsigned int x;
+    unsigned int y;
     int deltaX;
     char posture;
-
+    /*unsigned int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
 
 } Snowboarder;
 
 typedef struct
 {
-    int x, y;
-    int deltaX; 
-    int deltaY; 
+    unsigned int x, y;
+    int deltaX; /*might have to be UINT32 unfortunatly*/
+    int deltaY; /*might have to be UINT32 unfortunatly*/
 
 } NPCskier;
 
 typedef struct
 {
-    int x,y;
-    /*int upwardSpeed; */
+    unsigned int x,y;
+    int upwardSpeed; 
 
 } Tree;
 
 typedef struct
 {
-	int scorePlayer;	/*score of the player*/
-	int x, y;	/*coordinates for the score bitmap*/
+	unsigned int scorePlayer;	/*score of the player*/
+	unsigned int x, y;	/*coordinates for the score bitmap*/
 } ScoreCounter; 
 
 
 typedef struct
 {
     int numLives;
-    int x, y;
+    unsigned int x, y;
 } Lives;
 
 typedef struct
 {
-    int hitCounter;
-    int scoreCounter;
-    int x, y;
+    unsigned int hitCounter;
+    unsigned int scoreCounter;
+    unsigned int x, y;
 
 } SkierCounter;
 
 typedef struct
 {
-    Snowboarder player;
+    Snowboarder snowboarder;
     NPCskier skiers[3];
-	Tree trees[6];
-    Lives lives;
+	Tree trees[2];
+    ScoreCounter score;
+    Lives hearts;
     SkierCounter skierCounter;
 
 } Model;

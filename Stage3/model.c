@@ -26,7 +26,7 @@
 
 void snowboarderSet(Snowboarder *player){
     player->x = 320;
-    player->y =200; 
+    player->y = 200; 
     player->deltaX = 0;
 }
 
