@@ -204,7 +204,7 @@ void plotBitmap64(UINT32 *base,
     int i = 0;
     int offset = (y * 20 + (x >> 5));
     
-    if(x >= 0 && x < screenWidth && y >= 0 && y < screenHeight && height == 128)
+    if(x >= 0 && x <= (screenWidth - 64) && y >= 0 && y < screenHeight && height == 128)
     {
         while (i < height){
                 *(base + offset) = bitmap[i];

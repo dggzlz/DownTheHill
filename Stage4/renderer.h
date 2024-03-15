@@ -4,14 +4,12 @@
 #include "types.h"
 
 
-void renderPlayerRight(Snowboarder *player, UINT32 *base32);
-void renderPlayerLeft(Snowboarder *player, UINT32 *base32);
-void renderFakePlayer(UINT32 *base32); /*object for 5 second invincibility*/
-void renderskier(NPCskier *skier, UINT32 *base32);
+void renderPlayer(Snowboarder *player, UINT32 *base);
+void renderFakePlayer(UINT32 *base); /*object for 5 second invincibility*/
+void renderskier(NPCskier *skier, UINT32 *base);
 void renderTree(Tree *tree, UINT32 *base);
-void renderLives(Lives *lives, UINT32 *base32);
-
-void renderModel(const Model *model, UINT32 *base32); 
+void renderLives(Lives *lives, UINT32 *base);
+void renderModel(const Model *model, UINT32 *base); 
 
 
 

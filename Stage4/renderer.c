@@ -10,68 +10,59 @@
 
 
 
-void renderPlayerRight(Snowboarder *player, UINT32 *base32)
-{
-    if(player->x >= 1 && player->x <= 575)
-    plotBitmap64(base32, player->x, 100, RightSnowBoarder, 128);
-}
-void renderPlayer(Snowboarder* player, UINT32 *base32, char posture)
+void renderPlayer(Snowboarder* player, UINT32 *base)
 {
     if (player->x >= 1 && player->x <= 575){
-        if (posture == 'r')
-            plotBitmap64(base32, player->x, 100, RightSnowBoarder, 128)
-        else if (posture == 'l')
-            plotBitmap64(base32, player->x, 100, LeftSnowBoarder, 128);
+        if (player->posture == 'r')
+            plotBitmap64(base, player->x, 100, RightSnowBoarder, 128);
+        else if (player->posture == 'l')
+            plotBitmap64(base, player->x, 100, LeftSnowBoarder, 128);
     }
 }
-void renderPlayerLeft(Snowboarder *player, UINT32 *base32)
-{
-    if(player->x >= 1 && player->x <= 575)
-    plotBitmap64(base32, player->x, 100, LeftSnowBoarder, 128);
-}
 
-void renderFakePlayer(UINT32 *base32) /*object for 5 second invincibility*/
+void renderFakePlayer(UINT32 *base) /*object for 5 second invincibility*/
 {
     int x = 320;
     int y = 100;
-    plotBitmap64(base32, x, y, RightSnowBoarder, 128);
+    plotBitmap64(base, x, y, RightSnowBoarder, 128);
 }
 
-void renderSkier(NPCskier *skier, UINT32 *base32)
+void renderSkier(NPCskier *skier, UINT32 *base)
 {
-    if(skier->x >= 1 && skier->x <= 575 && skier->y >= 0 && skier->y <= 336)/*does this work considering unsigned?*/
-    plotBitmap64(base32, skier->x, skier->y, skierBM, 128);
+    plotBitmap64(base, skier->x, skier->y, skierBM, 128);
 }
 
 
-void renderTree(Tree *tree, UINT32 *base32)
+void renderTree(Tree *tree, UINT32 *base)
 {
-    if(tree->x >= 1 && tree->x <= 575 && tree->y >= 0 && tree->y <= 336)
-        plotBitmap64(base32,tree->x, tree->y, treeBM, 128);
+        plotBitmap64(base,tree->x, tree->y, treeBM, 128);
 }
 
-void renderLives(Lives *lives, UINT32 *base32)
+void renderLives(Lives *lives, UINT32 *base)
 {
     int count = lives->numLives;
     int xCoor = lives->x;
 
     while(count>0)
     {
-        plotBitmap32(base32, xCoor,lives->y, heartLifeBM, 32);
+        plotBitmap32(base, xCoor,lives->y, heartLifeBM, 32);
         xCoor -= 32;
         count--;
     }
 
 }
 
-renderModel(const Model *model, UINT32 *base32)
+void renderModel(const Model *model, UINT32 *base)
 {
-    renderPlayer(model->player, base32, model->player->posture);   
-    renderFakePlayer(base32);
-    renderTree(model->tree, base32);
-    renderSkier(model->skier, base32);
-    renderLives(model->lives,base32);
-  /*  renderSkierHitCount(model->newCounter,base32);*/
+    int i,j;
+    renderPlayer(&model->player, base);   
+    renderFakePlayer(base);
+    for(i = 0; i < 6; i++)
+    renderTree(model->trees, base);
+    for(j = 0; j < 3; j++)
+    renderSkier(model->skiers, base);
+    renderLives(&model->lives,base);
+  /*  renderSkierHitCount(model->newCounter,base);*/
 }
 
     /*NEED TO CREATE BITMAPS FOR FONTS

@@ -10,32 +10,33 @@
 #define screenWidth 640
 #define screenHeight 400
 
-
 int main()
 {
     UINT32 *base = Physbase();
-    
-  
-/*tree initilizations*/ 
+    /*tree initilizations*/
     int treeStart = screenHeight;
 
-    Tree newTree1 = createTree(0);
+    Tree newTree1; 
     Tree *tree1 = &newTree1;
+    spawnTree(tree1);
     
-/*Lives initilization*/
-    Lives newLife = createLife();
+    clearScreen(base);
+    
+    
+/*Lives initilization/
+    Lives newLife = newLife();
     Lives *lifePointer = &newLife;
 
-/*test 1*/
+/*test 1/
     printf("Beginning Tree Column Tests\n");
     renderTree(tree1,base);
-    printf("tree located at x: %d, y: %d\n", tree->x,tree->y);
+    printf("tree located at x: %d, y: %d\n", tree1->x,tree1->y);
     printf("Tree Column Tests End\n");
     printf("press a key to continue\n");
     getchar();
     clearScreen(base);
 
-/*test 2*/
+/*test 2/
     printf("Test all trees movement\n");
     while(treeStart>0)
     {
@@ -48,7 +49,7 @@ int main()
     getchar();
     clearScreen(base);
 
-/*test 3*/
+/*test 3/
     printf("Begin Lives lost Test\n");
     renderLives(lifePointer,base);
     updateLives(lifePointer);
@@ -60,16 +61,16 @@ int main()
     printf("Lives lost Test Ends\n");
 
 
-/*test 4*/
+/*test 4
     printf("Begin fake player test\n");
     renderFakePlayer(base);
     printf("End fake player test\n");
-     printf("press a key to continue\n");
-    getchar();
+    while (getchar() != '\n');/*clear buffer
+    printf("\nPRESS ENTER TO CONTINUE\n");
+    getchar(); /* Wait for user input to continue
     clearScreen(base);
     printf("tests ended");
-
-
+    */
 
 
     return 0;
