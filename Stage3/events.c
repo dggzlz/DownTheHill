@@ -56,11 +56,11 @@ void spawnTree(Tree *tree){
 
     tree->x = newPosition * 64;
     tree->y = 399;
-    tree->upwardSpeed = 0;
+    tree->upwardSpeed = -5;
 }
 
 void moveTree(Tree *tree){
-    tree->y += (tree->upwardSpeed = -5);
+    tree->y += tree->upwardSpeed;
 } 
 
 /*****CONDITION-BASED EVENTS*****/
