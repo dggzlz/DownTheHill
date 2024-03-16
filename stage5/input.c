@@ -1,11 +1,12 @@
 #include "input.h"
 #include <osbind.h>
 
-int input()
+long input()
 {
     int key;
     long input = Cconis();
 
+/*    
     switch(input){
         case LEFT_ARROW:
             key = 1;
@@ -14,7 +15,7 @@ int input()
         case ESC:
             key = 3;
     };
-
-    return key;  
+*/
+    return input;  
 }
 
