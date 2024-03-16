@@ -35,7 +35,7 @@ void renderSkier(NPCskier *skier, UINT32 *base)
 
 void renderTree(Tree *tree, UINT32 *base)
 {
-        plotBitmap64(base,tree->x, tree->y, treeBM, 128);
+        plotBitmap64(base, tree->x, tree->y, treeBM, 128);
 }
 
 void renderLives(Lives *lives, UINT32 *base)
@@ -55,13 +55,13 @@ void renderLives(Lives *lives, UINT32 *base)
 void renderModel(const Model *model, UINT32 *base)
 {
     int i,j;
-    renderPlayer(&model->player, base);   
+    renderPlayer(&model->snowboarder, base);   
     renderFakePlayer(base);
     for(i = 0; i < 6; i++)
     renderTree(model->trees, base);
     for(j = 0; j < 3; j++)
     renderSkier(model->skiers, base);
-    renderLives(&model->lives,base);
+    renderLives(&model->hearts,base);
   /*  renderSkierHitCount(model->newCounter,base);*/
 }
 
