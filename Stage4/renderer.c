@@ -1,7 +1,7 @@
 /*void render(const Model *model, UINT32 *base32) counter is 16pixels*/
 #include "model.h"
 #include "events.h"
-#include "raster.h"
+#include "RASTER.H"
 #include "renderer.h"
 #include "bitmaps.h"
 #include <osbind.h>

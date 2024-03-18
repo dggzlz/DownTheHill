@@ -2,8 +2,8 @@
 #include "model.h"
 #include "bool.h"
 #include "keys.h"
-#include "rand.h"
 #include <osbind.h>
+#include <stdlib.h>
 
 
 
@@ -32,10 +32,10 @@ void quit(long sysCall){
 
 /*Skier events*/
 void spawnSkier(NPCskier *skier){
-    int newPosition = rand(3);
+    int newPosition = rand() % 10;
 
     while (newPosition == 0 || newPosition == 10)
-        newPosition = rand(3);
+        newPosition = rand() % 10;
 
     skier->x = newPosition * 64;
     skier->y = 399;
@@ -49,10 +49,10 @@ void moveSkier(NPCskier *skier){
 
 /*Tree events*/
 void spawnTree(Tree *tree){
-    int newPosition = rand(0);
+    int newPosition = rand() % 10;
 
     while (newPosition == 0 || newPosition == 10)
-        newPosition = rand(0);
+        newPosition = rand() % 10;
 
     tree->x = newPosition * 64;
     tree->y = 399;

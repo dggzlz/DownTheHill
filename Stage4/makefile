@@ -1,6 +1,3 @@
-tst_rend: tst_rend.o raster.o rast_asm.o renderer.o model.o events.o
-	cc68x -g tst_rend.o raster.o rast_asm.o renderer.o model.o events.o -o tst_rend
-
 tst_rend.o: tst_rend.c renderer.h 
 	cc68x -g -c tst_rend.c
 
@@ -18,6 +15,9 @@ events.o: events.c events.h
 
 renderer.o: renderer.c renderer.h
 	cc68x -g -c renderer.c
+
+tst_rend: tst_rend.o raster.o rast_asm.o renderer.o model.o events.o
+	cc68x -g tst_rend.o raster.o rast_asm.o renderer.o model.o events.o -o tst_rend
 
 CC := cc68x
 CCFLAGS := -g

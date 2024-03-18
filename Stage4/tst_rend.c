@@ -1,10 +1,10 @@
 /*Test Driver Program*/
 
 #include "renderer.h"
+#include "RASTER.H"
+#include "types.h"
 #include "model.h"
 #include "events.h"
-#include "raster.h"
-#include "types.h"
 #include <osbind.h>
 #include <stdio.h>
 #define screenWidth 640
@@ -96,14 +96,14 @@ int main()
 
 
 /*test 4*/
-   /* printf("Begin fake player test\n");
+    printf("Begin fake player test\n");
     renderFakePlayer(base);
-   /* printf("End fake player test\n");
-    while (getchar() != '\n');/*clear buffer
+   printf("End fake player test\n");
+    while (getchar() != '\n');/*clear buffer*/
     printf("\nPRESS ENTER TO CONTINUE\n");
-    getchar(); /* Wait for user input to continue
+    getchar(); /* Wait for user input to continue*/
     clearScreen(base);
-    printf("tests ended");*/
+    printf("tests ended");
     
 
 

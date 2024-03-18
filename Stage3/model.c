@@ -47,7 +47,7 @@ void newScore(ScoreCounter *score)
 void newLife(Lives *life)
 {
     life->numLives = 3;
-    life->x = 0;
+    life->x = 620;
     life->y = 0;
 }
 
