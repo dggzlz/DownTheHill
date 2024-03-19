@@ -25,6 +25,7 @@ void moveTree(Tree *tree);
 /*****CONDITION-BASED EVENTS*****/
 
 /*Collisions*/
+bool checkColEdge(Snowboarder *player);
 bool checkCollisionObs(Snowboarder *player, Tree *tree);
 bool checkCollisionSkier(Snowboarder *player, NPCskier *skier);
 

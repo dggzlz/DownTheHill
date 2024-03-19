@@ -1,14 +1,14 @@
+#MODEL_MAKEFILE
 CC := cc68x
 CCFLAGS := -g
 
-model_objects :=  rand.o model.o events.o tst_mod.o
-model_exe := tst_mod
+TARGET := tst_mod
+MODEL_OBJS :=  rand.o model.o events.o tst_mod.o
 
-model_tests : $(model_objects)
-	$(CC) $(CCFLAGS) $^ -o $(model_exe)
+$(TARGET) : $(MODEL_OBJS)
+	$(CC) $(CCFLAGS) $^ -o $(TARGET)
 	
 %.o : %.c
 	$(CC) $(CCFLAGS) -c %<
-#model
 
 

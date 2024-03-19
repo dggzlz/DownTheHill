@@ -1,36 +1,35 @@
-tst_rend.o: tst_rend.c renderer.h 
-	cc68x -g -c tst_rend.c
-
-raster.o: raster.c raster.h
-	cc68x -g -c raster.c
-
-rast_asm.o: rast_asm.s
-	gen -D -L2 rast_asm.s
-
-model.o: model.c model.h
-	cc68x -g -c model.c
-
-events.o: events.c events.h
-	cc68x -g -c events.c
-
-renderer.o: renderer.c renderer.h
-	cc68x -g -c renderer.c
-
-tst_rend: tst_rend.o raster.o rast_asm.o renderer.o model.o events.o
-	cc68x -g tst_rend.o raster.o rast_asm.o renderer.o model.o events.o -o tst_rend
+#RENDER_MAKEFILE
 
 CC := cc68x
 CCFLAGS := -g
 ASLFLAGS := gen -D -L2
 
-model_objects :=  tst_rend.o raster.o rast_asm.o render.o model.o events.o
-model_exe := tst_rend
+# Define directories
+SRC_DIRS := ../stage2 ../stage3
+OBJ_DIR := dth
 
-raster_tests : $(model_objects)
-	$(CC) $(CCFLAGS) $^ -o $(model_exe)
-	
-%.o : %.c
-	$(CC) $(CCFLAGS) -c %<
-#render
+# Collect source files from all source directories
+SRC_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 
+# Generate list of object files
+OBJ_FILES := $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRC_FILES)))
 
+# Target executable
+RENDER_EXE := tst_rend
+
+# Rule to compile object files from source files
+$(OBJ_DIR)/%.o: $(SRC_DIRS)/%.c
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+# Rule to build the executable
+$(RENDER_EXE): $(OBJ_FILES)
+	$(CC) $(CCFLAGS) $^ -o 
+
+# Ensure OBJ_DIR exists before compiling object files
+$(OBJ_FILES): | $(OBJ_DIR)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+# Default target
+all: $(RENDER_EXE)

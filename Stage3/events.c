@@ -64,27 +64,31 @@ void moveTree(Tree *tree){
 } 
 
 /*****CONDITION-BASED EVENTS*****/
+bool checkColEdge(Snowboarder *player){
+    bool isCollision = false;
+
+    if (player->x == 0 || (player->x + 64) == 639)
+        isCollision = true;
+
+    return isCollision;
+}
+
 bool checkCollisionObs(Snowboarder *player, Tree *tree)
 {
     bool isCollision = true;
 
     BoundingBox playerBox;
     BoundingBox treeBox;
+
     playerBox.maxX = player->x + 64;
     playerBox.minX = player->x;
     playerBox.maxY = player->y + 64;
-    playerBox.minX = player->y;
+    playerBox.minY = player->y;
     
     treeBox.maxX = tree->x + 64; 
     treeBox.minX = tree->x;
     treeBox.maxY = tree->y + 64;
     treeBox.minY = tree->y;
-
-
-    /*check if player has collided with the vertical edges*/
-    if (playerBox.minX != 0 && playerBox.maxX != 639){
-        isCollision = false;
-    }
 
     /* Check if player and tree are intersecting along x-axis */
     if (playerBox.maxX < treeBox.minX || playerBox.minX > treeBox.maxX) {
@@ -106,17 +110,17 @@ bool checkCollisionSkier(Snowboarder *player, NPCskier *skier){
 
     BoundingBox playerBox;
     BoundingBox skierBox;
+
     playerBox.maxX = player->x + 64;
     playerBox.minX = player->x;
     playerBox.maxY = player->y + 64;
-    playerBox.minX = player->y;
+    playerBox.minY = player->y;
     
     skierBox.maxX = skier->x + 64; 
     skierBox.minX = skier->x;
     skierBox.maxY = skier->y + 64;
     skierBox.minY = skier->y;
 
-    
     /* Check if player and skier are intersecting along x-axis */
     if (playerBox.maxX < skierBox.minX || playerBox.minX > skierBox.maxX) {
         isCollision = false; /* No collision*/

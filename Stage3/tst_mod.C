@@ -8,6 +8,7 @@ int main() {
     /*Initialize game model*/
     Model model;
     bool isCollision;
+    int i;
 
     printf("Starting test program...\nClick enter to continue\n");
     getchar(); 
@@ -180,13 +181,33 @@ int main() {
     printf("press enter to continue.\n");
     getchar();
 
-    printf("provoking a collision...\n");
-    model.snowboarder.x = 20;
-    model.skiers[0].x = 50;
-    model.snowboarder.y = 50;
-    model.skiers[0].y = 55;
+    printf("checking collision with edges\n");
+    
+    model.snowboarder.x = 0;
+    printf("collision with left edge.\n");
+    if (checkColEdge(&(model.snowboarder))){
+        printf("Collision detected!\n");
+    }
+    else{
+        printf("no collision!\n");
+    }
 
-    if (checkCollisionObs(&(model.snowboarder), &(model.trees[0]))){
+    printf("collision with right edge.\n");
+    model.snowboarder.x = 575;
+    if (checkColEdge(&(model.snowboarder))){
+        printf("Collision detected!\n");
+    }
+    else{
+        printf("no collision!\n");
+    }
+
+    printf("provoking a collision...\n");
+    model.snowboarder.x = 128;
+    model.skiers[0].x = 128;
+    model.snowboarder.y = 200;
+    model.skiers[0].y = 180;
+
+    if (checkCollisionSkier(&(model.snowboarder), &(model.skiers[0]))){
         printf("Collision detected!\n");
     }
     else{
