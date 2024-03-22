@@ -42,7 +42,7 @@ void moveSkier(NPCskier *skier)
 }
 
 /*Tree events*/
-void spawnTree(Tree *tree)
+void spawnTree(Tree *tree, int yInit)
 {
     int newPosition = rand() % 10;
 
@@ -50,7 +50,7 @@ void spawnTree(Tree *tree)
         newPosition = rand() % 10;
 
     tree->x = newPosition * 64;
-    tree->y = 399;
+    tree->y = yInit;
     tree->upwardSpeed = -5;
 }
 
@@ -60,6 +60,14 @@ void moveTree(Tree *tree)
 } 
 
 /*****CONDITION-BASED EVENTS*****/
+
+void resetTree(Tree *tree) /*need to implement properly*/
+{
+    if(tree->y == -64)
+    tree->y = 400;
+    tree->x = ((tree->x + 64) % 640); /*random ass value to just change x temporary*/
+} 
+
 bool checkColEdge(Snowboarder *player)
 {
     bool isCollision = false;

@@ -18,11 +18,14 @@ void spawnSkier(NPCskier *skier);
 void moveSkier(NPCskier *skier);
 
 /*Tree events*/
-void spawnTree(Tree *tree);
+void spawnTree(Tree *tree, int initialYpos);
 
 void moveTree(Tree *tree);
 
 /*****CONDITION-BASED EVENTS*****/
+
+
+void resetTree(Tree *tree); /*to be implemented*/
 
 /*Collisions*/
 bool checkColEdge(Snowboarder *player);

@@ -63,10 +63,20 @@ void newCounter(SkierCounter *counter)
 /*SET INITIAL MODEL*/
 void setModel(Model *model)
 {
+    int yInitPositions[6] = {400, 400, 544, 544, 688, 688}; /*making use of virtual screen*/
+    int i;
     snowboarderSet(&(model->snowboarder));
     newScore(&(model->score));
     newLife(&(model->hearts));
     newCounter(&(model->skierCounter));
+
+    /*chatgpt helped me with this*/
+    for(i = 0; i < 6; i++)
+    {
+        spawnTree(&(model->trees[i]), yInitPositions[i]);
+    }
+
+
 }
 
 

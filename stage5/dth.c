@@ -14,6 +14,7 @@ int main(){
     UINT32 timeThen = 0, timeNow, timeElapsed;
     UINT32 *base = Physbase();
     char key = input();
+    int i;
     Model model;
     
     timeNow = getTime();
@@ -36,14 +37,15 @@ int main(){
         timeNow = getTime();
         timeElapsed = timeNow - timeThen;
 
-        if (timeElapsed > 7){
-            /*PUT SYNCHRONUIS EVENTS I.E TREES AND SKIERS*/
-            spawnTree(&(model.trees[0]));
-            spawnSkier(&(model.skiers[0]));
+  
+
+        if (timeElapsed > 1){
             
-            moveSkier(&(model.skiers[0]));
-            moveTree(&(model.trees[0]));
-            
+            for(i = 0; i < 6; i++)
+            {
+                moveTree(&(model.trees[i]));
+            }
+
             clearScreen(base);
             renderModel(&(model), base);
 
@@ -54,7 +56,6 @@ int main(){
     }
     return 0;
 }
-
 
 long getTime()
 {
