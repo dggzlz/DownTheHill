@@ -6,13 +6,21 @@
 #include "events.h"
 #include <osbind.h>
 #include <stdio.h>
+ 
+ UINT8 newScreen[32256]; 
 
 
 long getTime();
 
+UINT8* findEvenAddress(UINT8 newScreen[]);
+
 int main(){
 
+    
+
     UINT32 timeThen, timeNow, timeElapsed;
+      UINT8* base2 = findEvenAddress(newScreen);
+    UINT8 *frameBuff2 = setScreen(-1, base2, -1); /*need to use vertical sync*/
     UINT32 *base = Physbase();
     char key; 
     int i;
@@ -21,14 +29,22 @@ int main(){
     
     timeNow = getTime();
     timeThen = timeNow;
+   
 
     setModel(&(model));
     
     /*renderModel(&(model), base);*/
+
+   
+
+
+
+    printf("newscreen is at %p \n", base2);
+    printf("FB is at %p \n", frameBuff2);
     
     timeElapsed = timeNow - timeThen;
     
-    
+    /*
     while (!quit)
     {  
         if (hasInput())
@@ -87,7 +103,7 @@ int main(){
             skierCol = false;
         }  
       
-    }
+    }*/
     return 0;
 }
 
@@ -102,4 +118,21 @@ long getTime()
     Super(oldssp);
 
     return timeNow;    
+}
+
+
+UINT8* findEvenAddress(UINT8 array[])
+{
+    int i;
+    UINT8* base2;
+    for(i = 0; i < 32256; i++)
+    {
+        printf("array is %p\n", &array[i]);
+        if( ( (UINT32) &array[i] ) % 256 == 0)
+        {
+        base2 = &array[i];
+        return base2;
+        }
+    }
+    return 0;
 }

@@ -93,6 +93,34 @@ bool checkColEdge(Snowboarder *player)
 
 bool checkCollisionObs(Snowboarder *player, Tree *tree)
 {
+    bool isCollision = false;
+
+    BoundingBox playerBox;
+    BoundingBox treeBox;
+
+    playerBox.maxX = player->x + 64;
+    playerBox.minX = player->x;
+    playerBox.maxY = player->y + 64;
+    playerBox.minY = player->y;
+    
+    treeBox.maxX = tree->x + 64; 
+    treeBox.minX = tree->x;
+    treeBox.maxY = tree->y + 64;
+    treeBox.minY = tree->y;
+
+
+
+    if (playerBox.maxX < treeBox.minX || playerBox.minX > treeBox.maxX) {
+        isCollision = false;
+
+    
+    if (playerBox.maxY < treeBox.minY || playerBox.minY > treeBox.maxY) {
+        isCollision = false; 
+    }
+
+
+
+    /*
     bool isCollision = true;
 
     BoundingBox playerBox;
@@ -108,18 +136,19 @@ bool checkCollisionObs(Snowboarder *player, Tree *tree)
     treeBox.maxY = tree->y + 64;
     treeBox.minY = tree->y;
 
-    /* Check if player and tree are intersecting along x-axis */
+    /* Check if player and tree are intersecting along x-axis 
     if (playerBox.maxX < treeBox.minX || playerBox.minX > treeBox.maxX) {
         isCollision = false; /* No collision*/
     }
 
-    /* Check if player and tree are intersecting along y-axis */
+    /* Check if player and tree are intersecting along y-axis 
     if (playerBox.maxY < treeBox.minY || playerBox.minY > treeBox.maxY) {
         isCollision = false; /*No collision*/
     }
 
-    /* If both x-axis and y-axis overlap, boxes are colliding*/
+    /* If both x-axis and y-axis overlap, boxes are colliding
     return isCollision; 
+    */
 }
 
 bool checkCollisionSkier(Snowboarder *player, NPCskier *skier){
