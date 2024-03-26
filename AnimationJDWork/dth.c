@@ -17,6 +17,7 @@ int main(){
     char key; 
     int i;
     Model model;
+    bool treeCol = false, skierCol = false, quit = false;
     
     timeNow = getTime();
     timeThen = timeNow;
@@ -27,12 +28,17 @@ int main(){
     
     timeElapsed = timeNow - timeThen;
     
-    key = input();
-    while (key != ESC)
+    
+    while (!quit)
     {  
-      /*  if (hasInput())
-        { */
-            if (key == LEFT_ARROW)
+        if (hasInput())
+        {
+            key = input();
+            if (key == ESC)
+            {
+                quit = true;
+            } 
+            else if (key == LEFT_ARROW)
             {
                 model.snowboarder.posture = 'l';
                 moveRequest(&(model.snowboarder), -5);
@@ -42,28 +48,45 @@ int main(){
                 model.snowboarder.posture = 'r';
                 moveRequest(&(model.snowboarder), 5);
             }
-        /*}*/
+        }
+
+
         timeNow = getTime();
         timeElapsed = timeNow - timeThen;
 
-        if (timeElapsed > 1){
+        if (timeElapsed > 3){
             
-            for(i = 0; i < 6; i++)
+            for(i = 0; i < numOfTrees; i++)
             {
                 moveTree(&(model.trees[i]));
+
+                if (checkCollisionObs(&(model.snowboarder), &(model.trees[i])))
+                    treeCol = true;
             }
+
+            for(i = 0; i < numOfSkiers; i++)
+            {
+                moveSkier(&(model.skiers[i]));
+
+                if (checkCollisionSkier(&(model.snowboarder), &(model.skiers[i])))
+                    skierCol = true;
+            }
+
+            if (checkColEdge(&(model.snowboarder)) || treeCol)
+                collisionObs(&(model.hearts), &(model.snowboarder));
+            
+            if (skierCol)
+                collisionSkier(&(model.score), &(model.skierCounter));
 
             clearScreen(base);
             renderModel(&(model), base);
 
-            /*checkcollisions*/
-            if(checkColEdge(&(model.snowboarder)) == true)
-            collisionObs(&(model.hearts), &(model.snowboarder));
-
+           
             timeThen = timeNow;
+            treeCol = false;
+            skierCol = false;
         }  
-    
-        key = input();      
+      
     }
     return 0;
 }

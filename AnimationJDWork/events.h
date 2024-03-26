@@ -13,7 +13,7 @@ void quit(long sysCall);
 /****SYNCHRONOUS TIMED EVENTS*****/
 
 /*Skier events*/
-void spawnSkier(NPCskier *skier);
+void spawnSkier(NPCskier *skier, int yInit);
 
 void moveSkier(NPCskier *skier);
 
@@ -26,6 +26,7 @@ void moveTree(Tree *tree);
 
 
 void resetTree(Tree *tree); /*to be implemented*/
+void resetSkier(NPCskier *skier);
 
 /*Collisions*/
 bool checkColEdge(Snowboarder *player);

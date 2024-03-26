@@ -8,15 +8,21 @@
 #include <stdio.h>
 #include "types.h"
 
+#define left_edge 0
+#define right_edge 639
+#define upper_edge 0
+#define bottom_edge 399
+#define height 128
+
 
 
 void renderPlayer(Snowboarder* player, UINT32 *base)
 {
-    if (player->x >= 1 && player->x <= 575){
+    if (player->x >= 0 && player->x <= 575){
         if (player->posture == 'r')
-            plotBitmap64(base, player->x, 100, RightSnowBoarder, 128);
+            plotBitmap64(base, player->x, 100, RightSnowBoarder, height);
         else if (player->posture == 'l')
-            plotBitmap64(base, player->x, 100, LeftSnowBoarder, 128);
+            plotBitmap64(base, player->x, 100, LeftSnowBoarder, height);
     }
 }
 
@@ -24,19 +30,22 @@ void renderFakePlayer(UINT32 *base) /*object for 5 second invincibility*/
 {
     int x = 320;
     int y = 100;
-    plotBitmap64(base, x, y, RightSnowBoarder, 128);
+    plotBitmap64(base, x, y, RightSnowBoarder, height);
 }
 
 void renderSkier(NPCskier *skier, UINT32 *base)
-{
-    plotBitmap64(base, skier->x, skier->y, skierBM, 128);
+{   
+    if (skier->x >= left_edge && skier->x <= (right_edge - 64) 
+            && skier->y >= upper_edge && skier->y <= (bottom_edge - 64))
+        plotBitmap64(base, skier->x, skier->y, skierBM, height);
 }
 
 
 void renderTree(Tree *tree, UINT32 *base)
 {
-    if(tree->x >= 0 && tree->x <= 576 && tree->y >= 0 && tree->y <=336)
-    plotBitmap64(base, tree->x, tree->y, treeBM, 128);
+    if (tree->x >= left_edge && tree->x <= (right_edge - 64) 
+            && tree->y >= upper_edge && tree->y <= (bottom_edge - 64))
+        plotBitmap64(base, tree->x, tree->y, treeBM, height);
 }
 
 void renderLives(Lives *lives, UINT32 *base)
@@ -63,10 +72,9 @@ void renderModel(const Model *model, UINT32 *base)
     for(i = 0; i < numOfTrees; i++)
         renderTree(&model->trees[i], base);
     
-    /*
     for(i = 0; i < numOfSkiers; i++)
         renderSkier(&model->skiers[i], base);
-    */
+    
     renderLives(&model->hearts,base);
   /*  renderSkierHitCount(model->newCounter,base);*/
 }

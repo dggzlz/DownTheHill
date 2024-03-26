@@ -24,7 +24,8 @@
  * 
  */
 
-void snowboarderSet(Snowboarder *player){
+void snowboarderSet(Snowboarder *player)
+{
     player->x = 320;
     player->y = 200; 
     player->deltaX = 0;
@@ -71,11 +72,14 @@ void setModel(Model *model)
     newCounter(&(model->skierCounter));
 
     /*chatgpt helped me with this*/
-    for(i = 0; i < 6; i++)
+    for(i = 0; i < numOfTrees; i++)
     {
         spawnTree(&(model->trees[i]), yInitPositions[i]);
     }
-
+    for(i = 0; i < numOfSkiers; i++)
+    {
+        spawnSkier(&(model->skiers[i]), yInitPositions[i]);
+    }
 
 }
 

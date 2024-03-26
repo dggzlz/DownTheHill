@@ -1,5 +1,6 @@
 #include "input.h"
 #include "bool.h"
+#include <stdio.h>
 #include <osbind.h>
 
 
@@ -8,7 +9,7 @@
 char input()
 {
     char input = (char) Cnecin();
-
+    
     return input;  
 }
 

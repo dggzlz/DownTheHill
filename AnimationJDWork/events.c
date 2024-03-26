@@ -3,6 +3,7 @@
 #include "bool.h"
 #include <osbind.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 
@@ -23,21 +24,25 @@ void quit(long sysCall){
 /****SYNCHRONOUS TIMED EVENTS*****/
 
 /*Skier events*/
-void spawnSkier(NPCskier *skier){
+void spawnSkier(NPCskier *skier, int yInit)
+{
     int newPosition = rand() % 10;
 
     while (newPosition == 0 || newPosition == 10)
         newPosition = rand() % 10;
 
     skier->x = newPosition * 64;
-    skier->y = 399;
+    skier->y = yInit;
     skier->deltaX = 0;
-    skier->deltaY = 0;
+    skier->deltaY = -2;
 }
 
 void moveSkier(NPCskier *skier)
 { 
-    skier->y += (skier->deltaY = -2);
+    skier->y += skier->deltaY;
+
+    if (skier->y <= -64)
+        resetSkier(skier);
 }
 
 /*Tree events*/
@@ -57,8 +62,9 @@ void spawnTree(Tree *tree, int yInit)
 void moveTree(Tree *tree)
 {
     tree->y += tree->upwardSpeed;
+    
     if(tree->y <= -64)
-    resetTree(tree);
+        resetTree(tree);
 } 
 
 /*****CONDITION-BASED EVENTS*****/
@@ -66,8 +72,14 @@ void moveTree(Tree *tree)
 void resetTree(Tree *tree) /*need to implement properly*/
 {
     tree->y = 400;
-    tree->x = rand() % (640 - 64); /*((tree->x + 64) % 640); random ass value to just change x temporary*/
+    tree->x = (rand() % 10) * 64; /*((tree->x + 64) % 640); random ass value to just change x temporary*/
 } 
+
+void resetSkier(NPCskier *skier)
+{
+    skier->y = 400;
+    skier->x = (rand() % 10) * 64;
+}
 
 bool checkColEdge(Snowboarder *player)
 {
@@ -141,19 +153,22 @@ bool checkCollisionSkier(Snowboarder *player, NPCskier *skier){
 }
 
 /*Collisions*/
-void collisionObs(Lives *lives, Snowboarder *player){
+void collisionObs(Lives *lives, Snowboarder *player)
+{
     decreaseLife(lives);
     resetPos(player);
 }/*Obstacle collision event triggered by the player hitting the obstacle*/
 
-void collisionSkier(ScoreCounter *score, SkierCounter *counter){
+void collisionSkier(ScoreCounter *score, SkierCounter *counter)
+{
     scoreUpdates(score);
     skierHitCountIncrease(counter);
 }
 
 /*position reset*/
 
-void decreaseLife(Lives *lives){
+void decreaseLife(Lives *lives)
+{
     lives->numLives += -1;
 
     if(lives->numLives == 0)
@@ -162,7 +177,8 @@ void decreaseLife(Lives *lives){
     }
 } 
 
-void resetPos(Snowboarder *player){
+void resetPos(Snowboarder *player)
+{
     player->x = 320;
 }
 
