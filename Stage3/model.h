@@ -16,9 +16,9 @@ typedef struct
 {
     int x;
     int y;
-    int deltaX;
     char posture;
-    /*int sidewaysSpeed; /*might have to be UINT32 unfortunatly*/
+    int vel;
+    unsigned long invulnerableTimer;
 
 } Snowboarder;
 
