@@ -18,4 +18,9 @@ void plotBitmap32(UINT32 *base,
 void plotRect(UINT8 *base, int x, int y, int length, int width);
 extern void clearScreen(UINT32 *base);
 
+void plotBitmap16(UINT16 *base, 
+                    int x, int y,
+                    const UINT32 *bitmap,
+                    unsigned int height);
+
 #endif

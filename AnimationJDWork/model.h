@@ -41,6 +41,7 @@ typedef struct
 {
 	int scorePlayer;	/*score of the player*/
 	int x, y;	/*coordinates for the score bitmap*/
+    
 } ScoreCounter; 
 
 

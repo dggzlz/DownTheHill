@@ -261,6 +261,36 @@ void plotBitmap32(UINT32 *base,
 }
 
 
+
+
+
+
+
+
+
+
+
+
+void plotBitmap16(UINT16 *base, 
+                    int x, int y,
+                    const UINT32 *bitmap,
+                    unsigned int height)
+{	
+	int i = 0;
+        int offset = (y * 40 + (x >> 4));
+
+        if(x >= 0 && x < screenWidth && y >= 0 && y < screenHeight)
+    {
+	while (i < 16)
+        {
+                *(base + offset) = bitmap[i];
+                offset += 40;
+                i+=1;
+	}
+    }
+}
+
+
 /***plotting a square or rectangle***/
 /*
 Name:
