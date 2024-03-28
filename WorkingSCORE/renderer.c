@@ -1,7 +1,7 @@
 /*void render(const Model *model, UINT32 *base32) counter is 16pixels*/
 #include "model.h"
 #include "events.h"
-#include "RASTER.H"
+#include "raster.h"
 #include "renderer.h"
 #include "bitmaps.h"
 #include <osbind.h>
@@ -55,26 +55,26 @@ void renderSkier(NPCskier *skier, UINT32 *base)
 
 void renderTree(Tree *tree, UINT32 *base)
 {
-    if (tree->x >= left_edge && tree->x <= (right_edge - 64) 
-            && tree->y >= upper_edge && tree->y <= (bottom_edge - 64))
+    if (tree->x >= left_edge && tree->x <= (right_edge - 64) && tree->y >= upper_edge && tree->y <= (bottom_edge - 64))
         plotBitmap64(base, tree->x, tree->y, treeBM, height);
 }
 
-void renderScore(scoreCounter *score, UINT32 *base32)
+
+
+void renderScore(ScoreCounter *score, UINT32 *base)
 {
  
-
         int playerScore = score->scorePlayer;
         int startX = 0;
         int startY = 0;
         int digitSpace = 16;
-        int placeValue = 1000000; // Adjust based on the maximum expected score
+        int placeValue = 1000000; 
         int xPos = startX;
         bool leadingZeros = true;
 
         if(playerScore == 0)
         {
-                plotBitmap16(base, startX, startY, numBitmaps[0], 16);
+                plotBitmap16((UINT16*)base, startX, startY, numBitmaps[0], 16);
                 return;
         }
 
@@ -85,8 +85,8 @@ void renderScore(scoreCounter *score, UINT32 *base32)
                 if(digit != 0 || !leadingZeros || placeValue == 1)
                 {
                         leadingZeros = false;
-                        plotBitmap16(base, xPos, startY, numBitmaps[digit], 16);
-                        xPos += digitSpacing;
+                        plotBitmap16((UINT16*)base, xPos, startY, numBitmaps[digit], 16);
+                        xPos += digitSpace;
                 }
 
                 placeValue /= 10;
@@ -123,7 +123,7 @@ void renderModel(const Model *model, UINT32 *base)
         renderSkier(&model->skiers[i], base);
     
     renderLives(&model->hearts,base);
-    renderScore(model->score,base32);
+    renderScore(&model->score,base);
   /*  renderSkierHitCount(model->newCounter,base);*/
 }
 

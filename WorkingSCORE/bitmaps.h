@@ -626,10 +626,9 @@ UINT16 numNine[16] =
 	0x0003
 };
 
-UINT16 numBitmaps[10] =
+UINT16* numBitmaps[10] =
 {
-    numZero,
-    numOne, numTwo, numThree, numFour, numFive,
+    numZero, numOne, numTwo, numThree, numFour, numFive,
     numSix, numSeven, numEight, numNine
 };
 
