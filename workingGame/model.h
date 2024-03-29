@@ -16,8 +16,8 @@ typedef struct
 {
     int x;
     int y;
-    char posture;
     int vel;
+    char posture;
     unsigned long invulnerableTimer;
 
 } Snowboarder;

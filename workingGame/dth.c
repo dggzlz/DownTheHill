@@ -1,3 +1,6 @@
+#include "music.h"
+#include "effects.h"
+#include "psg.h"
 #include "input.h"
 #include "renderer.h"
 #include "types.h"
@@ -16,11 +19,10 @@ UINT8* findEvenAddress(UINT8 newScreen[]);
 
 int main(){
 
-    
 
     UINT32 timeThen, timeNow, timeElapsed, lastUpdateTime;
      /* UINT8* base2 = findEvenAddress(newScreen);
-   UINT8 *frameBuff2 = setScreen(-1, base2, -1); /*need to use vertical sync*/
+    UINT8 *frameBuff2 = setScreen(-1, base2, -1); /*need to use vertical sync*/
     UINT32 *base = Physbase();
     char key; 
     int i;
@@ -31,10 +33,8 @@ int main(){
     timeThen = timeNow;
     lastUpdateTime = timeNow;
 
-   
-
     setModel(&(model));
-    
+    startMusic('r');
     /*renderModel(&(model), base);*/
 
    
@@ -104,12 +104,14 @@ int main(){
 
             clearScreen(base);
             renderModel(&(model), base);
-
+            updateMusic(timeElapsed, 'r');
            
             timeThen = timeNow;
         }  
       
     }
+
+    stopSound();
     return 0;
 }
 

@@ -20,9 +20,9 @@
  */
 
 #include "psg.h"
-	volatile char *PsgRegSelect = 0xFF8800;
-	volatile char *PsgRegWrite  = 0xFF8802;
-        UINT8 mixerR7State = 0x3F;/*global variable for tracking state of register 7*/
+#include <osbind.h>
+
+UINT8 mixerR7State = 0x3F; /*global variable for tracking state of register 7*/
 
 /***Write To The PSG ***/
 /*
@@ -45,21 +45,28 @@ Details:
         If the register to be written to is register 7,
         it will update the global variable mixerR7State.
 Assumptions and Limitations:   
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.   
 */
 void writePsg(int reg, UINT8 val)
 {
+    volatile char *PsgRegSelect = 0xFF8800;
+    volatile char *PsgRegWrite  = 0xFF8802;
+    long old_ssp = Super(0);
+
     if(reg >=0 && reg <= 15)
     {
+        
         *PsgRegSelect = reg;
         *PsgRegWrite = val;
+        
         if(reg == 7)
         {
             mixerR7State = val;
         }
     }
+
+    Super(old_ssp);
 }
 
 /***Fine And Coarse Tune a Channel ***/
@@ -73,32 +80,33 @@ Purpose:
 Inputs: 
         int channel:
              An integer between 0 and 2 inclusive that
-             correseponds to channels A,B,C respectivly.
+             correseponds to channels A,B,C respectively.
         int tuning:
             A 12 bit value that corresponds to the 12 bits
             that determine the tone/pitch of a sound.    
 Outputs: 
         None
+
 Calculations:
         "channel * 2, tuning & 0xFF" This line accesses the
         fine tuning of a channel and masks the tuning value
         with 0xFF to remove the values of the coarse tune.
+
         "channel * 2 + 1, (tuning >> 8) & 0x0F" This line
         accesses the coarse tuning register and shifts the
         coarse tuning value to the right so that it removes
         the 8 bit fine tuning values.
 Assumptions and Limitations:
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.       
 */
 
 void setTone(int channel, int tuning)
 {
-    if(channel >= 0 && channel <= 2 && tuning >= 0 && tuning <= 0xFFF)
+    if((channel >= 0 && channel <= 2) && (tuning >= 0 && tuning <= 0xFFF))
     {
-    writePsg(channel * 2, tuning & 0xFF); /*8bit fine tuning*/
-    writePsg(channel * 2 + 1, (tuning >> 8) & 0x0F); /*4 bit coarse tune*/ 
+        writePsg(channel << 1, tuning & 0xFF); /*8bit fine tuning*/
+        writePsg((channel << 1) + 1, (tuning >> 8) & 0x0F); /*4 bit coarse tune*/ 
     }
 }
 
@@ -106,8 +114,10 @@ void setTone(int channel, int tuning)
 /*
 Name:
       setVolume  
+
 Purpose: Changes the level channel 
         for a corresponding channel. 
+
 Inputs: int channel:
              An integer between 0 and 2 inclusive that
              correseponds to channels A,B,C respectivly.
@@ -116,21 +126,23 @@ Inputs: int channel:
             to the volume level.
 Outputs: 
         None
+
 Calculations:
         Since the channels are 0,1,2 for A,B,C,
         this line "8 + channel, volume" offsets to 
         the level register for the respective channel.
+
 Assumptions and Limitations: 
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.       
 */
 
 void setVolume(int channel, int volume)
 {
-    if(channel >= 0 && channel <=2 && volume >= 0 && volume <=15)
-    writePsg(8 + channel, volume); /*level channels are 8,9,A*/
+    if(channel >= 0 && channel <=2 && volume >= 0 && volume <= 15)
+        writePsg(8 + channel, volume); /*level channels are 8,9,A*/
 }
+/****if i pass b0-3, 4th bit, on/off, sets the envelope*/
 
 /***Enable Or Disable a Channel***/
 /*
@@ -154,6 +166,7 @@ Inputs: int channel:
             noise channel is on or not.
 Outputs: 
         None
+        
 Calculations:
         In register 7 the tone corresponds to bits 0,1,2
         "mixer &= ~(1 << channel)" this line will shift one
@@ -163,9 +176,9 @@ Calculations:
         in place for the noise but since we want to shift between the 
         3rd,4th and 5th bit we shift 8 which corresponds to binary 
         00001000 thus ignoring the tone bits.  
+
 Assumptions and Limitations:      
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.  
 */
 
@@ -212,19 +225,18 @@ Inputs:
 Outputs: 
         None        
 Assumptions and Limitations: 
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.     
 */
 
 void stopSound()
 {
     int i = 0;
+
     writePsg(7, 0x3F);/*disables all the channels*/
-    for(i; i<=2; i++)
-    {
+    
+    for(i; i < 3; i++)
         setVolume(i, 0);
-    }
 }
 
 /***SET NOISE***/
@@ -239,16 +251,14 @@ Inputs:
 Outputs: 
         None        
 Assumptions and Limitations: 
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.     
 */
 
 void setNoise(int tuning)
 {
-    if (tuning >= 0 && tuning <= 0x1F) {
+    if (tuning >= 0 && tuning <= 0x1F)
         writePsg(6, tuning);
-    }
 }
 
 /***SET ENVELOPE***/
@@ -270,8 +280,7 @@ Inputs:
 Outputs: 
         None        
 Assumptions and Limitations: 
-        This function assumes that when it is called
-        the main program will have entered supervisor
+        This function assumes that when called, the caller will have entered supervisor
         mode.     
 */
 
@@ -280,9 +289,9 @@ void setEnvelope(int shape, unsigned int sustain)
     writePsg(11, sustain & 0xFF);/*get low 8 bits*/
     writePsg(12, (sustain >> 8) & 0xFF); /*get high 8 bits*/
 
-    if(shape >= 0 && shape <= 0xFF)
     /*LOAD SHAPE*/
-    writePsg(13, shape);
+    if(shape >= 0 && shape <= 0xFF)
+        writePsg(13, shape);
 }
 
 

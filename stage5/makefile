@@ -2,12 +2,15 @@
 CC := cc68x
 CCFLAGS := -g
 
-TARGET := tst_game
-GAME_OBJS :=  input.o dth.o
+TARGET := game
+GAME_OBJS := raster.o renderer.o model.o input.o events.o dth.o 
 
 $(TARGET) : $(GAME_OBJS)
 	$(CC) $(CCFLAGS) $^ -o $(TARGET)
-	
+
+rast_asm.o: rast_asm.s
+	gen -D -L2 rast_asm.s
+
 %.o : %.c
 	$(CC) $(CCFLAGS) -c %<
 

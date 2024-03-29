@@ -42,14 +42,14 @@ void spawnSkier(NPCskier *skier, int yInit)
     skier->x = newPosition * 64;
     skier->y = yInit;
     skier->deltaX = 0;
-    skier->deltaY = -5;
+    skier->deltaY = -2;
 }
 
 void moveSkier(NPCskier *skier)
 { 
     skier->y += skier->deltaY;
 
-    if (skier->y <= -64)
+    if (skier->y <= -5)
         resetSkier(skier);
 }
 
@@ -64,14 +64,14 @@ void spawnTree(Tree *tree, int yInit)
 
     tree->x = newPosition * 64;
     tree->y = yInit;
-    tree->upwardSpeed = -10;
+    tree->upwardSpeed = -3;
 }
 
 void moveTree(Tree *tree)
 {
     tree->y += tree->upwardSpeed;
     
-    if(tree->y <= -64)
+    if(tree->y <= -5)
         resetTree(tree);
 } 
 
@@ -123,9 +123,9 @@ bool checkCollisionObs(Snowboarder *player, Tree *tree)
     width = treeBox.maxY - treeBox.minY;
     length2 = playerBox.maxX - playerBox.minX;
     width2 = playerBox.maxY - playerBox.minY;
-    plotRect(base, treeBox.minX, treeBox.minY, length, width);
+    /*plotRect(base, treeBox.minX, treeBox.minY, length, width);
     plotRect(base, playerBox.minX, playerBox.minY, length2, width2 );
-
+*/
     if ((playerBox.maxY > treeBox.minY && playerBox.minY < treeBox.maxY)&&(playerBox.maxX > treeBox.minX && playerBox.minX < treeBox.maxX)) 
         isCollision = true;
 
@@ -157,9 +157,9 @@ bool checkCollisionSkier(Snowboarder *player, NPCskier *skier){
     width = skierBox.maxY - skierBox.minY;
     length2 = playerBox.maxX - playerBox.minX;
     width2 = playerBox.maxY - playerBox.minY;
-    plotRect(base, skierBox.minX, skierBox.minY, length, width);
+    /*plotRect(base, skierBox.minX, skierBox.minY, length, width);
     plotRect(base, playerBox.minX, playerBox.minY, length2, width2 );
-
+*/
     if ((playerBox.maxY > skierBox.minY && playerBox.minY < skierBox.maxY)
     &&(playerBox.maxX > skierBox.minX && playerBox.minX < skierBox.maxX)) 
         isCollision = true;

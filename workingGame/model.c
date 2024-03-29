@@ -28,8 +28,8 @@ void snowboarderSet(Snowboarder *player)
 {
     player->x = 320;
     player->y = 100; 
+    player->vel = 16;
     player->posture = 'r';
-    player->vel = 64;
     player->invulnerableTimer = 0;
 }
 
