@@ -26,6 +26,7 @@ typedef struct
 {
     int x, y;
     int deltaY; /*might have to be UINT32 unfortunatly*/
+    int pos;
 
 } NPCskier;
 

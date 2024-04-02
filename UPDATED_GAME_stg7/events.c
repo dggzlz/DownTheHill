@@ -45,12 +45,16 @@ void spawnSkier(NPCskier *skier, int yInit)
 
     skier->x = newPosition * 64;
     skier->y = yInit;
+    skier->pos = 1;
     skier->deltaY = -2;
 }
 
 void moveSkier(NPCskier *skier)
 { 
     skier->y += skier->deltaY;
+    
+    if(skier->pos == 1)
+        skier->pos = 0;
 
     if (skier->y <= 31)
         resetSkier(skier);

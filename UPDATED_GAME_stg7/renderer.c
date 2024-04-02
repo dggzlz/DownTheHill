@@ -49,7 +49,15 @@ void renderSkier(NPCskier *skier, UINT32 *base)
 {   
     if (skier->x >= left_edge && skier->x <= (right_edge - 64) 
             && skier->y >= upper_edge && skier->y <= (bottom_edge - 64))
-        plotBitmap64(base, skier->x, skier->y, skierBM, height);
+        {
+            if(skier->pos == 0)          
+                plotBitmap64(base, skier->x, skier->y, skierLeftBM, height);
+            else
+                plotBitmap64(base, skier->x, skier->y, skierRightBM, height);
+        }
+
+
+
 }
 
 
