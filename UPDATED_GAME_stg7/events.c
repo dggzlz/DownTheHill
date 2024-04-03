@@ -1,6 +1,8 @@
 #include "events.h"
+#include "RASTER.H"
 #include "model.h"
 #include "bool.h"
+#include "effects.h"
 #include <osbind.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,7 +10,6 @@
 
 
 /****ANSYNCHRONOUS EVENTS****/
-
 void moveRequest(Snowboarder *player, char ch)
 {
     int i = 0;
@@ -25,6 +26,19 @@ void moveRequest(Snowboarder *player, char ch)
     }
 
     player->x += player->vel * i; 
+
+
+    /*
+    if(checkCollisionObs(&(model.snowboarder), &(model.trees[i])))
+        collisionObs(&(model.hearts), &(model.snowboarder));
+
+    if (checkCollisionSkier(&(model.snowboarder), &(model.skiers[i])))
+        collisionSkier(&(model.score), &(model.skierCounter), &lastUpdateTime, timeNow);
+
+    if (checkColEdge(&(model.snowboarder)) || treeCol)
+                collisionObs(&(model.hearts), &(model.snowboarder));
+    */            
+                
 }
 
 void quit()
@@ -47,15 +61,27 @@ void spawnSkier(NPCskier *skier, int yInit)
     skier->y = yInit;
     skier->pos = 1;
     skier->deltaY = -2;
+    skier->timer = 0;
+    skier->toDraw = true;
 }
 
 void moveSkier(NPCskier *skier)
 { 
     skier->y += skier->deltaY;
     
-    if(skier->pos == 1)
-        skier->pos = 0;
+    if(getTime() >= skier->timer)
+    {
+        if (skier->pos == 1)
+        {
+            skier->pos = 0;
+        }else 
+        {
+            skier->pos = 1;
+        }
+         skier->timer = getTime() + 2 * 70;
+    }
 
+    
     if (skier->y <= 31)
         resetSkier(skier);
 }
@@ -93,13 +119,14 @@ void resetSkier(NPCskier *skier)
 {
     skier->y = 400;
     skier->x = (rand() % 10) * 64;
+    skier->toDraw = true;
 }
 
 bool checkColEdge(Snowboarder *player)
 {
     bool isCollision = false;
 
-    if (player->x < 0 || (player->x + 64) > 640)
+    if (player->x < left_edge || (player->x + 64) > right_edge)
         isCollision = true;
 
     return isCollision;
@@ -108,10 +135,8 @@ bool checkColEdge(Snowboarder *player)
 bool checkCollisionObs(Snowboarder *player, Tree *tree)
 {
     
-    int length, width, length2, width2;
     BoundingBox playerBox;
     BoundingBox treeBox;
-    unsigned char *base = Physbase();
     bool isCollision = false;
 
     playerBox.maxX = player->x + 64;
@@ -124,14 +149,6 @@ bool checkCollisionObs(Snowboarder *player, Tree *tree)
     treeBox.maxY = tree->y + 64;
     treeBox.minY = tree->y;
 
-/*for visual tests*/
-    length = treeBox.maxX - treeBox.minX;
-    width = treeBox.maxY - treeBox.minY;
-    length2 = playerBox.maxX - playerBox.minX;
-    width2 = playerBox.maxY - playerBox.minY;
-    /*plotRect(base, treeBox.minX, treeBox.minY, length, width);
-    plotRect(base, playerBox.minX, playerBox.minY, length2, width2 );
-*/
     if ((playerBox.maxY > treeBox.minY && playerBox.minY < treeBox.maxY)&&(playerBox.maxX > treeBox.minX && playerBox.minX < treeBox.maxX)) 
         isCollision = true;
 
@@ -139,39 +156,64 @@ bool checkCollisionObs(Snowboarder *player, Tree *tree)
     
 }
 
-bool checkCollisionSkier(Snowboarder *player, NPCskier *skier){
-
-
-    int length, width, length2, width2;
+bool checkCollisionSkier(Snowboarder *player, NPCskier *skier)
+{
     BoundingBox playerBox;
     BoundingBox skierBox;
-    unsigned char *base = Physbase();
     bool isCollision = false;
 
-    playerBox.maxX = player->x + 64;
-    playerBox.minX = player->x;
-    playerBox.maxY = player->y + 64;
-    playerBox.minY = player->y;
-    
-    skierBox.maxX = skier->x + 64; 
-    skierBox.minX = skier->x;
-    skierBox.maxY = skier->y + 64;
-    skierBox.minY = skier->y;
+    if (skier->toDraw)
+    {
+        playerBox.maxX = player->x + 64;
+        playerBox.minX = player->x;
+        playerBox.maxY = player->y + 64;
+        playerBox.minY = player->y;
+        
+        skierBox.maxX = skier->x + 64; 
+        skierBox.minX = skier->x;
+        skierBox.maxY = skier->y + 64;
+        skierBox.minY = skier->y;
 
-/*for visual tests*/
-    length = skierBox.maxX - skierBox.minX;
-    width = skierBox.maxY - skierBox.minY;
-    length2 = playerBox.maxX - playerBox.minX;
-    width2 = playerBox.maxY - playerBox.minY;
-    /*plotRect(base, skierBox.minX, skierBox.minY, length, width);
-    plotRect(base, playerBox.minX, playerBox.minY, length2, width2 );
-*/
-    if ((playerBox.maxY > skierBox.minY && playerBox.minY < skierBox.maxY)
-    &&(playerBox.maxX > skierBox.minX && playerBox.minX < skierBox.maxX)) 
-        isCollision = true;
-
+        if ((playerBox.maxY > skierBox.minY && playerBox.minY < skierBox.maxY)
+            &&(playerBox.maxX > skierBox.minX && playerBox.minX < skierBox.maxX)) 
+        {    
+            isCollision = true;
+            skier->toDraw = false;
+        }
+    }
     return isCollision; 
 }
+
+/*
+bool checkColSkierNTree(Tree *tree, NPCskier *skier)
+{
+    BoundingBox treeBox;
+    BoundingBox skierBox;
+    bool isCollision = false;
+
+    if (skier->toDraw)
+    {
+        treeBox.maxX = tree->x + 64;
+        treeBox.minX = tree->x;
+        treeBox.maxY = tree->y + 64;
+        treeBox.minY = tree->y;
+        
+        skierBox.maxX = skier->x + 64; 
+        skierBox.minX = skier->x;
+        skierBox.maxY = skier->y + 64;
+        skierBox.minY = skier->y;
+
+        if ((treeBox.maxY > skierBox.minY && treeBox.minY < skierBox.maxY)
+            &&(treeBox.maxX > skierBox.minX && treeBox.minX < skierBox.maxX)) 
+        {    
+            isCollision = true;
+            skier->toDraw = false;
+        }
+    }
+    return isCollision; 
+}
+*/
+
 
 /*Collisions*/
 void collisionObs(Lives *lives, Snowboarder *player)
@@ -181,6 +223,8 @@ void collisionObs(Lives *lives, Snowboarder *player)
         decreaseLife(lives);
         resetPos(player);
         player->invulnerableTimer = getTime() + 5 * 70;
+        player->counter = 0;
+
     }
 
 }/*Obstacle collision event triggered by the player hitting the obstacle*/
@@ -189,6 +233,8 @@ void collisionSkier(ScoreCounter *score, SkierCounter *counter,
                      UINT32 *lastUpdateTime, UINT32 timeCurr)
 {
     scoreUpdates(score, lastUpdateTime, timeCurr, true);
+    playSkierDeath();
+    /*scoreUpdates(score,  true); */
     counter->hitCounter += 1;
 }
 
@@ -206,30 +252,41 @@ void decreaseLife(Lives *lives)
 
 void resetPos(Snowboarder *player)
 {
-    player->x = 320;
+    player->x = 288;
 }
 
 /*Skier Collision*/
 
+/*void scoreUpdates(ScoreCounter *playerScore, bool skierHit)*/
 void scoreUpdates(ScoreCounter *playerScore, UINT32 *lastUpdateTime,
                      UINT32 timeCurr, bool skierHit)
-{
-   
+{   
+    /*if (playerScore->counter >= 3*70)
+    {
+        playerScore->scorePlayer += 10;
+        playerScore->counter = 0;
+    }
+   printf("last updated time: %lu\n", lastUpdateTime);*/
    if(timeCurr - *lastUpdateTime >= 70 * 3) 
    {
     playerScore->scorePlayer += 10;
     *lastUpdateTime = timeCurr;
-   /* printf("Score Updated: %d\n", playerScore->scorePlayer);*/
+   /*printf("Score Updated: %d\n", playerScore->scorePlayer);*/
    }
-    if(skierHit == true)
+    if(skierHit)
     {
-    playerScore->scorePlayer += 30;
+        playerScore->scorePlayer += 30;
    /* printf("SkierHit,Score Updated: %d\n", playerScore->scorePlayer);*/
     }
 
 }
 
 /*Game ends*/
-void gameOver(){
+void gameOver(bool isOver)
+{
+    if (isOver)
+    {
+
+    }
     /*code to end the game*/
 }

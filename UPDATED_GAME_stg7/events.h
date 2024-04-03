@@ -5,11 +5,14 @@
 #include "bool.h"
 #include "types.h"
 
-
+#define left_edge 0
+#define right_edge 640
+#define upper_edge 0
+#define bottom_edge 400
 /****ANSYNCHRONOUS EVENTS****/
 
 void moveRequest(Snowboarder *player, char x);
-void quit(long sysCall);
+void quit();
 
 /****SYNCHRONOUS TIMED EVENTS*****/
 
@@ -33,20 +36,23 @@ void resetSkier(NPCskier *skier);
 bool checkColEdge(Snowboarder *player);
 bool checkCollisionObs(Snowboarder *player, Tree *tree);
 bool checkCollisionSkier(Snowboarder *player, NPCskier *skier);
-
+/*bool checkColSkierNTree(Tree *tree, NPCskier *skier);
+*/
 void collisionObs(Lives *lives, Snowboarder *player);
 void collisionSkier(ScoreCounter *score, SkierCounter *counter, 
                     UINT32 *lastUpdateTime, UINT32 timeCurr);
+
 
 /*position reset*/
 void decreaseLife(Lives *lives);
 void resetPos(Snowboarder *player);
 
 /*Skier Collision*/
+/*void scoreUpdates(ScoreCounter *playerScore, bool skierHit);*/
 void scoreUpdates(ScoreCounter *playerScore, UINT32 *lastUpdateTime,
                      UINT32 timeCurr, bool skierHit);
 
 /*Game ends*/
-void gameOver();
+void gameOver(bool isOver);
 
 #endif

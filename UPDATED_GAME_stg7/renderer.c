@@ -4,15 +4,14 @@
 #include "raster.h"
 #include "renderer.h"
 #include "bitmaps.h"
+
 #include <osbind.h>
 #include <stdio.h>
 #include "types.h"
 
-#define left_edge 0
-#define right_edge 640
-#define upper_edge 0
-#define bottom_edge 400
+
 #define height 128
+#define splashHeight 8000
 
 
 
@@ -29,15 +28,15 @@ void renderPlayer(Snowboarder* player, UINT32 *base)
     
     if((getTime() <= player->invulnerableTimer))
     {
-    renderFakePlayer(base);
+        renderAngel(base);
     }
 
 
 }
 
-void renderFakePlayer(UINT32 *base) /*object for 5 second invincibility*/
+void renderAngel(UINT32 *base) /*object for 5 second invincibility*/
 {
-    int x = 320;
+    int x = 288;
     int y = 100;
     int y2 = 0;
    /* plotBitmap64(base, x, y, RightSnowBoarder, height);*/
@@ -47,19 +46,18 @@ void renderFakePlayer(UINT32 *base) /*object for 5 second invincibility*/
 
 void renderSkier(NPCskier *skier, UINT32 *base)
 {   
-    if (skier->x >= left_edge && skier->x <= (right_edge - 64) 
-            && skier->y >= upper_edge && skier->y <= (bottom_edge - 64))
+    if (skier->toDraw)
+    {
+        if (skier->x >= left_edge && skier->x <= (right_edge - 64) 
+                && skier->y >= upper_edge && skier->y <= (bottom_edge - 64))
         {
             if(skier->pos == 0)          
                 plotBitmap64(base, skier->x, skier->y, skierLeftBM, height);
-            else
+            else if (skier->pos == 1)
                 plotBitmap64(base, skier->x, skier->y, skierRightBM, height);
         }
-
-
-
+    }
 }
-
 
 void renderTree(Tree *tree, UINT32 *base)
 {
@@ -67,36 +65,33 @@ void renderTree(Tree *tree, UINT32 *base)
         plotBitmap64(base, tree->x, tree->y, treeBM, height);
 }
 
-
-
 void renderScore(ScoreCounter *score, UINT32 *base)
 {
         int playerScore = score->scorePlayer;
         int startX = 0;
-        int startY = 0;
-        int digitSpace = 16;
-        int placeValue = 1000000; 
+        int startY = 4;
+        int digitSpace = 15;
+        int placeValue = 10000; 
         int xPos = startX;
         bool leadingZeros = true;
 
         if(playerScore == 0)
         {
-                plotBitmap16((UINT16*)base, startX, startY, numBitmaps[0], 16);
-                return;
+            plotBitmap16((UINT16*)base, startX, startY, numBitmaps[0], 16);
         }
 
         while(placeValue > 0)
         {
-                int digit = (playerScore / placeValue) % 10;
+            int digit = (playerScore / placeValue) % 10;
 
-                if(digit != 0 || !leadingZeros || placeValue == 1)
-                {
-                        leadingZeros = false;
-                        plotBitmap16((UINT16*)base, xPos, startY, numBitmaps[digit], 16);
-                        xPos += digitSpace;
-                }
+           /* if(digit != 0 /*|| !leadingZeros || placeValue == 1)
+            
+                leadingZeros = false;*/
+                xPos += digitSpace;
+                plotBitmap16((UINT16*)base, xPos, startY, numBitmaps[digit], 16);
+                xPos+=digitSpace;
 
-                placeValue /= 10;
+            placeValue /= 10;
         }
 
 }
@@ -134,6 +129,14 @@ void renderModel(const Model *model, UINT32 *base)
   /*  renderSkierHitCount(model->newCounter,base);*/
 }
 
+void renderSplashScr(const UINT32* splash, UINT32 *base)
+{
+    int i;
+    
+    for (i = 0; i < splashHeight; i++) 
+        *(base++) |= splash[i];
+    
+}
     /*NEED TO CREATE BITMAPS FOR FONTS
 void renderSkierHitCount();
 */

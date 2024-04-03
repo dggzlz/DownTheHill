@@ -28,6 +28,9 @@
  */
 
 #include "raster.h"
+#include <osbind.h>
+#include <stdio.h>
+
 #define BASE_HI 0xFFFF8201
 #define BASE_MI 0xFFFF8203
 
@@ -73,20 +76,36 @@ void plotPixel(UINT8 *base, int x, int y)
     
 }
 
-/****Get Video Base****/
-/*UINT16* getVideoBase()
+long getTime()
 {
+    long oldssp; 
+    long timeNow;
+    long *timer = (long *) 0x462;
+
+    oldssp = Super(0);
+    timeNow = *timer;
+    Super(oldssp);
+
+   return timeNow;    
+}
+
+/****Get Video Base****/
+UINT16* getVideoBase()
+{
+        UINT32 baseAddress;
+        UINT8 *highByte = BASE_HI;
+        UINT8 *midByte = BASE_MI;
         long oldSSP = Super(0);
 
-        UINT8 tempAddr = * BASE_HI;
-        UINT8 temPAddr2 = * BASE_MI;
-
-        UINT32 baseAddress = (((UINT32) tempAddr) << 4) + (((UINT32) temPAddr2) << 2);
+        baseAddress = (UINT32) *highByte; 
+        baseAddress = baseAddress << 8;
+        baseAddress += (UINT32) *midByte;
+        baseAddress = baseAddress << 8; 
         
         Super(oldSSP);
         return (UINT16 *) baseAddress;
 }
-*/
+
 /***plotting an arbitrary line***/
 /*
 Name:
@@ -224,8 +243,8 @@ void plotBitmap64(UINT32 *base,
     {
         while (i < height)
         {
-            *(base + offset) = bitmap[i];
-            *(base + (offset + 1)) = bitmap[i + 1];
+            *(base + offset) |= bitmap[i];
+            *(base + (offset + 1)) |= bitmap[i + 1];
             offset += 20;
             i+=2;
         }

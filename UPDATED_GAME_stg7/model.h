@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include "bool.h"
+
 #define numOfTrees 6
 #define numOfSkiers 3
 
@@ -19,7 +21,7 @@ typedef struct
     int vel;
     char posture;
     unsigned long invulnerableTimer;
-
+    int counter; 
 } Snowboarder;
 
 typedef struct
@@ -27,23 +29,22 @@ typedef struct
     int x, y;
     int deltaY; /*might have to be UINT32 unfortunatly*/
     int pos;
-
+    unsigned long timer;
+    bool toDraw;
 } NPCskier;
 
 typedef struct
 {
     int x,y;
     int upwardSpeed; 
-
 } Tree;
 
 typedef struct
 {
 	int scorePlayer;	/*score of the player*/
 	int x, y;	/*coordinates for the score bitmap*/
-    
+    int counter;
 } ScoreCounter; 
-
 
 typedef struct
 {
@@ -56,7 +57,6 @@ typedef struct
     int hitCounter;
     int scoreCounter;
     int x, y;
-
 } SkierCounter;
 
 typedef struct
@@ -67,7 +67,6 @@ typedef struct
     ScoreCounter score;
     Lives hearts;
     SkierCounter skierCounter;
-
 } Model;
 
 

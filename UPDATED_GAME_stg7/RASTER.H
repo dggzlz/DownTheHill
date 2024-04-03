@@ -6,6 +6,8 @@
 #include "types.h"
 
 void plotPixel(UINT8 *base, int x, int y);
+long getTime();
+UINT16* getVideoBase();
 void algoBresenham(UINT8 *base, int x1, int y1, int x2, int y2);
 void plotBitmap64(UINT32 *base, 
                   int x, int y, 

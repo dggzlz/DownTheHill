@@ -24,26 +24,73 @@
  * 
  */
 
+
+
+ 
+/***INITIALIZE SNOWBOARDER ***/
+/*
+Name:
+        snowboarderSet
+Purpose:
+        Assignes initial values to the attributes
+        of a Snowboarder object. i
+Inputs:
+       
+Outputs: 
+        
+Assumptions and Limitations: 
+        
+*/
 void snowboarderSet(Snowboarder *player)
 {
-    player->x = 320;
+    player->x = 288;
     player->y = 100; 
     player->vel = 32;
     player->posture = 'r';
     player->invulnerableTimer = 0;
+    player->counter = 0;
 }
 
-
-
 /*SCORE BEHAVIOURS*/
+/*ect
+            which is the player of the game./*** ***/
+/*
+Name:
+      None  
+Purpose:
+        
+Inputs:
+        This function a
+       
+Outputs: 
+        
+Assumptions and Limitations: 
+        
+*/
 void newScore(ScoreCounter *score)
 {
     score->scorePlayer = 0;
     score->x = 0;
     score->y = 0;
+    score->counter = 0;
 }
 
 /*LIVES COUNTER BEHAVIOURS*/
+
+
+/*** ***/
+/*
+Name:
+        
+Purpose:
+        
+Inputs:
+       
+Outputs: 
+        
+Assumptions and Limitations: 
+        
+*/
 void newLife(Lives *life)
 {
     life->numLives = 3;
@@ -52,6 +99,21 @@ void newLife(Lives *life)
 }
 
 /*SKIER HIT BEHAVIOURS*/
+
+
+/*** ***/
+/*
+Name:
+        
+Purpose:
+        
+Inputs:
+       
+Outputs: 
+        
+Assumptions and Limitations: 
+        
+*/
 void newCounter(SkierCounter *counter)
 {
     counter->hitCounter = 0;
@@ -61,6 +123,21 @@ void newCounter(SkierCounter *counter)
 }
 
 /*SET INITIAL MODEL*/
+
+
+/*** ***/
+/*
+Name:
+        
+Purpose:
+        
+Inputs:
+       
+Outputs: 
+        
+Assumptions and Limitations: 
+        
+*/
 void setModel(Model *model)
 {
     int yInitPositions[6] = {400, 400, 544, 544, 688, 688}; /*making use of virtual screen*/
@@ -70,7 +147,6 @@ void setModel(Model *model)
     newLife(&(model->hearts));
     newCounter(&(model->skierCounter));
 
-    /*chatgpt helped me with this*/
     for(i = 0; i < numOfTrees; i++)
     {
         spawnTree(&(model->trees[i]), yInitPositions[i]);

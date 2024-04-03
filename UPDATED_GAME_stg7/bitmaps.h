@@ -3,6 +3,11 @@
 
 #include "types.h"
 
+#define DIGITS 10
+#define numberHeight 16
+#define heartHeight 32
+#define objectsHeight 128
+
 /***BITMAP ARRAYS***/
 /*
 heart life (32x32)
@@ -26,7 +31,7 @@ numEight (16x16)
 numNine (16x16)
 */
 
-UINT32 heartLifeBM[32] =
+UINT32 heartLifeBM[heartHeight] =
 {
     0x00000000,
     0x00000000,
@@ -62,7 +67,7 @@ UINT32 heartLifeBM[32] =
     0x00000000
 };
         
-UINT32 treeBM[128] = 
+UINT32 treeBM[objectsHeight] = 
 { 
     0x0000000F, 0xF0000000,
     0x0000000F, 0xF0000000,
@@ -130,7 +135,7 @@ UINT32 treeBM[128] =
     0x000000F0, 0x0F000000
 };
             
-UINT32 RightSnowBoarder[128] =
+UINT32 RightSnowBoarder[objectsHeight] =
 {
     0x0000000f, 0xf0000000,
     0x00000030, 0x0c000000,
@@ -198,7 +203,7 @@ UINT32 RightSnowBoarder[128] =
     0x00000000, 0x00000000
 };
     
-UINT32 LeftSnowBoarder[128] =
+UINT32 LeftSnowBoarder[objectsHeight] =
 {
     0x0000000f, 0xf0000000,
     0x00000030, 0x0c000000,
@@ -266,7 +271,7 @@ UINT32 LeftSnowBoarder[128] =
     0x00000000, 0x00000000
 };
 
-UINT32 skierLeftBM[128] = 
+UINT32 skierLeftBM[objectsHeight] = 
 {
     0x00000000,
     0x00000000,
@@ -398,7 +403,7 @@ UINT32 skierLeftBM[128] =
     0x00000000
 };
 
-UINT32 skierRightBM[128] = 
+UINT32 skierRightBM[objectsHeight] = 
 {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 
@@ -434,7 +439,7 @@ UINT32 skierRightBM[128] =
     0x00000000, 0x00000000, 0x00000000, 0x00000000 
 };
 
-UINT32 angel[128] =
+UINT32 angel[objectsHeight] =
 {
     0x00003fff,
     0xfffff800,
@@ -569,7 +574,7 @@ UINT32 angel[128] =
 /*NUMBERS*/
 
 /*NumberZero*/
-UINT16 numZero[16] =
+UINT16 numZero[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -590,7 +595,7 @@ UINT16 numZero[16] =
 };
 
 /*NumberOne*/
-UINT16 numOne[16] =
+UINT16 numOne[numberHeight] =
 {
     0x0180,
     0x0180,
@@ -611,7 +616,7 @@ UINT16 numOne[16] =
 };
 
 /*NumberTwo*/
-UINT16 numTwo[16] =
+UINT16 numTwo[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -632,7 +637,7 @@ UINT16 numTwo[16] =
 };
 
 /*NumberThree*/
-UINT16 numThree[16] =
+UINT16 numThree[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -653,7 +658,7 @@ UINT16 numThree[16] =
 };
 
 /*NumberFour*/
-UINT16 numFour[16] =
+UINT16 numFour[numberHeight] =
 {
     0xe007,
     0xe007,
@@ -674,7 +679,7 @@ UINT16 numFour[16] =
 };
 
 /*NumberFive*/
-UINT16 numFive[16] =
+UINT16 numFive[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -695,7 +700,7 @@ UINT16 numFive[16] =
 };
 
 /*NumberSix*/
-UINT16 numSix[16] =
+UINT16 numSix[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -716,7 +721,7 @@ UINT16 numSix[16] =
 };
 
 /*NumberSeven*/
-UINT16 numSeven[16] =
+UINT16 numSeven[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -737,7 +742,7 @@ UINT16 numSeven[16] =
 };
 
 /*NumberEight*/
-UINT16 numEight[16] =
+UINT16 numEight[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -758,7 +763,7 @@ UINT16 numEight[16] =
 };
 
 /*NumberNine*/
-UINT16 numNine[16] =
+UINT16 numNine[numberHeight] =
 {
     0xffff,
     0xffff,
@@ -778,7 +783,7 @@ UINT16 numNine[16] =
     0x0003
 };
 
-UINT16* numBitmaps[10] =
+UINT16* numBitmaps[DIGITS] =
 {
     numZero, numOne, numTwo, numThree, numFour, numFive,
     numSix, numSeven, numEight, numNine
