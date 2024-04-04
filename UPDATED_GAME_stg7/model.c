@@ -70,8 +70,8 @@ Assumptions and Limitations:
 void newScore(ScoreCounter *score)
 {
     score->scorePlayer = 0;
-    score->x = 0;
-    score->y = 0;
+    score->x = 480;
+    score->y = 4;
     score->counter = 0;
 }
 
@@ -95,7 +95,8 @@ void newLife(Lives *life)
 {
     life->numLives = 3;
     life->x = 620;
-    life->y = 0;
+    life->y = 24;
+    life->gameOver = false;
 }
 
 /*SKIER HIT BEHAVIOURS*/
@@ -117,9 +118,8 @@ Assumptions and Limitations:
 void newCounter(SkierCounter *counter)
 {
     counter->hitCounter = 0;
-    counter->scoreCounter = 0;
-    counter->x = 0;
-    counter->y = 0;
+    counter->x = 40;
+    counter->y = 4;
 }
 
 /*SET INITIAL MODEL*/

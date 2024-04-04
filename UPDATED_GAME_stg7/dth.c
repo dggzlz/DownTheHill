@@ -25,7 +25,8 @@ void flipBuffers(UINT8 **frontBuffer, UINT8 **backBuffer);
 int main()
 {
     char key = '\n'; /*variable to check input from user*/
-    int i, counter = 0; /*i used in loops*/
+    char endKey = '\n';
+    int i, j, counter = 0; /*i used in loops*/
                         /*counter used to keep track of time*/
 
     /*Clock variables*/
@@ -34,6 +35,7 @@ int main()
     /*model object*/
     Model model;
     bool  quit = false;/*has the player press ESC?*/
+    bool GameOver = false;
 
     /*Double Buffering var*/
     UINT32 *base = (UINT32*)getVideoBase();
@@ -87,7 +89,7 @@ int main()
     timeElapsed = timeNow - timeThen;
     
     /*main loop*/
-    while (!quit)
+    while (!quit && !GameOver)
     {  
         if (hasInput())
         {
@@ -117,7 +119,7 @@ int main()
         {
             timeNow = getTime();
             timeThen = timeNow;
-            
+       
             for(i = 0; i < numOfTrees; i++)
             {
                 moveTree(&(model.trees[i]));
@@ -136,10 +138,16 @@ int main()
                                     timeNow);
                 }
 
-                /*if (checkColSkierNTree(&model.trees[i], &model.skiers[i]))
-                {
-                    model.skiers[i].toDraw = false;  
-                } */  
+                
+            }
+        
+
+        /*JD FUNCTION*/
+            for(i = 0; i < numOfTrees; i++)
+            { 
+                for(j = 0; j < numOfSkiers; j++)
+                areSkierTreeSameColumn(&(model.skiers[j]), &(model.trees[i]));
+            /*checkSkierCollideWithTree(&(model.skiers[j]), &(model.trees[i]));*/
             }
 
             if (checkColEdge(&(model.snowboarder)))
@@ -148,13 +156,18 @@ int main()
             scoreUpdates(&(model.score), &lastUpdateTime, timeNow, false);
             /*scoreUpdates(&(model.score), false);*/
             updateMusic(timeElapsed, 'r');
-            
+
+            GameOver = checkGameOver(&(model.hearts));
+            if(GameOver)
+            {
+                gameOver(&(model.score), &(model.skierCounter));
+            }
             Vsync();
             clearScreen((UINT32 *)secondBuffer);
             renderModel(&model, (UINT32 *)secondBuffer);
             flipBuffers(&mainBuffer, &secondBuffer); 
 
-            gameOver(false);
+
 
             /*model.snowboarder.counter++;
             model.score.counter+=70;
@@ -163,10 +176,24 @@ int main()
             for (i = 0; i < numOfSkiers; i++)
                 model.skiers[i].counter+=70;*/
         }  
+        
     }
-    Setscreen(-1, origBuffer, -1);
-    clearScreen(base);
     stopSound();
+    Setscreen(-1, origBuffer, -1);
+   clearScreen(base);
+   renderGameOver(&model, (UINT32 *)origBuffer);
+
+   while (endKey != ' ' && !quit)
+    {
+        if (hasInput())
+        {   
+            endKey = input();
+
+            if (endKey == ESC)
+                quit = true;
+        }
+    }
+    clearScreen(base);
     return 0;
 }
 

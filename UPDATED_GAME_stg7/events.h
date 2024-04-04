@@ -42,6 +42,8 @@ void collisionObs(Lives *lives, Snowboarder *player);
 void collisionSkier(ScoreCounter *score, SkierCounter *counter, 
                     UINT32 *lastUpdateTime, UINT32 timeCurr);
 
+void checkSkierCollideWithTree(NPCskier *skier, Tree *tree);
+
 
 /*position reset*/
 void decreaseLife(Lives *lives);
@@ -52,7 +54,11 @@ void resetPos(Snowboarder *player);
 void scoreUpdates(ScoreCounter *playerScore, UINT32 *lastUpdateTime,
                      UINT32 timeCurr, bool skierHit);
 
+bool isPlayerInvulnerable(Snowboarder *player);
+void areSkierTreeSameColumn(NPCskier *skier, Tree *tree);
+
 /*Game ends*/
-void gameOver(bool isOver);
+bool checkGameOver(Lives *lives);
+void gameOver(ScoreCounter *score, SkierCounter *hitCount);
 
 #endif

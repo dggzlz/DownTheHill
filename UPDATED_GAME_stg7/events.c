@@ -26,6 +26,14 @@ void moveRequest(Snowboarder *player, char ch)
     }
 
     player->x += player->vel * i; 
+    
+   if(isPlayerInvulnerable(player))
+    {
+        if(player->x > 576)
+        player->x = 576;
+        if(player->x < 0)
+        player->x = 0;
+    }
 
 
     /*
@@ -109,10 +117,10 @@ void moveTree(Tree *tree)
 
 /*****CONDITION-BASED EVENTS*****/
 
-void resetTree(Tree *tree) /*need to implement properly*/
+void resetTree(Tree *tree) 
 {
     tree->y = 400;
-    tree->x = (rand() % 10) * 64; /*((tree->x + 64) % 640); random ass value to just change x temporary*/
+    tree->x = (rand() % 10) * 64; 
 } 
 
 void resetSkier(NPCskier *skier)
@@ -184,16 +192,14 @@ bool checkCollisionSkier(Snowboarder *player, NPCskier *skier)
     return isCollision; 
 }
 
-/*
-bool checkColSkierNTree(Tree *tree, NPCskier *skier)
+void checkSkierCollideWithTree(NPCskier *skier, Tree *tree)
 {
     BoundingBox treeBox;
     BoundingBox skierBox;
-    bool isCollision = false;
 
     if (skier->toDraw)
     {
-        treeBox.maxX = tree->x + 64;
+        treeBox.maxX = tree->x + 64; 
         treeBox.minX = tree->x;
         treeBox.maxY = tree->y + 64;
         treeBox.minY = tree->y;
@@ -206,23 +212,20 @@ bool checkColSkierNTree(Tree *tree, NPCskier *skier)
         if ((treeBox.maxY > skierBox.minY && treeBox.minY < skierBox.maxY)
             &&(treeBox.maxX > skierBox.minX && treeBox.minX < skierBox.maxX)) 
         {    
-            isCollision = true;
             skier->toDraw = false;
         }
     }
-    return isCollision; 
 }
-*/
-
 
 /*Collisions*/
 void collisionObs(Lives *lives, Snowboarder *player)
 {
-    if(getTime() >= player->invulnerableTimer)
+    
+    if(!isPlayerInvulnerable(player))
     {
         decreaseLife(lives);
         resetPos(player);
-        player->invulnerableTimer = getTime() + 5 * 70;
+        player->invulnerableTimer = getTime() + 3 * 70;
         player->counter = 0;
 
     }
@@ -233,8 +236,7 @@ void collisionSkier(ScoreCounter *score, SkierCounter *counter,
                      UINT32 *lastUpdateTime, UINT32 timeCurr)
 {
     scoreUpdates(score, lastUpdateTime, timeCurr, true);
-    playSkierDeath();
-    /*scoreUpdates(score,  true); */
+    /*playSkierDeath();*/
     counter->hitCounter += 1;
 }
 
@@ -246,7 +248,7 @@ void decreaseLife(Lives *lives)
 
     if (lives->numLives == 0)
     {
-        gameOver(true);
+        lives->gameOver = true;
     }
 } 
 
@@ -261,32 +263,52 @@ void resetPos(Snowboarder *player)
 void scoreUpdates(ScoreCounter *playerScore, UINT32 *lastUpdateTime,
                      UINT32 timeCurr, bool skierHit)
 {   
-    /*if (playerScore->counter >= 3*70)
-    {
-        playerScore->scorePlayer += 10;
-        playerScore->counter = 0;
-    }
-   printf("last updated time: %lu\n", lastUpdateTime);*/
+
    if(timeCurr - *lastUpdateTime >= 70 * 3) 
    {
     playerScore->scorePlayer += 10;
     *lastUpdateTime = timeCurr;
-   /*printf("Score Updated: %d\n", playerScore->scorePlayer);*/
    }
     if(skierHit)
     {
         playerScore->scorePlayer += 30;
-   /* printf("SkierHit,Score Updated: %d\n", playerScore->scorePlayer);*/
     }
+}
 
+bool isPlayerInvulnerable(Snowboarder *player)
+{
+    bool isInvulnerable;
+    if(getTime() < player->invulnerableTimer)
+    isInvulnerable = true;
+    else
+    isInvulnerable = false;
+
+    return isInvulnerable;
+}
+
+void areSkierTreeSameColumn(NPCskier *skier, Tree *tree)
+{
+    bool haveSameXpos = false;
+    if(skier->x == tree->x)
+    haveSameXpos = true;
+
+    if(haveSameXpos = true)
+    checkSkierCollideWithTree(skier, tree);
 }
 
 /*Game ends*/
-void gameOver(bool isOver)
+bool checkGameOver(Lives *lives)
 {
-    if (isOver)
-    {
+    bool isOver = false;
+    if(lives->gameOver == true)
+    isOver = true;
 
-    }
-    /*code to end the game*/
+    return isOver;
+}
+void gameOver(ScoreCounter *score, SkierCounter *hitCount)
+{
+    score->x= 400;
+    score->y=300;
+    hitCount->x=400;
+    hitCount->y=175;
 }

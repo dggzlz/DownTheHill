@@ -5,4 +5,5 @@
 #define splashHeight 8000
 
 extern const UINT32 splash[splashHeight];
+extern const UINT32 gameOverSplash[splashHeight];
 #endif

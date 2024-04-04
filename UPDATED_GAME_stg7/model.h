@@ -50,12 +50,12 @@ typedef struct
 {
     int numLives;
     int x, y;
+    bool gameOver;
 } Lives;
 
 typedef struct
 {
     int hitCounter;
-    int scoreCounter;
     int x, y;
 } SkierCounter;
 

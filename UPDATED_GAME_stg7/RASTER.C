@@ -289,7 +289,7 @@ void plotBitmap32(UINT32 *base,
     {
 	while (i < height)
         {
-            *(base + offset) = bitmap[i];
+            *(base + offset) |= bitmap[i];
             offset += 20;
             i+=1;
 	}
@@ -308,7 +308,7 @@ void plotBitmap16(UINT16 *base,
     {
         while (i < 16)
         {
-            *(base + offset) = bitmap[i];
+            *(base + offset) |= bitmap[i];
             offset += 40;
             i+=1;
 	}
