@@ -34,7 +34,8 @@
 #define BASE_HI 0xFFFF8201
 #define BASE_MI 0xFFFF8203
 
-/*0xFF231200
+extern void setVideoBase(UINT8 * buffer);
+
 /***plotting a pixel***/
 /*
 Name:
@@ -87,6 +88,13 @@ long getTime()
     Super(oldssp);
 
    return timeNow;    
+}
+
+void setScreen(UINT8 * buffer)
+{
+    long oldSSP = Super(0);
+    setVideoBase(buffer);
+    Super(oldSSP);
 }
 
 /****Get Video Base****/

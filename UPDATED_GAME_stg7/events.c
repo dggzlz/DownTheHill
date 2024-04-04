@@ -157,7 +157,8 @@ bool checkCollisionObs(Snowboarder *player, Tree *tree)
     treeBox.maxY = tree->y + 64;
     treeBox.minY = tree->y;
 
-    if ((playerBox.maxY > treeBox.minY && playerBox.minY < treeBox.maxY)&&(playerBox.maxX > treeBox.minX && playerBox.minX < treeBox.maxX)) 
+    if ((playerBox.maxY > treeBox.minY && playerBox.minY < treeBox.maxY)
+        &&(playerBox.maxX > treeBox.minX && playerBox.minX < treeBox.maxX)) 
         isCollision = true;
 
     return isCollision; 

@@ -136,9 +136,7 @@ int main()
                 {
                     collisionSkier(&(model.score), &(model.skierCounter), &lastUpdateTime,
                                     timeNow);
-                }
-
-                
+                }   
             }
         
 
@@ -179,9 +177,9 @@ int main()
         
     }
     stopSound();
-    Setscreen(-1, origBuffer, -1);
-   clearScreen(base);
-   renderGameOver(&model, (UINT32 *)origBuffer);
+    setScreen(origBuffer);
+    clearScreen(base);
+    renderGameOver(&model, (UINT32 *)origBuffer);
 
    while (endKey != ' ' && !quit)
     {
@@ -212,5 +210,5 @@ void flipBuffers(UINT8 **frontBuffer, UINT8 **backBuffer)
     *frontBuffer = *backBuffer;
     *backBuffer = swap;
 
-    Setscreen(-1, *frontBuffer, -1);
+    setScreen(*frontBuffer);
 }

@@ -4,7 +4,7 @@ CCFLAGS := -g
 ASLFLAGS := gen -D -L2
 
 TARGET := game
-GAME_OBJS := rast_asm.o raster.o renderer.o model.o input.o events.o dth.o music.o psg.o effects.o splash.o
+GAME_OBJS := rast_asm.o  raster.o renderer.o model.o input.o events.o dth.o music.o psg.o effects.o splash.o
 
 all: $(GAME_OBJS) $(TARGET)
 
