@@ -1,4 +1,3 @@
-/*void render(const Model *model, UINT32 *base32) counter is 16pixels*/
 #include "model.h"
 #include "events.h"
 #include "raster.h"
@@ -9,16 +8,53 @@
 #include <stdio.h>
 #include "types.h"
 
+/*
+Name:
+        
+Purpose:
+        
+Inputs:
 
+
+Outputs: 
+        
+       
+Details:
+        
+
+Assumptions and Limitations: 
+        
+*/
 void stopCursor()
 {
     printf("\033f");
     fflush(stdout);
 }
 
+/*
+Name:
+    renderPlayer        
+Purpose:
+    The purpose of this function is to render
+    the Snowboarder object      
+Inputs:
+    Snowboarder* player
+        A pointer to the Snowboarder object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs: 
+    None     
+Details:
+    Checks that the players location is within the bounds 
+    of the screen and then depending on the posture of the
+    player will render the appropriate bitmap. It checks
+    if the player is invulnerable and if so renders the 
+    Angel protector to indicate the player is invulnerable.       
+*/
+
 void renderPlayer(Snowboarder* player, UINT32 *base)
 {
-    
     if (player->x >= LEFT_EDGE && player->x <= RIGHT_EDGE)
     {
         if (player->posture == 'r')
@@ -33,6 +69,24 @@ void renderPlayer(Snowboarder* player, UINT32 *base)
     }
 }
 
+/*
+Name:
+    renderAngel        
+Purpose:
+    The purpose of this function is to render
+    the Paul protector bitmap.       
+Inputs:
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs: 
+    None
+Details:
+    This function creates variables for the desired
+    location of the Angel which is at the top centre
+    of the screen then renders it.       
+*/
+
 void renderAngel(UINT32 *base) /*object for 5 second invincibility*/
 {
     int x = SCREEN_CENTER_X;
@@ -41,6 +95,28 @@ void renderAngel(UINT32 *base) /*object for 5 second invincibility*/
     plotBitmap64(base, x, y2, angelBM, HEIGHT_64);
 }
 
+/*
+Name:
+    renderSkier        
+Purpose:
+    The purpose of this function is to render
+    the NPCskier object         
+Inputs:
+    NPCskier *skier
+        A pointer to the NPCskier object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs: 
+    None    
+Details:
+    Checks if the skier has not collided and renders
+    the skier so long as its position is within the 
+    bounds of the screen, and based on the posture 
+    renders the appropriate bitmap. If the skier has
+    collided it renders the Grim Reaper spirit who
+    has come to claim the soul of the skier.      
+*/
 
 void renderSkier(NPCskier *skier, UINT32 *base)
 {   
@@ -63,8 +139,27 @@ void renderSkier(NPCskier *skier, UINT32 *base)
             plotBitmap64(base, skier->x, skier->y, grimReaperBM, HEIGHT_64);  
         }
     }
-
 }
+
+/*
+Name:
+    renderTree        
+Purpose:
+    The purpose of this function is to render
+    the Tree object         
+Inputs:
+    Tree *tree
+        A pointer to the Tree object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs: 
+    None     
+Details:
+    This function checks if the trees position is
+    within the bounds of the screen and if so 
+    renders the tree at the appropriate location.       
+*/
 
 void renderTree(Tree *tree, UINT32 *base)
 {
@@ -72,6 +167,29 @@ void renderTree(Tree *tree, UINT32 *base)
         && tree->y >= UPPER_EDGE && tree->y <= (BOTTOM_EDGE - 64))
         plotBitmap64(base, tree->x, tree->y, treeBM, HEIGHT_64);
 }
+
+/*
+Name:
+    renderScore        
+Purpose:
+    The purpose of this function is to render
+    the ScoreCounter object         
+Inputs:
+    ScoreCounter *score
+        A pointer to the ScoreCounter object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs: 
+    None    
+Details:
+    This function iterates through each digit of the score count,
+    starting from the most significant digit to the least significant digit. It uses
+    modulus to extract the remainder of the division and calls the plot for that specific
+    number bitmap.
+    The rendering starts from the position specified by the ScoreCounter object's coordinates (startX, startY)
+    and progresses horizontally with a fixed spacing between digits.             
+*/
 
 void renderScore(ScoreCounter *score, UINT32 *base)
 {
@@ -84,18 +202,62 @@ void renderScore(ScoreCounter *score, UINT32 *base)
 
         while(placeValue > 0)
         {
-            int digit = (playerScore / placeValue) % 10;
+            int digit = (playerScore / placeValue) % 10; 
             xPos += digitSpace;
             plotBitmap16((UINT16*)base, xPos, startY, numberBM_ptr[digit], HEIGHT_16);
             xPos += digitSpace;
-            placeValue /= 10;
+            placeValue /= 10;   
         }
 
 }
+
+/*
+Name:
+    renderSkiersHitBitMap        
+Purpose:
+    The purpose of this function is to render
+    the SkierCounter bitmap         
+Inputs:
+    SkierCounter *skierHit
+        A pointer to the SkierCounter object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs:
+    None 
+Details:
+    This function renders the bitmap icon that
+    represents the skiers hit counter in the top 
+    left corner of the screen.      
+*/
+
 void renderSkiersHitBitMap(SkierCounter *skierHit, UINT32 *base)
 {
     plotBitmap32(base, 0, 4, skierCounterBM, HEIGHT_32);
 }
+
+/*
+Name:
+    renderSkiersHit        
+Purpose:
+    The purpose of this function is to render
+    the SkierCounter hit count        
+Inputs:
+    SkierCounter *skierHit
+        A pointer to the SkierCounter object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs:
+    None    
+Details:
+    This function iterates through each digit of the hit count,
+    starting from the most significant digit to the least significant digit. It uses
+    modulus to extract the remainder of the division and calls the plot for that specific
+    number bitmap.
+    The rendering starts from the position specified by the SkierCounter object's coordinates (startX, startY)
+    and progresses horizontally with a fixed spacing between digits.
+*/
 
 void renderSkiersHit(SkierCounter *skierHit, UINT32 *base)
 {
@@ -116,6 +278,32 @@ void renderSkiersHit(SkierCounter *skierHit, UINT32 *base)
     }
 }
 
+/*
+Name:
+    renderLives        
+Purpose:
+    Renders the hearts bitmap to represent
+    the amount of tlives the player has left.        
+Inputs:
+    Lives *lives
+        A pointer to the Lives object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs:
+    None   
+Details:
+    This function sets a integer count variable
+    equal to the number of lives a player has.
+    It will then loop that many times plotting 
+    the heart and for any lives greater than one
+    will shift the new plotting position to the 
+    left by 32 pixels and then decreasing the count.    
+Assumptions and Limitations: 
+    This function has the limitation of having to be 
+    plotted on the right side of the screen otherwise 
+    the rest of the hearts will not be visible.  
+*/
 
 void renderLives(Lives *lives, UINT32 *base)
 {
@@ -130,6 +318,27 @@ void renderLives(Lives *lives, UINT32 *base)
     }
 
 }
+
+/*
+Name:
+    renderModel        
+Purpose:
+    The purpose of this function is to render
+    each object of the game.  
+Inputs:
+    const Model *model
+        A pointer to the Model object
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs:
+    None       
+Details:
+    This function calls the render function
+    of each object of the game. For the objects
+    that are part of an array, this function will 
+    iterate through each object and render it.          
+*/
 
 void renderModel(const Model *model, UINT32 *base)
 {
@@ -148,6 +357,26 @@ void renderModel(const Model *model, UINT32 *base)
         renderSkier(&model->skiers[i], base);
 }
 
+/*
+Name:
+    renderSplashScr        
+Purpose:
+    The purpose of this function is to render
+    a splash screen.   
+Inputs:
+    const UINT32* splash
+        A UINT32 array representing the splash screen
+    UINT32 *base
+        A long base pointer to the start of 
+        the frame buffer
+Outputs:
+    None    
+Details:
+    Iterates over the 8000 long elements in the array
+    and framebuffer, setting the contents of the frame
+    buffer to those of the array.     
+*/
+
 void renderSplashScr(const UINT32* splash, UINT32 *base)
 {
     int i;
@@ -157,6 +386,26 @@ void renderSplashScr(const UINT32* splash, UINT32 *base)
     
 }
  
+/*
+Name:
+    renderGameOver        
+Purpose:
+    The purpose of this function is to 
+    render the end game screen.    
+Inputs:
+    const Model *model
+        A pointer to the Model object
+    UINT32 *base
+         A long base pointer to the start of 
+        the frame buffer
+Outputs: 
+    None   
+Details:
+    Calls the render functions of the splash screen,
+    passing in the game over splash screen. It calls the 
+    render function for the score and the render function
+    for the skiers hit count. 
+*/
 
 void renderGameOver(const Model *model, UINT32 *base)
 {

@@ -11,45 +11,24 @@
 
 #define COUNTER_X 40
 #define COUNTER_Y 4
-/* NAME: moveSnowboarder
- * PURPOSE: changes the x-coordinate of the snowboarder object
- *  
- * DETAILS: 
- * 
- * INPUTS:
- *        - Snowboarder *player 
- *          a sno
- *
- * - x (int): an integer that represent the x-coordinate of the pixel by value
- * 
- * - y (int): an integer that represent the y-coordinate of the pixel by value
- * 
- * OUTPUTS: 
- *  - None
- * 
- * ASSUMPTIONS: 
- * - This function assumes the resolution is exactly 640 x 400 
- *   pixels. 
- * - The frame buffer pointer base must be a unsigned int (UINT16) value.
- * 
- */
 
 
+/***INITIALIZE SNOWBOARDER***/
 
- 
-/***INITIALIZE SNOWBOARDER ***/
 /*
 Name:
-        snowboarderSet
+    snowboarderSet  
 Purpose:
-        Assignes initial values to the attributes
-        of a Snowboarder object. i
-Inputs:
-       
+    The purpose of this function is to initialize the attributes of the 
+    snowboarder object.
+Inputs: 
+    Snowboarder *player
+       A pointer to the Snowboarder object that represents the player
 Outputs: 
-        
-Assumptions and Limitations: 
-        
+    None     
+Details and Calculations:
+    This function uses pointers to access the attributes 
+    of the Snowboarder object and sets each one.         
 */
 void snowboarderSet(Snowboarder *player)
 {
@@ -61,21 +40,22 @@ void snowboarderSet(Snowboarder *player)
     player->counter = 0;
 }
 
-/*SCORE BEHAVIOURS*/
-/*ect
-            which is the player of the game./*** ***/
+/***INITIALIZE SCORE****/
 /*
 Name:
-      None  
+    newScore  
 Purpose:
-        
-Inputs:
-        This function a
-       
+    The purpose of this function is to initialize the attributes of the 
+    ScoreCounter object.    
+Inputs: 
+    ScoreCounter *score
+        A pointer to the ScoreCounter object that represent the 
+        score of the player.
 Outputs: 
-        
-Assumptions and Limitations: 
-        
+    None        
+Details and Calculations:
+     This function uses pointers to access the attributes 
+    of the ScoreCounter object and sets each one.          
 */
 void newScore(ScoreCounter *score)
 {
@@ -85,21 +65,22 @@ void newScore(ScoreCounter *score)
     score->counter = 0;
 }
 
-/*LIVES COUNTER BEHAVIOURS*/
-
-
-/*** ***/
+/***INITIALIZE LIVES***/
 /*
 Name:
-        
+    newLife  
 Purpose:
-        
+    The purpose of this function is to initialize the attributes of the 
+    Lives object.     
 Inputs:
-       
+    Lives *lives
+        A pointer to the ScoreCounter object that represent the 
+        lives of the player.
 Outputs: 
-        
-Assumptions and Limitations: 
-        
+    None    
+Details and Calculations:
+    This function uses pointers to access the attributes 
+    of the Lives object and sets each one.       
 */
 void newLife(Lives *life)
 {
@@ -109,21 +90,24 @@ void newLife(Lives *life)
     life->gameOver = false;
 }
 
-/*SKIER HIT BEHAVIOURS*/
+/***INITIALIZE SKIER HIT COUNTER ***/
 
-
-/*** ***/
 /*
 Name:
-        
+    newCounter   
 Purpose:
-        
+    The purpose of this function is to initialize the attributes of the 
+    SkierCounter object.     
 Inputs:
-       
+    SkierCounter *counter
+        A pointer to the SkierCounter object that represent the 
+        number of skiers the player has hit.
 Outputs: 
+    None
         
-Assumptions and Limitations: 
-        
+Details and Calculations:
+    This function uses pointers to access the attributes 
+    of the SkierCounter object and sets each one.    
 */
 void newCounter(SkierCounter *counter)
 {
@@ -132,21 +116,25 @@ void newCounter(SkierCounter *counter)
     counter->y = COUNTER_Y;
 }
 
-/*SET INITIAL MODEL*/
+/***SET INITIAL MODEL***/
 
-
-/*** ***/
 /*
 Name:
-        
+    setModel   
 Purpose:
-        
+    The purpose of this function is to initialize all the objects of
+    the game model.    
 Inputs:
-       
+    Model *model
+        A pointer to the Model object 
 Outputs: 
-        
-Assumptions and Limitations: 
-        
+    None
+Details and Calculations:
+    yInitPositions are the initial row locations of the trees and skiers.
+    These locations make use of the virtual screen to generate a spacing 
+    between the trees that will be maintained throughout the game. Each 
+    attribute of the model which are objects are passed into their respective
+    initialization functions.   
 */
 void setModel(Model *model)
 {

@@ -65,6 +65,16 @@ Calculations:
         the pixel within the byte so we shift 1 which 
         is 00000001 to the left (7-(x & 7) times to get 
         the correct position for the bitwise OR operation.
+Details:
+        Plot pixel operates on the frame buffer of the Atari ST 
+        which has 32000 bytes on the screen and takes into account 
+        the fact that there are 80 bytes per row. To plot a pixel 
+        at the specified (x,y) coordinate, the function calculates the 
+        byte index by shifting the x-coordinate by 3 bits which is the same
+        as dividing the x coordinate by 8 and then adds it to the offset of
+        the y coordinate. Once in the proper byte, the appropriate bit is set
+        by using a bitwise or with the calculated correct position of the bit.
+
 Assumptions and Limitations: 
         The X,Y coordinate and base pointer parameters
         are meant for the Atari ST.
@@ -77,6 +87,23 @@ void plotPixel(UINT8 *base, int x, int y)
     
 }
 
+/*** get the time***/
+/*
+Name:
+      getTime 
+Purpose:
+        
+Inputs: 
+Outputs: 
+        
+Calculations:
+       
+Details:
+        
+
+Assumptions and Limitations: 
+        
+*/
 long getTime()
 {
     long oldssp; 
@@ -90,6 +117,24 @@ long getTime()
    return timeNow;    
 }
 
+/*** ***/
+/*
+Name:
+       
+Purpose:
+        
+Inputs: 
+Outputs: 
+        
+Calculations:
+       
+Details:
+        
+
+Assumptions and Limitations: 
+        
+*/
+
 void setScreen(UINT8 * buffer)
 {
     long oldSSP = Super(0);
@@ -97,7 +142,23 @@ void setScreen(UINT8 * buffer)
     Super(oldSSP);
 }
 
-/****Get Video Base****/
+/***Get Video Base****/
+/*
+Name:
+       
+Purpose:
+        
+Inputs: 
+Outputs: 
+        
+Details and Calculations:
+       
+
+        
+
+Assumptions and Limitations: 
+        
+*/
 UINT16* getVideoBase()
 {
         UINT32 baseAddress;
@@ -140,7 +201,7 @@ Inputs: char *base:
                 the pixel is to be plotted.
 Outputs: 
         None
-Calculations:
+Details and Calculations:
         dx is the change in the x and dy is the change
         in the y and both are used to calculate the decision 
         variables initial value. 
@@ -234,9 +295,20 @@ Inputs:
                 array will be drawn.
 Outputs: 
         None
+Details:
+        Unfortunatly the Atari ST does not allow for the long long access of memory thus 32bit,
+        (a long) is the largest size we can use and so since there are two longs per row for 
+        a 64x64 bitmap, each iteration in the while loop accesses two elements of the bitmap array
+        before offseting into the next row. There are 20 longs per row and the row is determined by
+        multiplying the Y coordinate by 20 and then finding the byte to index by shifting x to the 
+        right by 5 which is the same as dividing x by 32. The function checks that the desired (x,y)
+        coordinate is on the screen. The long to be written to in the frame buffer is then bitwise 
+        OR with the appropriate element in the bitmap.   
 Assumptions and Limitations: 
         Assumes the bitmap is exactly 64x64 pixels in size.
-        Designed for monochrome graphics on the Atari ST.
+        Designed for monochrome graphics on the Atari ST. 
+        It also assumes that the coordinates for plotting
+        are size aligined.
 */
 
 void plotBitmap64(UINT32 *base, 
@@ -280,9 +352,17 @@ Inputs:
                 array will be drawn.
 Outputs: 
         None
+Details:
+        There are 20 longs per row and the row is determined by
+        multiplying the Y coordinate by 20 and then finding the byte to index by shifting x to the 
+        right by 5 which is the same as dividing x by 32. The function checks that the desired (x,y)
+        coordinate is on the screen. The long to be written to in the frame buffer is then bitwise 
+        OR with the appropriate element in the bitmap. 
 Assumptions and Limitations: 
         Assumes the bitmap is exactly 64x64 pixels in size.
         Designed for monochrome graphics on the Atari ST.
+        It also assumes that the coordinates for plotting
+        are size aligined.
 */
 
 void plotBitmap32(UINT32 *base, 
@@ -304,6 +384,39 @@ void plotBitmap32(UINT32 *base,
     }
 }
 
+/***plotting a 16x16 pixel bitmap***/
+/*
+Name:
+        plotBitmap16
+Purpose:
+        Plots a 16x16 pixel bitmap at a specified x,y coordinate on the screen. 
+        This function directly manipulates the frame buffer to draw a bitmap image 
+        by copying bitmap data to the screen's memory, starting at the given coordinates. 
+Inputs:
+        UINT16 *base:
+                A pointer to the frame buffer's start address, allowing direct pixel manipulation.
+        int x, int y:
+                The top-left corner coordinates where the bitmap will begin to be plotted.
+        const UINT16 *bitmap:
+                A pointer to the 16x16 bitmap array to be drawn on the screen. 
+        unsigned int height:
+                The height of the bitmap to be plotted, expected to be 16 pixels 
+                for this function. This parameter defines how many elements of the bitmap 
+                array will be drawn.
+Outputs: 
+        None
+Details:
+        There are 40 words per row and the row is determined by
+        multiplying the Y coordinate by 40 and then finding the byte to index by shifting x to the 
+        right by 4 which is the same as dividing x by 16. The function checks that the desired (x,y)
+        coordinate is on the screen. The long to be written to in the frame buffer is then bitwise 
+        OR with the appropriate element in the bitmap. 
+Assumptions and Limitations: 
+        Assumes the bitmap is exactly 16x16 pixels in size.
+        Designed for monochrome graphics on the Atari ST.
+        It also assumes that the coordinates for plotting
+        are size aligined.
+*/
 void plotBitmap16(UINT16 *base, 
                     int x, int y,
                     const UINT16 *bitmap,
@@ -343,7 +456,12 @@ Inputs: char *base:
                 specified in pixels.
 Outputs: 
         None
-Calculations:
+Details and Calculations:
+        This function passes all four lines of a rectangle
+        to the algoBresenham function to plot each individually.
+        It calculates all the (x,y) coordinates to pass by 
+        offsetting from the top y coordinate and left x coordinate
+        by the width and length of the rectangle respectivly.  
         
 Assumptions and Limitations: 
         The X,Y coordinate and base pointer parameters
@@ -372,8 +490,11 @@ void plotRect(UINT8 *base, int x, int y, int length, int width)
         }
 }
                 
-                
-                
+
+
+/*The bresenham algorithm was obtain from this youtube video
+https://youtu.be/RGB-wlatStc?si=o5XHFcXK1CKShLOs 
+*/                
                 
               
                 
