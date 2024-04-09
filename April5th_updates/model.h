@@ -1,3 +1,17 @@
+/* File: model.h
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This file is part of stage 3 of the project, being the one that contains 
+ *  the structures of the videogame.
+ *  
+ *  - x and y in all structures represents coordinates for the objects 
+ */
+
 #ifndef MODEL_H
 #define MODEL_H
 
@@ -11,6 +25,7 @@
 #define POSTURE_L 'l'
 
 /*STRUCTURES*/
+/*This Struct is used to check collision boxes*/
 typedef struct 
 {
     int minX;
@@ -19,52 +34,61 @@ typedef struct
     int maxY;
 } BoundingBox;
 
+/*vel: speed that the player move on the x-axis
+  posture: posture that the player moves, l for left, and r for right 
+  invulnerableTimer: timer to set how long the playe rcan be invulnerable when 
+    it hits and obstacle*/
 typedef struct
 {
-    int x;
-    int y;
+    int x, y; 
     int vel;
     char posture;
-    int counter;
     UINT32 invulnerableTimer;
 } Snowboarder;
 
+/*deltaY: speed that skiers goes at
+  pos: posture that the skier goes at, 0 for left, and 1 for right
+  timer: inner timer for the skier
+  toDraw: states whether the skier should be drawn or not*/
 typedef struct
 {
     int x, y;
-    int deltaY; /*might have to be UINT32 unfortunatly*/
+    int deltaY; 
     int pos;
-    unsigned long timer;
+    UINT32 timer;
     bool toDraw;
 } NPCskier;
 
 typedef struct
 {
     int x,y;
-    int upwardSpeed; 
+    int upwardSpeed; /*speed that trees goes at*/
 } Tree;
 
 typedef struct
 {
-	int scorePlayer;	/*score of the player*/
-	int x, y;	/*coordinates for the score bitmap*/
-    int counter;
-    UINT32 timer;
+	int x, y;	     
+	int scorePlayer; /*score of the player*/
+    UINT32 timer; /*inner timer for the score*/
 } ScoreCounter; 
 
+/*numLives: amount of lives the player has.
+  gameOver: boolean that states if the player lost or not*/
 typedef struct
 {
-    int numLives;
     int x, y;
+    int numLives;
     bool gameOver;
 } Lives;
 
+/*hitCounter: amount of skier hit by the player*/
 typedef struct
 {
-    int hitCounter;
     int x, y;
+    int hitCounter;
 } SkierCounter;
 
+/*this structure contains the model of the game.*/
 typedef struct
 {
     Snowboarder snowboarder;
@@ -75,8 +99,7 @@ typedef struct
     SkierCounter skierCounter;
 } Model;
 
-
-/**************BEHAVIOURS FUNCTIONS*******/
+/********BEHAVIOURS FUNCTIONS*******/
 
 /*SNOWBOARDER BEHAVIOURS*/
 void snowboarderSet(Snowboarder *player);
@@ -90,6 +113,7 @@ void newLife(Lives *life);
 /*SKIER HIT BEHAVIOURS*/
 void newCounter(SkierCounter *counter);
 
+/*SETTING OF MODEL*/
 void setModel(Model *model);
 
 #endif

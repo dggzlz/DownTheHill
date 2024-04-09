@@ -24,38 +24,65 @@
 #include <unistd.h>
 #include <osbind.h>
 
-#define channelC 2
 
-#define sirenTime 500000
-
+/*
+Name:
+   playSkierDeath    
+Purpose:
+    plays the sounds effect for the skier dying.      
+Inputs: 
+    none
+Outputs:
+    none
+Details:
+    The sound effect follows the instructions from the manula to activate sound 
+*/
 void playSkierDeath()
 {   
-    enableChannel(channelC, 1, 0);
-    setVolume(channelC, 0X10);
     setNoise(0x1F);
-    setEnvelope(0x08, 0x210F);  
+    enableChannel(channelC, 0, 1);
+    setVolume(channelC, 0X10);
+    setEnvelope(0x08, 0x21FF);  
 }
 
+/*
+Name:
+    playSpawning 
+Purpose:
+    plays the sounds effect for the spawning f objects.      
+Inputs: 
+    none
+Outputs:
+    none
+Details:
+    The sound effect follows the instructions from the manula to activate sound    
+*/
 void playSpawning()
 {
+    setNoise(0x1F);
+
     enableChannel(channelC, 1, 0);
     setVolume(channelC, 0X10);
-    setNoise(0x1F);
     setEnvelope(0x0E, 0x02FF);
 }
 
+/*
+Name:
+      playRescueChopper
+Purpose:
+    plays the sounds effect for the rescue chopper      
+Inputs: 
+    none
+Outputs:
+    none
+Details:
+    The sound effect follows the instructions from the manula to activate sound 
+*/
 void playRescueChopper()
 {
     setNoise(0x0F);
     enableChannel(channelC, 0, 1);
-    setEnvelope(0x08, 0x21FF);
     setVolume(channelC, 0X10); /*lets envelope control volume*/
+    setEnvelope(0x08, 0x21FF);
 }
 
-void EndGameAmbulance()/*this function does not adhere to sound effects but we will add it anyway*/
-{
-    enableChannel(channelC, 1, 0);
-    setVolume(1, 0x0B); 
-    setTone(channelC, 0x0AA);
-    setEnvelope(0x08, 0x00FF);   
-}

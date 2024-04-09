@@ -1,3 +1,25 @@
+/* File: events.c
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This file is part of stage 3 of the project, as being part of the library 
+ *  that represents the state of the game.
+ * 
+ *  This file also contains all the synchronous and asynchronous events in the video
+ *  game. When we refer to synchronous event, we refer to events that happen
+ *  in the videogame that are timed with the internal clock of the computer.
+ *  
+ *  In this case, an emulator is used for the Atari ST, the clock of this system
+ *  goes at 70 Mhz, or it ticks 70 times a second.
+ * 
+ *  And in the case of asynchronous, we refer to events that are not timed with
+ *  the internal clock.
+ */
+
 #include "events.h"
 #include "RASTER.H"
 #include "model.h"
@@ -7,11 +29,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/****ASYNCHRONOUS EVENTS****/
 
-
-/****ANSYNCHRONOUS EVENTS****/
-
-/*
+/******Request Move*******
 Name:
     moveRequest       
 Purpose:
@@ -75,8 +95,7 @@ void moveRequest(Snowboarder *player, char ch)
 
 /****SYNCHRONOUS TIMED EVENTS*****/
 
-/*Skier events*/
-
+/*------------Skier events--------------*/
 /*
 Name:
     spawnSkier       
@@ -95,7 +114,7 @@ Details and Calculations:
     The possible x coordinates are 10 
     columnes that are size aligned. They are obtained
     using a random function that is then moded with 10 to 
-    give a discrete value between 0-10. This value is 
+    give a discrete value between 0-9. This value is 
     then multiplied by 64 since the bitmap of the skier
     is of size 64.    
 */
@@ -109,7 +128,7 @@ void spawnSkier(NPCskier *skier, int yInit)
     skier->x = newPosition * 64;
     skier->y = yInit;
     skier->pos = 1;
-    skier->deltaY = -2; /*vertical speed of skier*/
+    skier->deltaY = -2; 
     skier->timer = 0;                                         
     skier->toDraw = true;
 }
@@ -155,12 +174,11 @@ void moveSkier(NPCskier *skier)
         skier->timer = getTime() + 2 * 70;       
     }
 
-    if (skier->y <= 31)
+    if (skier->y <= UPPER_EDGE + 31)
         resetSkier(skier);
 }
 
-/*Tree events*/
-
+/*----------------Tree events----------------*/
 /*
 Name:
    spawnTree    
@@ -179,7 +197,7 @@ Details and Calculations:
     The possible x coordinates are 10 
     columnes that are size aligned. They are obtained
     using a random function that is then moded with 10 to 
-    give a discrete value between 0-10. This value is 
+    give a discrete value between 0-9. This value is 
     then multiplied by 64 since the bitmap of the skier
     is of size 64.        
 */
@@ -222,12 +240,11 @@ void moveTree(Tree *tree)
 {
     tree->y += tree->upwardSpeed;
     
-    if(tree->y <= 31)
+    if(tree->y <= UPPER_EDGE + 31)
         resetTree(tree);
 } 
 
-/*****CONDITION-BASED EVENTS*****/
-
+/*****CONDITION-BASED/ASYNCHRONOUS EVENTS*****/
 /*
 Name:
     resetTree   
@@ -249,7 +266,6 @@ Details and Calculations:
     then multiplied by 64 since the bitmap of the Tree
     is of size 64.        
 */
-
 void resetTree(Tree *tree) 
 {
     tree->y = 400;
@@ -308,7 +324,6 @@ Details:
     If the coordinates are the same, the boolean isCollison
     is set to true.     
 */
-
 bool checkColEdge(Snowboarder *player)
 {
     bool isCollision = false;
@@ -318,7 +333,6 @@ bool checkColEdge(Snowboarder *player)
 
     return isCollision;
 }
-
 
 /*
 Name:
@@ -392,7 +406,6 @@ Details:
     The function then checks for an overlap between
     these boxes which would indicate a collision has occured.          
 */
-
 bool checkCollisionSkier(Snowboarder *player, NPCskier *skier)
 {
     BoundingBox playerBox;
@@ -421,10 +434,9 @@ bool checkCollisionSkier(Snowboarder *player, NPCskier *skier)
     return isCollision; 
 }
 
-
 /*
 Name:
-    hasSkierColWithTree   
+    hasSkierColWithTree (has skier collided with tree)
 Purpose:
     The purpose of this function is to check whether 
     a skier has collided with a tree.        
@@ -456,12 +468,11 @@ void hasSkierColWithTree(NPCskier *skier, Tree *tree)
     {
         if (skier->toDraw)
         {
-
             treeBox.maxX = tree->x + 64; 
             treeBox.minX = tree->x;
             treeBox.maxY = tree->y + 64;
             treeBox.minY = tree->y;
-            
+
             skierBox.maxX = skier->x + 64; 
             skierBox.minX = skier->x;
             skierBox.maxY = skier->y + 64;
@@ -476,11 +487,10 @@ void hasSkierColWithTree(NPCskier *skier, Tree *tree)
     }
 }
 
-/*Collisions*/
-
+/*****Collisions*****/
 /*
 Name:
-    collisionObs
+    collisionObs (collision with obstacle)
 Purpose:
     The purpose of this function is to account 
     for a collison and affect the state of the game.        
@@ -503,13 +513,13 @@ void collisionObs(Lives *lives, Snowboarder *player)
         decreaseLife(lives);
         resetPos(player);
         player->invulnerableTimer = getTime() + 3 * 70;
-        player->counter = 0;
     }
 }
 
+
 /*
 Name:
-    collisionSkier   
+    collisionSkier   (collision with skier)
 Purpose:
     The purpose of this function is to update the count of
     the skiers hit and call the function that updates the 
@@ -520,7 +530,7 @@ Inputs:
     SkierCounter *counter
         A pointer to the SkierCounter object
     UINT32 timeCurr
-        A long value of the current time.                     /*description could be better?
+        current time of the clock
 Outputs: 
     None      
 Details:
@@ -528,7 +538,6 @@ Details:
     with the last parameter as true to indicate that the collision
     has taken place with a skier inorder to add the extra 30 points.      
 */
-
 void collisionSkier(ScoreCounter *score, SkierCounter *counter,
                     UINT32 timeCurr)
 {
@@ -582,7 +591,7 @@ Details:
 
 void resetPos(Snowboarder *player)
 {
-    player->x = 288;
+    player->x = SCREEN_CENTER_X;
 }
 
 /*
@@ -595,7 +604,7 @@ Inputs:
     ScoreCounter *score
         A pointer to the ScoreCounter object
     UINT32 timeCurr
-        A long value of the current time.                     /*description could be better?
+        current time from the clock
     bool skierHit
         A boolean that indicates whether or not 
         a skier was collided with by the player.
@@ -654,11 +663,10 @@ bool isPlayerInvulnerable(Snowboarder *player)
     return isInvulnerable;
 }
 
-/*Game ends*/
-
+/***Game ends***/
 /*
 Name:
-    checkGameOver   
+     checkGameOver   
 Purpose:
      The purpose of this function is to check
      whether or not the game has ended.   
@@ -675,7 +683,6 @@ Details:
     the lives have been lost, thus indicating the game 
     is over.       
 */
-
 bool checkGameOver(Lives *lives)
 {
     bool isOver = false;
@@ -706,8 +713,8 @@ Details:
 */
 void gameOver(ScoreCounter *score, SkierCounter *hitCount)
 {
-    score->x= 400;
-    score->y=300;
-    hitCount->x=400;
-    hitCount->y=175;
+    score->x = 400;
+    score->y = 300;
+    hitCount->x = 400;
+    hitCount->y = 175;
 }

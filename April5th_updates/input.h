@@ -1,13 +1,15 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#define LEFT_ARROW 97 /*0x004B00000 USING "A" FOR NOW*/
-#define RIGHT_ARROW 100 /*0x004D0000*/ /*USING "D" FOR NOW*/
-#define ESC 27 /*0x01 /*0x0001001B*/
-
 #include "bool.h"
+#include "types.h"
 
-char input();
+#define LEFT_ARROW 0x4B 
+#define RIGHT_ARROW 0x4D
+#define ESC 0x01
+#define SPACE_BAR 0x39
+
+UINT32 input();
 bool hasInput();
 
 #endif

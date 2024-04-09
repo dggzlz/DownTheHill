@@ -18,10 +18,4 @@ void renderSplashScr(const UINT32 * splash, UINT32 *base);
 void renderGameOver(const Model *model, UINT32 *base);
 
 
-
-/*
-void renderSkierHitCount();
-void renderGameOver();
-*/
-
 #endif

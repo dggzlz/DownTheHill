@@ -7,6 +7,6 @@
 
 void syncTree(Model *model);
 void syncSkier(Model *model, UINT32 timeNow);
-void syncEdge(Model *model);
+void syncEvents(Model *model, UINT32 timeNow);
 
 #endif

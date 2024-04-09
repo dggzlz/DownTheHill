@@ -1,15 +1,23 @@
 ;File: rast_asm.s 
-;Contributers: Marc Schroeder
+;Contributers: Marc Schroeder, Diego Gonzalez, Juan Diego Serrato
 ;Project: Down the Hill
 ;Course: COMP 2659 - Machinery II
 ;Section: 001
 ;Instructor: Paul Pospisil
 ;
 ;PURPOSE: This file is part of the raster library (stage 2 of the project), 
-;and it contains the subroutine 'clearScreen'. All credit to the algorithm are 
-;given to Marc Schroeder.
-;
-;The subroutine clears the screen.
+;and it contains the subroutines 'clearScreen' and 'setVideoBase'. 
+
+;------------------SUBROUTINE-----------------------
+;NAME: 	  
+;	  clearScreen
+;PURPOSE: 
+; 	  Clears the screen, i.e. the framebuffer.
+;AUTHOR:
+;	  All credit to the algorithm are given to Marc Schroeder.
+;DETAILS:
+; 	  For any questions about this subroutine, Please only contact 
+;     Marc Schroeder, only him and God knows how this works
 ;
 		xdef		_clearScreen,_setVideoBase
 VIDEO_BASE	EQU	$FFFF8201
@@ -29,16 +37,26 @@ fillLoop:	movem.l		d1-7/a1-6,-(a0)
 		rts
 
 
-
-; STACKFRAME
-;+-------------------------+
-;|	saved register	   |
-;+-------------------------+
-;|	old A6		   | 0
-;|	 return address	   | 
-;+-------------------------+
+;--------------SUBROUTINE-----------------
+;NAME: setVideoBase
+;
+;PURPOSE: 
+;	   This subroutine take a buffer and set the screen to that buffer.
+;	   this function is implemented in 68000 ASL because the instruction movep.
+;      must be used. This is so the two bytes of the 16-bit video register 
+;      are updated at the same time. Not doing so can trigger a bug if VSYNC 
+;      happens midway through the setVideoBase algorithm’s execution, at the point
+;      when the two 8-bit portions of the video base register are inconsistent.
+;OUTPUT:
+;	   None
+;
+;STACKFRAME
+;+------------------+
+;|	old A6		    | 0
+;|	return address	| 
+;+------------------+
 ;|	BUFFER_OFFSET	| 8
-;+-------------------------+
+;+------------------+
 
 BUFFER_OFFSET	EQU	8
 

@@ -1,14 +1,36 @@
+/* File: music.c
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This file is part of stage 7 of the project. Stage 7 is meant to build the 
+ *  library to handle the sound. 
+ * 
+ *  This file contains the music of the video game. it has the music array for 
+ *  both the splash screen and the gameplay. 
+ *  
+ */
+
 #include "psg.h"
 #include "music.h"
 #include <stdio.h>
 #include <osbind.h>
 
-/*TEMPO FOR JUMP*/
-
-#define JUMP 'j'
+/*title of the songs*/
+#define JUMP 'j' 
 #define REPTILIA 'r'
 
-
+/*
+  Length of the array.
+  sizeof is used to calculate the size of the array.
+  sizeof returns the amount of memory allocated for its operand.
+  in this case, the amount of memory allocated for the array is divided by the
+  amount of memory allocated for the elements of the array. only one element is 
+  used to divide. this will give the len of the array
+*/
 #define reptiliaLen (int)(sizeof(gameSong) / sizeof(gameSong[0]))
 #define jumpLen (int)(sizeof(menuNote1) / sizeof(menuNote1[0]))
 
@@ -46,7 +68,6 @@ Note menuNote1[] =
 
     /*8th bar*/
     {A >> fifth_oct, 14}, {G >> fifth_oct, 14}, {rest, 14}, {G >> fifth_oct, 70},
-
 };
 
 Note menuNote2[] = 
@@ -78,7 +99,6 @@ Note menuNote2[] =
 
     /*8th bar*/
     {F >> fifth_oct, 14}, {G >> fifth_oct, 14}, {rest, 14}, {D >> fifth_oct, 70},
-
 };
 
 Note menuNote3[] = 
@@ -110,7 +130,6 @@ Note menuNote3[] =
 
     /*8th bar*/
     {C >> fifth_oct, 14},{C >> fifth_oct, 14}, {rest, 14}, {G >> fifth_oct, 70},
-
 };
 
 
@@ -118,10 +137,10 @@ Note menuNote3[] =
 Note gameSong[] = 
 {
     /*
-    - Main Riff from 1st bar to 16th bar with guitar
-    - Change of riff from mid 16th bar to 24th bar with clean guitar ***change on envelope***
-    - change of riff from mid 24th bar to 33th bar with guitar ***change on envelope***
-    - Solo Guitar from mid 33th bar to 48th with clean guitar ***change on envelope***
+    - Main Riff from 1st bar to 16th bar 
+    - Change of riff from mid 16th bar to 24th bar  
+    - change of riff from mid 24th bar to 33th bar  
+    - Solo Guitar from mid 33th bar to 48th
     - Outro from 49th bar to 56th bar
     */
 
@@ -250,7 +269,6 @@ Note gameSong[] =
     {B >> fifth_oct, 13}, {rest, 1}, {B >> fifth_oct, 13}, {G >> fifth_oct, 13},
     {B >> fifth_oct, 13}, {D >> sixth_oct, 13},
     {C_sharp >> sixth_oct, 7},
-
 
     /*26th bar*/
     {C_sharp >> sixth_oct, 6}, {A >> fifth_oct, 13},  {E >> sixth_oct, 13},
@@ -397,7 +415,7 @@ Note gameSong[] =
     {rest, 25}, {D >> fifth_oct, 13}, {rest, 1}, {D >> fifth_oct, 13},
 
     /*55th bar*/
-    {rest, 21}, {D >> fifth_oct, 13}, {rest, 1}, {D >> fifth_oct, 13}, 
+    {rest, 25}, {D >> fifth_oct, 13}, {rest, 1}, {D >> fifth_oct, 13}, 
     {rest, 1}, {E >> fifth_oct, 13}, {rest, 1}, {E >> fifth_oct, 13},
     {rest, 1}, {E >> fifth_oct, 13}, {rest, 1}, {E >> fifth_oct, 13},
 
@@ -408,20 +426,37 @@ Note gameSong[] =
     {rest, 1}, {E >> fifth_oct, 12}, {rest, 1}, {E >> fifth_oct, 12}
 };
 
+/*
+Name:
+    startMusic
+Purpose:
+    The function set the song to be played. it is only call once at the beginning
+    of the song.
+Inputs:
+    (char) title: a character that represents the title of the song.
+Outputs: 
+    None   
+Details:
+    the function uses psg.c file to set the initial value of the song.
+
+Assumptions and Limitations: 
+    This function ONLY start the song, if you would like to update the music notes,
+    you would need to use updateMusic.
+        
+*/
 void startMusic(char title)
 {
     curNote = 0;
 
     if (title == JUMP)
     {
-        /*find a way to know which screen is*/
-        enableChannel(channelA, 1, 0);
-        enableChannel(channelB, 1, 0);
-        enableChannel(channelC, 1, 0);
-            
         setTone(channelA, menuNote1[curNote].pitch);
         setTone(channelB, menuNote2[curNote].pitch);
         setTone(channelC, menuNote3[curNote].pitch);
+        
+        enableChannel(channelA, 1, 0);
+        enableChannel(channelB, 1, 0);
+        enableChannel(channelC, 1, 0);
         
         setVolume(channelA, 0x0F);
         setVolume(channelB, 0x0F);
@@ -429,24 +464,44 @@ void startMusic(char title)
     }
     else if(title == REPTILIA)
     {
-        enableChannel(channelA, 1, 0);
         setTone(channelA, gameSong[curNote].pitch);
+        enableChannel(channelA, 1, 0);
         setVolume(channelA, 0x0f);
     }
 }
 
-
-void updateMusic(UINT32 time_elapsed, char title)
+/*
+Name:
+    updateMusic
+Purpose:
+    goes through the array of the songs to update the song.
+Inputs:
+    (UINT32) timeElapsed: time that has passed between the last time the clock
+            was check and the function has been called.
+    (char) title: a charactet that represents the title of the song.
+Outputs: 
+    None.   
+Details:
+    The function check the duration of the song against the time elapsed.
+    If the duration is past its time, then the next note is set.
+    If the song reaches its last note, then it resets the counter to 0 to loop
+    again the song.        
+*/
+void updateMusic(UINT32 timeElapsed, char title)
 {
-    duration += time_elapsed;
+    duration += timeElapsed;
     
     if (title == JUMP)
     {
+        /*if duration is past due*/
         if (duration >= menuNote1[curNote].duration)
-        {
+        {   
+            /*reset it so it can track the duration of the next note*/
             duration = 0;
+            /*jump to the next note*/
             curNote++;
 
+            /*if the song has finished then go to start again*/
             if (curNote >= jumpLen)
                 curNote = 0;
         
@@ -457,6 +512,7 @@ void updateMusic(UINT32 time_elapsed, char title)
     }
     else if(title == REPTILIA) 
     {
+        /*does the same as above*/
         if (duration >= gameSong[curNote].duration)
         {
             duration = 0;
@@ -468,6 +524,4 @@ void updateMusic(UINT32 time_elapsed, char title)
             setTone(channelA, gameSong[curNote].pitch);
         }
     }
-
-    setEnvelope(0x08, 0x200F);
 }

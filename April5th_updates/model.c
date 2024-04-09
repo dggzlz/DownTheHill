@@ -1,3 +1,16 @@
+/* File: model.c
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This file is part of stage 3 of the project, and it's part of the library
+ *  that is in charge of the state of the game.
+ *  This file contains the function that set the model for the game.
+ */
+
 #include "model.h"
 #include "events.h"
 
@@ -11,7 +24,6 @@
 
 #define COUNTER_X 40
 #define COUNTER_Y 4
-
 
 /***INITIALIZE SNOWBOARDER***/
 
@@ -37,7 +49,6 @@ void snowboarderSet(Snowboarder *player)
     player->vel = 32;
     player->posture = POSTURE_R;
     player->invulnerableTimer = 0;
-    player->counter = 0;
 }
 
 /***INITIALIZE SCORE****/
@@ -62,7 +73,6 @@ void newScore(ScoreCounter *score)
     score->scorePlayer = 0;
     score->x = SCORE_X;
     score->y = SCORE_Y;
-    score->counter = 0;
 }
 
 /***INITIALIZE LIVES***/
@@ -117,7 +127,6 @@ void newCounter(SkierCounter *counter)
 }
 
 /***SET INITIAL MODEL***/
-
 /*
 Name:
     setModel   
@@ -139,23 +148,23 @@ Details and Calculations:
 void setModel(Model *model)
 {
     int yInitPositions[6] = {400, 400, 544, 544, 688, 688}; /*making use of virtual screen*/
-    int i,j;
-    snowboarderSet(&(model->snowboarder));
-    newScore(&(model->score));
-    newLife(&(model->hearts));
-    newCounter(&(model->skierCounter));
+    int i;
+    
+    snowboarderSet(&model->snowboarder);
+    newScore(&model->score);
+    newLife(&model->hearts);
+    newCounter(&model->skierCounter);
 
     for(i = 0; i < numOfTrees; i++)
     {
+        /*setting initial values*/
         spawnTree(&model->trees[i], yInitPositions[i]);
-        /*j = &model->trees[i]->x;
-        j = j >> 6;
-        &model->trees[i][j];*/
     }
     
     for(i = 0; i < numOfSkiers; i++)
     {
-        spawnSkier(&(model->skiers[i]), yInitPositions[i]);
+        /*setting initial values*/
+        spawnSkier(&model->skiers[i], yInitPositions[i]);
     }
 
 }

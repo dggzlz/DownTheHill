@@ -43,12 +43,10 @@
 #define REG_E 14
 #define REG_F 15
 
-
- 
-
 UINT8 mixerR7State = 0x3F; /*global variable for tracking state of register 7*/
 volatile char *PsgRegSelect = 0xFF8800;
 volatile char *PsgRegWrite  = 0xFF8802;
+
 /***Write To The PSG ***/
 /*
 Name: writePsg
@@ -79,7 +77,6 @@ void writePsg(int reg, UINT8 val)
 
     if(reg >= 0 && reg <= 15)
     {
-        
         *PsgRegSelect = reg;
         *PsgRegWrite = val;
         
@@ -119,6 +116,7 @@ Calculations:
         accesses the coarse tuning register and shifts the
         coarse tuning value to the right so that it removes
         the 8 bit fine tuning values.
+
 Assumptions and Limitations:
         This function assumes that when called, the caller will have entered supervisor
         mode.       
@@ -212,7 +210,7 @@ void enableChannel(int channel, int toneOn, int noiseOn)
         UINT8 mixer = mixerR7State;
         if(toneOn)
         {
-            mixer &= ~(1 << channel); /*bitwise NOT since r7 is reversed for some reason*/
+            mixer &= ~(1 << channel); /*bitwise NOT since r7 is reversed*/
         }
         else
         {
@@ -309,8 +307,8 @@ Assumptions and Limitations:
 
 void setEnvelope(int shape, unsigned int sustain)
 {
-    writePsg(REG_B, sustain & 0xFF);/*get low 8 bits*/
-    writePsg(REG_C, (sustain >> 8) & 0xFF); /*get high 8 bits*/
+    writePsg(REG_B, (UINT8)(sustain & 0xFF));/*get low 8 bits*/
+    writePsg(REG_C, (UINT8)((sustain >> 8) & 0xFF)); /*get high 8 bits*/
 
     /*LOAD SHAPE*/
     if(shape >= 0 && shape <= 0xFF)

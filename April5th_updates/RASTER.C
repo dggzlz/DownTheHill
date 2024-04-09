@@ -9,7 +9,7 @@
  * and it contains the definitions for the functions prototypes defined on the 
  * raster.h module.
  * 
- * The functions of this library are of "low-level". They only plots basic 
+ * The functions of this library are of "low-level" routines. most of them plots basic 
  * shapes (lines, shapes). They are meant to be called by other 
  * libraries to help make more complex shapes.
  * 
@@ -17,9 +17,10 @@
  * - the screen used is a 640 x 400 resolution.    
  * 
  * - the base pointer parameter is of many sizes. It is assumed that the 
- *   base has the Physbase() assigned to its value. Physbase() is used to point 
- *   to the memory that writes to the screen. The sizes denoted are 
- *   the following:
+ *   base has the pointer to the video base register assigned to its value. getVideoBase is used to point 
+ *   to the memory that writes to the screen. 
+ * 
+ * - The sizes denoted are the following:
  * 
  *   unsigned byte = char
  *   unsigned word = UINT16
@@ -31,77 +32,30 @@
 #include <osbind.h>
 #include <stdio.h>
 
-#define BASE_HI 0xFFFF8201
+/*Addresses that holds the video base address*/
+#define BASE_HI 0xFFFF8201 
 #define BASE_MI 0xFFFF8203
 
+/*from RAST_ASM*/
 extern void setVideoBase(UINT8 * buffer);
-
-/***plotting a pixel***/
-/*
-Name:
-        plotPixel
-Purpose:
-        plots a pixel at a 
-        specified x,y coordinate within the 
-        frame buffer for the Atari ST.
-Inputs: char *base:
-                A character pointer to the 
-                start of the frame buffer (0,0).
-        int x, int y:
-                X and Y coordinates of where 
-                the pixel is to be plotted.
-Outputs: 
-        None
-Calculations:
-        base starts at (0,0) since it points 
-        to a byte at a time, there are 80 bytes in 
-        the width of the screen. Y*80 thus gets us 
-        to the row specified by Y. Once on the correct
-        row we determine the byte location of the x,y
-        coordinate by shifting the x coordinate of the
-        pixel to the right. A bitwise OR operation is
-        then performed with 1 << ( (7-(x & 7)) to set 
-        the pixel. (x & 7) tells us the location of 
-        the pixel within the byte so we shift 1 which 
-        is 00000001 to the left (7-(x & 7) times to get 
-        the correct position for the bitwise OR operation.
-Details:
-        Plot pixel operates on the frame buffer of the Atari ST 
-        which has 32000 bytes on the screen and takes into account 
-        the fact that there are 80 bytes per row. To plot a pixel 
-        at the specified (x,y) coordinate, the function calculates the 
-        byte index by shifting the x-coordinate by 3 bits which is the same
-        as dividing the x coordinate by 8 and then adds it to the offset of
-        the y coordinate. Once in the proper byte, the appropriate bit is set
-        by using a bitwise or with the calculated correct position of the bit.
-
-Assumptions and Limitations: 
-        The X,Y coordinate and base pointer parameters
-        are meant for the Atari ST.
-        The graphics are monochrome.
-*/
-void plotPixel(UINT8 *base, int x, int y)
-{
-    if(x >= 0 && x < screenWidth && y >= 0 && y < screenHeight)
-        *(base + y * 80 + (x >> 3)) |= 1 << (7 - (x & 7));
-    
-}
 
 /*** get the time***/
 /*
 Name:
       getTime 
-Purpose:
+Purpose: 
+        The function reads periodically the content of the address 0x462.
+        the address contains a timer that keeps track of the internal clock 
+        by being incremented 70 times per second.
         
 Inputs: 
+        None
 Outputs: 
-        
-Calculations:
-       
-Details:
-        
-
-Assumptions and Limitations: 
+        A longword that has the value of the current time of the internal clock
+            
+Assumptions and Limitations:
+        The function enter Supervisor mode. if Supervisor mode is not on, the 
+        function won't be able to read the timer at the address.
         
 */
 long getTime()
@@ -117,24 +71,23 @@ long getTime()
    return timeNow;    
 }
 
-/*** ***/
+/***set the screen***/
 /*
 Name:
-       
+        setScreen
 Purpose:
-        
+        this function is wrapper function that calls the ASL subroutine 
+        setVideoBase. This fucntion mainly works just to go into supervisor mode.
 Inputs: 
+        The buffer desired to set the screen at. This buffer is an unsigned
+        byte pointer, which point to the start address of the buffer.
 Outputs: 
-        
-Calculations:
-       
+        none    
+
 Details:
-        
-
-Assumptions and Limitations: 
-        
+        For more details about how the screen is set, please refer to the file,
+        RASTER_ASM.S, which contain the subroutine call setVideoBase.
 */
-
 void setScreen(UINT8 * buffer)
 {
     long oldSSP = Super(0);
@@ -145,34 +98,108 @@ void setScreen(UINT8 * buffer)
 /***Get Video Base****/
 /*
 Name:
-       
+        getVideoBase
 Purpose:
-        
+        This function returns a pointer to the address of the video base 
+        register as unsigned word. The address of the video base are in the 
+        LSByte of the addresses BASE_HI and BASE_MI. These are constants 
+        defined at the top of the file. 
 Inputs: 
+        none
 Outputs: 
-        
-Details and Calculations:
-       
+        An unsigned word pointer with the address of the video base register.
 
-        
+Details and Calculations:
+        This function works the same as Physbase() system call. 
+        First, it points to the low byte from both BASE_HI and BASE_MI.
+        Then, the value that highByte points at is casted as a UINT32 
+        into baseAddress. then bitshifted to the left 8 times. the same process
+        is done with the midByte. this in turn, gives us the viode base address.
+        the function then returns a casted video base address as a UINT16
+        pointer.    
+
+        videoBaseAddr + highByte = 0x0000hh
+        videoBaseAddr << 8       = 0x00hh00
+        videoBaseAddr + midByte  = 0x00hhmm
+        videoBaseAddr << 8       = 0xhhmm00
+
+Details:
+        The variable highByte refers to the byte in the 24 bit address of the 
+        video register, and the midByte refers to the middle one.
+
+        Example:
+                0xhhmm00 where hh is highByte and mm is midByte. the rest of the
+                address are 0 as those bits are not use.
 
 Assumptions and Limitations: 
-        
+        The video base register is protected and therefore when doing the 
+        operations, it must be in Supervisor mode. Otherwise the function 
+        won't be able to access the values in the given addresses. 
 */
 UINT16* getVideoBase()
 {
-        UINT32 baseAddress;
+        UINT32 vidBaseAddr; /*video base address*/
         UINT8 *highByte = BASE_HI;
         UINT8 *midByte = BASE_MI;
         long oldSSP = Super(0);
 
-        baseAddress = (UINT32) *highByte; 
-        baseAddress = baseAddress << 8;
-        baseAddress += (UINT32) *midByte;
-        baseAddress = baseAddress << 8; 
+        vidBaseAddr = (UINT32) *highByte; 
+        vidBaseAddr = vidBaseAddr << 8;
+        vidBaseAddr += (UINT32) *midByte;
+        vidBaseAddr = vidBaseAddr << 8; 
         
         Super(oldSSP);
-        return (UINT16 *) baseAddress;
+        return (UINT16 *) vidBaseAddr;
+}
+
+/***plotting a pixel***/
+/*
+Name:
+        plotPixel
+Purpose:
+        plots a pixel at a 
+        specified x, y coordinate within the 
+        frame buffer for the Atari ST.
+Inputs: UINT8 *base:
+                A unsigned byte pointer to the 
+                start of the frame buffer (0,0).
+        int x, int y:
+                X and Y coordinates of where 
+                the pixel is to be plotted.
+Outputs: 
+        None
+Calculations:
+        base is equal to the start of the frame buffer. Since it points 
+        to a byte at a time, there are 80 bytes in 
+        the width of the screen. Y*80 thus gets us 
+        to the row specified by Y. Once on the correct
+        row we determine the byte location of the x,y
+        coordinate by shifting the x coordinate of the
+        pixel to the right. A bitwise OR operation is
+        then performed with 1 << (7-(x & 7)) to set 
+        the pixel. (x & 7) tells us the location of 
+        the pixel within the byte so we shift 1 which 
+        is 00000001 to the left (7-(x & 7)) times to get 
+        the correct position for the bitwise OR operation.
+Details:
+        Plot pixel operates on the frame buffer of the Atari ST 
+        which has 32000 bytes on the screen and takes into account 
+        the fact that there are 80 bytes per row. To plot a pixel 
+        at the specified (x,y) coordinate, the function calculates the 
+        byte index by shifting the x-coordinate by 3 bits which is the same
+        as dividing the x coordinate by 8 and then adds it to the offset of
+        the y coordinate. Once in the proper byte, the appropriate bit is set
+        by using a bitwise or with the calculated correct position of the bit.
+
+Assumptions and Limitations: 
+        The X,Y coordinate and base pointer parameters are meant for the 
+        Atari ST. The graphics are monochrome.
+*/
+void plotPixel(UINT8 *base, int x, int y)
+{
+    if(x >= 0 && x < screenWidth && y >= 0 && y < screenHeight)
+        *(base + y * 80 + (x >> 3)) |= 1 << (7 - (x & 7));
+    
 }
 
 /***plotting an arbitrary line***/
@@ -225,14 +252,18 @@ Assumptions and Limitations:
         following criteria:
         y2 >= y1 && x2 >= x1 
         Cannot plot lines bottom left to top right yet.
-*/
+
+NOTE: 
+Reference for the algorithms was taken from this youtube video
+https://youtu.be/RGB-wlatStc?si=o5XHFcXK1CKShLOs 
+*/    
 void algoBresenham(UINT8 *base, int x1, int y1, int x2, int y2)
 {
     int x = x1;
     int y = y1;
-    int dx = x2-x1;
-    int dy = y2-y1;
-    int p;
+    int dx = x2-x1; /*change in x*/
+    int dy = y2-y1; /*change in y*/
+    int p; /*decision variable*/
 
     if(dy <= dx)/*slope is less than or equal to one*/
     {
@@ -296,7 +327,7 @@ Inputs:
 Outputs: 
         None
 Details:
-        Unfortunatly the Atari ST does not allow for the long long access of memory thus 32bit,
+        Unfortunately the Atari ST does not allow for the long long access of memory thus 32bit,
         (a long) is the largest size we can use and so since there are two longs per row for 
         a 64x64 bitmap, each iteration in the while loop accesses two elements of the bitmap array
         before offseting into the next row. There are 20 longs per row and the row is determined by
@@ -304,13 +335,13 @@ Details:
         right by 5 which is the same as dividing x by 32. The function checks that the desired (x,y)
         coordinate is on the screen. The long to be written to in the frame buffer is then bitwise 
         OR with the appropriate element in the bitmap.   
+
 Assumptions and Limitations: 
         Assumes the bitmap is exactly 64x64 pixels in size.
         Designed for monochrome graphics on the Atari ST. 
         It also assumes that the coordinates for plotting
         are size aligined.
 */
-
 void plotBitmap64(UINT32 *base, 
                   int x, int y, 
                   const UINT32 *bitmap, 
@@ -472,41 +503,19 @@ Assumptions and Limitations:
         All lines are drawn either left to right or 
         top to bottom. 
 */
-
 void plotRect(UINT8 *base, int x, int y, int length, int width)
 {
-        int rowTop = y; 
-        int rowBot = y + width - 1; 
-        int colLeft = x;
-        int colRight = x + length - 1;
-        
-       
-        if(x >= 0 && x < screenWidth && y >= 0 && y < screenHeight && rowBot < screenHeight && colRight < screenWidth)
-        {
-                algoBresenham(base, colLeft, rowTop, colRight, rowTop);/*top horizontal line*/
-                algoBresenham(base, colRight, rowTop, colRight, rowBot);/*right vertical line*/
-                algoBresenham(base, colLeft, rowTop, colLeft, rowBot );/*left vertical line*/
-                algoBresenham(base, colLeft, rowBot, colRight, rowBot);/*bottom horizontal line*/
-        }
+    int rowTop = y; 
+    int rowBot = y + width - 1; 
+    int colLeft = x;
+    int colRight = x + length - 1;
+
+    if(x >= 0 && x < screenWidth && y >= 0 && y < screenHeight 
+       && rowBot < screenHeight && colRight < screenWidth)
+   {
+        algoBresenham(base, colLeft, rowTop, colRight, rowTop);/*top horizontal line*/
+        algoBresenham(base, colRight, rowTop, colRight, rowBot);/*right vertical line*/
+        algoBresenham(base, colLeft, rowTop, colLeft, rowBot );/*left vertical line*/
+        algoBresenham(base, colLeft, rowBot, colRight, rowBot);/*bottom horizontal line*/
+   }
 }
-                
-
-
-/*The bresenham algorithm was obtain from this youtube video
-https://youtu.be/RGB-wlatStc?si=o5XHFcXK1CKShLOs 
-*/                
-                
-              
-                
-            
-
-
-  
-        
-        
-        
-        
-        
-        
-        
-       

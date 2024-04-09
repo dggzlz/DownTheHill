@@ -1,3 +1,20 @@
+/* File: renderer.c
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This File is part of stage 4 of the project, and it contains the function 
+ *  that draw the model of the videogame.
+ * 
+ * Assumptions: 
+ *  The functions are meant to draw, and therefore won't be checking for any 
+ *  conditions of the objects rather than if their coordinates are within the 
+ *  screen. This means the model that will be draw, should have its value previously set. 
+ */
+
 #include "model.h"
 #include "events.h"
 #include "raster.h"
@@ -10,21 +27,11 @@
 
 /*
 Name:
-        
+    stopCursor
 Purpose:
-        
-Inputs:
-
-
-Outputs: 
-        
-       
-Details:
-        
-
-Assumptions and Limitations: 
-        
+    it stop the cursor from blinking        
 */
+
 void stopCursor()
 {
     printf("\033f");
@@ -52,14 +59,13 @@ Details:
     if the player is invulnerable and if so renders the 
     Angel protector to indicate the player is invulnerable.       
 */
-
 void renderPlayer(Snowboarder* player, UINT32 *base)
 {
     if (player->x >= LEFT_EDGE && player->x <= RIGHT_EDGE)
     {
-        if (player->posture == 'r')
+        if (player->posture == POSTURE_R)
             plotBitmap64(base, player->x, player->y, rightSnowBoarderBM, HEIGHT_64);
-        else if (player->posture == 'l')
+        else if (player->posture == POSTURE_L)
             plotBitmap64(base, player->x, player->y, leftSnowBoarderBM, HEIGHT_64);
     }
     
@@ -86,8 +92,7 @@ Details:
     location of the Angel which is at the top centre
     of the screen then renders it.       
 */
-
-void renderAngel(UINT32 *base) /*object for 5 second invincibility*/
+void renderAngel(UINT32 *base) /*object for 5 second invulnerability*/
 {
     int x = SCREEN_CENTER_X;
     int y = 100;
@@ -193,22 +198,25 @@ Details:
 
 void renderScore(ScoreCounter *score, UINT32 *base)
 {
-        int playerScore = score->scorePlayer;
-        int startX = score->x;
-        int startY = score->y;
-        int digitSpace = 15;
-        int placeValue = 10000; 
-        int xPos = startX;
+    int playerScore = score->scorePlayer;
+    int startX = score->x;
+    int startY = score->y;
+    int digitSpace = 15; /*space between digits*/
+    int placeValue = 10000; /*max value*/
+    int xPos = startX;
+    int digit = 0;
 
+    if (playerScore <= placeValue)
+    {
         while(placeValue > 0)
         {
-            int digit = (playerScore / placeValue) % 10; 
+            digit = (playerScore / placeValue) % 10; 
             xPos += digitSpace;
             plotBitmap16((UINT16*)base, xPos, startY, numberBM_ptr[digit], HEIGHT_16);
             xPos += digitSpace;
             placeValue /= 10;   
         }
-
+    }
 }
 
 /*
@@ -258,23 +266,26 @@ Details:
     The rendering starts from the position specified by the SkierCounter object's coordinates (startX, startY)
     and progresses horizontally with a fixed spacing between digits.
 */
-
 void renderSkiersHit(SkierCounter *skierHit, UINT32 *base)
 {
     int skiersHit = skierHit->hitCounter;
     int startX = skierHit->x;
     int startY = skierHit->y;
-    int digitSpace = 15;
-    int placeValue = 100; 
+    int digitSpace = 15; /*space between digits*/
+    int placeValue = 100; /*max value*/
     int xPos = startX;
+    int digit = 0;
 
-    while(placeValue > 0)
+    if (skiersHit <= placeValue)
     {
-        int digit = (skiersHit / placeValue) % 10;
-        xPos += digitSpace;
-        plotBitmap16((UINT16*)base, xPos, startY, numberBM_ptr[digit], HEIGHT_16);
-        xPos += digitSpace;
-        placeValue /= 10;
+        while(placeValue > 0)
+        {
+            digit = (skiersHit / placeValue) % 10;
+            xPos += digitSpace;
+            plotBitmap16((UINT16*)base, xPos, startY, numberBM_ptr[digit], HEIGHT_16);
+            xPos += digitSpace;
+            placeValue /= 10;
+        }
     }
 }
 
@@ -304,19 +315,17 @@ Assumptions and Limitations:
     plotted on the right side of the screen otherwise 
     the rest of the hearts will not be visible.  
 */
-
 void renderLives(Lives *lives, UINT32 *base)
 {
     int count = lives->numLives;
     int xCoor = lives->x;
 
-    while(count>0)
+    while(count > 0)
     {
         plotBitmap32(base, xCoor,lives->y, heartLifeBM, HEIGHT_32);
         xCoor -= 32;
         count--;
     }
-
 }
 
 /*
@@ -339,7 +348,6 @@ Details:
     that are part of an array, this function will 
     iterate through each object and render it.          
 */
-
 void renderModel(const Model *model, UINT32 *base)
 {
     int i;
@@ -376,7 +384,6 @@ Details:
     and framebuffer, setting the contents of the frame
     buffer to those of the array.     
 */
-
 void renderSplashScr(const UINT32* splash, UINT32 *base)
 {
     int i;
@@ -406,7 +413,6 @@ Details:
     render function for the score and the render function
     for the skiers hit count. 
 */
-
 void renderGameOver(const Model *model, UINT32 *base)
 {
     renderSplashScr(gameOverSplash, base);

@@ -1,3 +1,14 @@
+/* File: splash.c
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This file is part of stage 8 and it contains the array for both the splash 
+ *  screen and the game over screen.
+ */
 #include "splash.h"
 
 const UINT32 splash[SPLASH_HEIGHT] =

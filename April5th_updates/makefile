@@ -3,7 +3,7 @@ CC := cc68x
 CCFLAGS := -g
 ASLFLAGS := gen -D -L2
 
-TARGET := game
+TARGET := DownHill.tos
 GAME_OBJS := rast_asm.o raster.o splash.o renderer.o model.o input.o events.o dth.o music.o psg.o effects.o sync.o
 
 all: $(GAME_OBJS) $(TARGET)
