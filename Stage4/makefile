@@ -1,35 +1,17 @@
-#RENDER_MAKEFILE
-
+#DTH_MAKEFILE
 CC := cc68x
 CCFLAGS := -g
-ASLFLAGS := gen -D -L2
 
-# Define directories
-SRC_DIRS := ../stage2 ../stage3
-OBJ_DIR := dth
+TARGET := tst_rend
+GAME_OBJS := rast_asm.o raster.o renderer.o model.o events.o tst_rend.o
 
-# Collect source files from all source directories
-SRC_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+$(TARGET) : $(GAME_OBJS)
+	$(CC) $(CCFLAGS) $^ -o $(TARGET)
 
-# Generate list of object files
-OBJ_FILES := $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRC_FILES)))
+rast_asm.o: rast_asm.s
+	gen -D -L2 rast_asm.s
 
-# Target executable
-RENDER_EXE := tst_rend
+%.o : %.c
+	$(CC) $(CCFLAGS) -c %<
 
-# Rule to compile object files from source files
-$(OBJ_DIR)/%.o: $(SRC_DIRS)/%.c
-	$(CC) $(CCFLAGS) -c $< -o $@
 
-# Rule to build the executable
-$(RENDER_EXE): $(OBJ_FILES)
-	$(CC) $(CCFLAGS) $^ -o 
-
-# Ensure OBJ_DIR exists before compiling object files
-$(OBJ_FILES): | $(OBJ_DIR)
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-# Default target
-all: $(RENDER_EXE)

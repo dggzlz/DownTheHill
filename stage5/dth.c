@@ -1,56 +1,65 @@
+/* File: dth.c
+ * Contributers: Juan Diego Serrato, Diego Gonzalez
+ * Project: Down the Hill
+ * Course: COMP 2659 - Machinery II
+ * Section: 001
+ * Instructor: Paul Pospisil
+ * 
+ * Purpose:  
+ *  This file contains the main loop game. dth stands for Down The Hill.
+ *  This file is part of stage 5 of the project, and it adds up to the rest of 
+ *  stages after stage 5.
+ */
+
 #include "input.h"
 #include "renderer.h"
 #include "types.h"
 #include "RASTER.H"
 #include "model.h"
 #include "events.h"
+#include "sync.h"
 #include <osbind.h>
 #include <stdio.h>
  
- UINT8 newScreen[32256]; 
-
-
-long getTime();
-
-UINT8* findEvenAddress(UINT8 newScreen[]);
-
-int main(){
-
+int main()
+{
+    char key = '\n'; /*variable to check input from user*/
+    int i, j; /*i and j used in loops*/
+              
+    /*Clock variables*/
+    UINT32 timeThen, timeNow, timeElapsed;
     
-
-    UINT32 timeThen, timeNow, timeElapsed, lastUpdateTime;
-     /* UINT8* base2 = findEvenAddress(newScreen);
-   UINT8 *frameBuff2 = setScreen(-1, base2, -1); /*need to use vertical sync*/
-    UINT32 *base = Physbase();
-    char key; 
-    int i;
+    /*model object*/
     Model model;
-    bool treeCol = false, skierCol = false, quit = false;
+    bool quit = false;/*has the player press ESC?*/
+    bool isOver = false;
+
+    /*Double Buffering var*/
+    UINT8 *mainBuffer = (UINT8*)getVideoBase();
+
+    clearScreen((UINT32*)mainBuffer);
     
     timeNow = getTime();
     timeThen = timeNow;
-    lastUpdateTime = timeNow;
-
-   
-
-    setModel(&(model));
-    
-    /*renderModel(&(model), base);*/
-
-   
-
-
-/*
-    printf("newscreen is at %p \n", base2);
-    printf("FB is at %p \n", frameBuff2);
-    */
     timeElapsed = timeNow - timeThen;
+
+    /*setting the initial state of the game*/
+    setModel(&model);
+    renderModel(&model, (UINT32 *)mainBuffer);
     
+    /*checking the clock*/
+    timeNow = getTime();
+    timeThen = timeNow;
+    timeElapsed = timeNow - timeThen;
+    model.score.timer = timeNow;
     
-    while (!quit)
+    /*main loop*/
+    while (!quit && !isOver)
     {  
+        /*has the player pressed any keys?*/
         if (hasInput())
         {
+            /*check its input*/
             key = input();
             if (key == ESC)
             {
@@ -58,87 +67,43 @@ int main(){
             } 
             else if (key == LEFT_ARROW)
             {
-                model.snowboarder.posture = 'l';
-                moveRequest(&(model.snowboarder), 'l');
+                moveRequest(&model.snowboarder, 'l');
             }
             else if (key == RIGHT_ARROW)
             {
-                model.snowboarder.posture = 'r';
-                moveRequest(&(model.snowboarder), 'r');
+                moveRequest(&model.snowboarder, 'r');
             }
         }
-
 
         timeNow = getTime();
         timeElapsed = timeNow - timeThen;
 
-        if (timeElapsed > 0){
-            
-            for(i = 0; i < numOfTrees; i++)
-            {
-                moveTree(&(model.trees[i]));
-
-                if(checkCollisionObs(&(model.snowboarder), &(model.trees[i])))
-                    collisionObs(&(model.hearts), &(model.snowboarder));
-            }
-
-            for(i = 0; i < numOfSkiers; i++)
-            {
-                moveSkier(&(model.skiers[i]));
-
-                if (checkCollisionSkier(&(model.snowboarder), &(model.skiers[i])))
-                {
-                    collisionSkier(&(model.score), &(model.skierCounter), &lastUpdateTime,
-                                    timeNow);
-                }
-                    
-            }
-
-            if (checkColEdge(&(model.snowboarder)) || treeCol)
-                collisionObs(&(model.hearts), &(model.snowboarder));
-
-            scoreUpdates(&(model.score), &lastUpdateTime, timeNow, false);
-            
-            
-        
-
-            clearScreen(base);
-            renderModel(&(model), base);
-
-           
-            timeThen = timeNow;
-        }  
-      
-    }
-    return 0;
-}
-
-long getTime()
-{
-    long oldssp; 
-    long timeNow;
-    long *timer = (long *) 0x462;
-
-    oldssp = Super(0);
-    timeNow = *timer;
-    Super(oldssp);
-
-    return timeNow;    
-}
-
-
-UINT8* findEvenAddress(UINT8 array[])
-{
-    int i;
-    UINT8* base2;
-    for(i = 0; i < 32256; i++)
-    {
-        printf("array is %p\n", &array[i]);
-        if( ( (UINT32) &array[i] ) % 256 == 0)
+        if (timeElapsed > 0)
         {
-        base2 = &array[i];
-        return base2;
-        }
+            timeNow = getTime();
+            timeThen = timeNow;
+
+            /*updating the model*/
+            syncEvents(&model, timeNow);
+            
+            /*Checking if skiers hit any trees*/
+            for(i = 0; i < numOfTrees; i++)
+            { 
+                for(j = 0; j < numOfSkiers; j++)
+                    hasSkierColWithTree(&model.skiers[j], &model.trees[i]);
+            }
+
+            /*checking if the player has lost all its lives*/
+           if (model.hearts.numLives == 0)  
+                isOver = true;
+
+            /*update screen*/
+            Vsync();
+            stopCursor();
+            clearScreen((UINT32 *)mainBuffer);
+            renderModel(&model, (UINT32 *)mainBuffer);    
+        }  
     }
     return 0;
 }
+

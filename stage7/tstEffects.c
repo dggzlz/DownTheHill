@@ -2,7 +2,9 @@
 #include "psg.h"
 #include <stdio.h>
 #include <osbind.h>
-#include <unistd.h> /*got from online used for pauses*/m
+#include <unistd.h> /*got from online used for pauses*/
+
+#define delay 2
 
 int main()
 {
@@ -10,11 +12,11 @@ int main()
     long old_ssp = Super(0); 
 
     printf("BEGIN SOUND EFFECTS TEST\n");
-    usleep(delay);
+    sleep(delay);
     printf("PLAYING SKIER HIT\n");
-    usleep(delay);
-    playEffectSkiierDeath();
-    usleep(delay);
+    sleep(delay);
+    playSkierDeath();
+    sleep(delay);
     printf("Press Key to End Sound Effect\n");
     while (!Cconis())        /* tone now playing, await key */
         ;
@@ -23,7 +25,7 @@ int main()
     stopSound();
 
     printf("PLAYING RESCUE HELICOPTER\n");
-    playEffectRescueCopter();
+    playRescueChopper();
     printf("Press Key to End Sound Effect\n");
     while (!Cconis())        /* tone now playing, await key */
         ;

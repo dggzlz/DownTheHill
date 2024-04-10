@@ -20,37 +20,95 @@
  * that supervisor mode will have been entered.
  */
 #include "effects.h"
+#include "psg.h"
 #include <unistd.h>
-#define sirenTime 500000
+#include <osbind.h>
 
 
-void playEffectSkiierDeath()
-{
-    setNoise(0xAA);
-    setEnvelope(0x0F, 0x00FF);
-    enableChannel(2, 0, 1);
-    setVolume(2, 0X10); /*lets envelope control volume*/  
+/*
+Name:
+   checkColEdge    
+Purpose:
+    The purpose of this function is to check the players
+    left and right edges to see if they have collided with 
+    an edge.        
+Inputs: 
+    Snowboarder *player
+        A pointer to the Snowboarder object
+Outputs:
+    bool isCollision
+        A boolean value that indicates if a collision
+         has happened.            
+Details:
+    The function accesses the players edge coordinates 
+    and checks if the coordinates are the same as the
+    left and right coordinates of the edges of the screen.
+    If the coordinates are the same, the boolean isCollison
+    is set to true.     
+*/
+void playSkierDeath()
+{   
+    enableChannel(channelC, 1, 0);
+    setVolume(channelC, 0X10);
+    setNoise(0x1F);
+    setEnvelope(0x08, 0x210F);  
 }
 
-void playEffectRescueCopter()
+/*
+Name:
+   checkColEdge    
+Purpose:
+    The purpose of this function is to check the players
+    left and right edges to see if they have collided with 
+    an edge.        
+Inputs: 
+    Snowboarder *player
+        A pointer to the Snowboarder object
+Outputs:
+    bool isCollision
+        A boolean value that indicates if a collision
+         has happened.            
+Details:
+    The function accesses the players edge coordinates 
+    and checks if the coordinates are the same as the
+    left and right coordinates of the edges of the screen.
+    If the coordinates are the same, the boolean isCollison
+    is set to true.     
+*/
+void playSpawning()
+{
+    enableChannel(channelC, 1, 0);
+    setVolume(channelC, 0X10);
+    setNoise(0x1F);
+    setEnvelope(0x0E, 0x02FF);
+}
+
+/*
+Name:
+   checkColEdge    
+Purpose:
+    The purpose of this function is to check the players
+    left and right edges to see if they have collided with 
+    an edge.        
+Inputs: 
+    Snowboarder *player
+        A pointer to the Snowboarder object
+Outputs:
+    bool isCollision
+        A boolean value that indicates if a collision
+         has happened.            
+Details:
+    The function accesses the players edge coordinates 
+    and checks if the coordinates are the same as the
+    left and right coordinates of the edges of the screen.
+    If the coordinates are the same, the boolean isCollison
+    is set to true.     
+*/
+void playRescueChopper()
 {
     setNoise(0x0F);
-    setEnvelope(0x08, 0x00FF);
-    enableChannel(2, 0, 1);
-    setVolume(2, 0X10); /*lets envelope control volume*/
+    enableChannel(channelC, 0, 1);
+    setVolume(channelC, 0X10); /*lets envelope control volume*/
+    setEnvelope(0x08, 0x21FF);
 }
 
-void EndGameAmbulance()/*this function does not adhere to sound effects but we will add it anyway*/
-{
-    setTone(1, 0x0AA);
-    enableChannel(1, 1, 0);
-    setVolume(1, 11); 
-    while (!Cconis())		/* tone now playing, await key */
-        {
-        writePsg(1, 0xAA);    
-        usleep(sirenTime); 
-
-        writePsg(1, 0xD6);
-        usleep(sirenTime); 
-        }
-}

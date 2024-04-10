@@ -7,105 +7,53 @@
 #include "events.h"
 #include <osbind.h>
 #include <stdio.h>
+#include <unistd.h> /*got from online used for pauses*/
+
 #define screenWidth 640
 #define screenHeight 400
+#define delay 2
 
 int main()
 {
     UINT32 *base = Physbase();
-    /*tree initilizations*/
-
-    int treeStart;
-    Tree newTree1; 
-    Tree *tree1 = &newTree1;
-
-    /*Lives initilization*/
-    Lives life;
-    Lives *lifePointer = &life;
-    newLife(lifePointer);
-
-    /*test 1 lives lost*/
-
-    clearScreen(base);
-    printf("BEGINNING LIVES LOST TEST\n");
-
-    printf("LIVES LEFT ARE: %d\n", lifePointer->numLives);
-    printf("Press ENTER To Decrease Lives\n");
-    renderLives(lifePointer,base);
-    getchar(); 
-    clearScreen(base);
-
-   decreaseLife(lifePointer);
-
-   printf("LIVES LEFT ARE:%d\n", lifePointer->numLives);
-   printf("Press ENTER To Decrease Lives\n");
-   renderLives(lifePointer,base);
-   getchar(); 
-   clearScreen(base);
-
-   decreaseLife(lifePointer);
-
-   printf("LIVES LEFT ARE:%d\n", lifePointer->numLives);
-   printf("Press ENTER To Decrease Lives\n");
-   renderLives(lifePointer,base);
-   getchar(); 
-   clearScreen(base);
-
-   decreaseLife(lifePointer);
-
-   printf("LIVES LEFT ARE:%d\n", lifePointer->numLives);
-   printf("LIVES TEST DONE\nPRESS ENTER\n");
-   renderLives(lifePointer,base);
-   getchar(); 
-   clearScreen(base);
-   
-
-    /*test 2 tree render*/
-
-    printf("Beginning Tree Initialization And Render\n");
-    spawnTree(tree1);
-    treeStart = tree1->y;
-    printf("Press Enter to Render Tree\n");
-    while(getchar() != '\n')
-    getchar();
-    clearScreen(base);
-    printf("Tree location at\n x:%d y:%d\n", tree1->x, tree1->y);
-    printf("What a Cool Tree\nPress Enter to Continue\n");
-    renderTree(tree1,base);
-    while(getchar() != '\n')
-    getchar();
-    clearScreen(base);
-
-/*test 3*/
-    printf("PRESS ENTER CONTINUOUSLY\nTO MOVE TREE UPWARDS TO THE TOP\nY location bug exists\n");
-    getchar();
-    while(treeStart>0)
-    {
-    clearScreen(base);
-    moveTree(tree1);
-    treeStart -= 5;
-    renderTree(tree1,base);
-    printf("Tree location at\n x:%d y:%d\n", tree1->x, tree1->y);
-    getchar();
-    }
-    printf("Tree Movement Test End\n");
-    printf("press a key to continue\n");
-    getchar();
-    clearScreen(base);
-
-
-
-/*test 4*/
-    printf("Begin fake player test\n");
-    renderFakePlayer(base);
-   printf("End fake player test\n");
-    while (getchar() != '\n');/*clear buffer*/
-    printf("\nPRESS ENTER TO CONTINUE\n");
-    getchar(); /* Wait for user input to continue*/
-    clearScreen(base);
-    printf("tests ended");
+    
+    /*set model*/
+    Model model;
+    setModel(&model);
     
 
+    printf("Rendering a snapshot of the model\n");
+    printf("PRESS ENTER TO CONTINUE");
+    getchar();
 
+    clearScreen(base);
+    renderModel(&model, base);
+
+    sleep(delay);
+    printf("moving player, setting some trees and some skiers\n");
+    model.skiers[0].y = 100;
+    model.skiers[1].y = 100;
+    model.trees[0].y = 100;
+    model.trees[1].y = 100;
+    model.snowboarder.posture = 'l';
+    printf("PRESS ENTER TO CONTINUE");
+    getchar();
+
+    clearScreen(base);
+    renderModel(&model, base); 
+
+    sleep(delay);
+    printf("decreasing life\n");
+    model.hearts.numLives -= 1;
+    printf("PRESS ENTER TO CONTINUE");
+    getchar();
+
+    clearScreen(base);
+    renderModel(&model, base);
+
+    sleep(delay);
+    printf("program terminated.\n");
+    
+    
     return 0;
 }

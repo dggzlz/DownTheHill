@@ -2,58 +2,45 @@
 #include "model.h"
 #include "events.h"
 #include "bool.h"
-#include "keys.h"
 
 int main() {
     /*Initialize game model*/
     Model model;
     bool isCollision;
-    int i;
 
     printf("Starting test program...\nClick enter to continue\n");
     getchar(); 
 
     /***SETTING SNOWBOARDER***/
-    printf("setting the snowboarder's initial values\n");
-    snowboarderSet(&(model.snowboarder));
+    printf("setting the model initial values\n");
+    setModel(&model);
 
-    printf("initial values for the player {x:%d, y:%d, deltax:%d, posture:%c}\n", 
-        model.snowboarder.x, model.snowboarder.y, 
-        model.snowboarder.deltaX, model.snowboarder.posture);
+    printf("initial values for the player {x:%d, y:%d, vel:%d, posture:%c}\n", 
+    model.snowboarder.x, model.snowboarder.y, 
+    model.snowboarder.vel, model.snowboarder.posture);
     
     while (getchar() != '\n');/*clear buffer*/    
-    printf("press enter to continue\n");
+    printf("PRESS ENTER TO CONTINUE\n");
     getchar();
     
-    /***SETTING SKIERS***/
-    printf("setting values for the skiers\n");
-    spawnSkier(&(model.skiers[0]));
-    spawnSkier(&(model.skiers[1]));
-    spawnSkier(&(model.skiers[2]));
-
     /*SKIER #1*/
-    printf("initial values for the skier #1 {x:%d, y:%d, delta x:%d, delta y:%d}\n", 
-        model.skiers[0].x, model.skiers[0].y, 
-        model.skiers[0].deltaX, model.skiers[0].deltaY);
+    printf("initial values for the skier #1 {x:%d, y:%d, delta y:%d, pos: %d, toDraw: %d}\n", 
+        model.skiers[0].x, model.skiers[0].y, model.skiers[0].deltaY, 
+        model.skiers[0].pos, model.skiers[0].toDraw);
     /*SKIER #2*/
-    printf("initial values for the skier #2 {x:%d, y:%d, delta x:%d, delta y:%d}\n", 
-        model.skiers[1].x, model.skiers[1].y, 
-        model.skiers[1].deltaX, model.skiers[1].deltaY);
+    printf("initial values for the skier #2 {x:%d, y:%d, delta y:%d, pos: %d, toDraw: %d}\n", 
+        model.skiers[1].x, model.skiers[1].y, model.skiers[1].deltaY, 
+        model.skiers[1].pos, model.skiers[1].toDraw);
 
     /*SKIER #3*/
-    printf("initial values for the skier #3 {x:%d, y:%d, delta x:%d, delta y:%d}\n", 
-        model.skiers[2].x, model.skiers[2].y, 
-        model.skiers[2].deltaX, model.skiers[2].deltaY);
+    printf("initial values for the skier #3 {x:%d, y:%d, delta y:%d, pos: %d, toDraw: %d}\n", 
+        model.skiers[2].x, model.skiers[2].y, model.skiers[2].deltaY, 
+        model.skiers[2].pos, model.skiers[2].toDraw);
 
-    while (getchar() != '\n');/*clear buffer*/    
-    printf("press enter to continue\n");
+    printf("PRESS ENTER TO CONTINUE\n");
     getchar();
 
     /***SETTING TREES***/
-    printf("setting values for the trees\n");
-    spawnTree(&(model.trees[0]));    
-    spawnTree(&(model.trees[1]));  
-
     /*TREE #1*/
     printf("initial values for the tree #1 {x:%d, y:%d, speed:%d}\n", 
         model.trees[0].x, model.trees[0].y, 
@@ -94,8 +81,8 @@ int main() {
     printf("setting values for the counter\n");
     newCounter(&(model.skierCounter));  
 
-    printf("initial values for the lives {counter:%d, score:%d, x:%d, y:%d}\n", 
-        model.skierCounter.hitCounter, model.skierCounter.scoreCounter, 
+    printf("initial values for the lives {counter:%d, x:%d, y:%d}\n", 
+        model.skierCounter.hitCounter, 
         model.skierCounter.x, model.skierCounter.y);
     
     while (getchar() != '\n');/*clear buffer*/    
@@ -114,7 +101,7 @@ int main() {
 
     /*Simulate move left event*/
     printf("calling moveRequest to move the player to the left\n");
-    moveRequest(KEY_LEFT, &(model.snowboarder));
+    moveRequest(&model.snowboarder, 'l');
     while (getchar() != '\n');/*clear buffer*/    
     printf("press enter to continue\n");
     getchar();
@@ -127,7 +114,7 @@ int main() {
 
     /*Simulate move right event*/
     printf("calling moveRequest to move the player to the right\n");
-    moveRequest(KEY_RIGHT, &(model.snowboarder));
+    moveRequest(&model.snowboarder, 'r');
     printf("Player position after moving right: (%d, %d)\n", 
         model.snowboarder.x, model.snowboarder.y);
     while (getchar() != '\n');/*clear buffer*/    
@@ -136,7 +123,7 @@ int main() {
 
     /*Simulate move right event again*/
     printf("calling moveRequest to move the player to the right\n");
-    moveRequest(KEY_RIGHT, &(model.snowboarder));
+    moveRequest(&model.snowboarder,'r');
     printf("Player position after moving right: (%d, %d)\n", 
         model.snowboarder.x, model.snowboarder.y);
     while (getchar() != '\n');/*clear buffer*/    
@@ -228,9 +215,9 @@ int main() {
     getchar();
 
     printf("testing collision with skier...\n");
-    collisionSkier(&(model.score), &(model.skierCounter));
+    collisionSkier(&model.score, &model.skierCounter, 0);
     printf("values after the collision with skier: score:%d, skier counter:%d\n", 
-        model.skierCounter.scoreCounter, model.skierCounter.hitCounter);
+         model.score.scorePlayer, model.skierCounter.hitCounter);
 
     printf("program terminated\n");
 
