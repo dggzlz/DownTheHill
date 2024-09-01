@@ -34,7 +34,7 @@ This will generate the `DownHill.tos` executable file.
   
 - **Objective**: Avoid obstacles and hit skiers to earn more, the longer you play, the more points you collect. The game ends when the player loses all lives.
 
-## Contributors
+## Authors
 - Juan Diego Serrato
 - Diego Gonzalez
 - Course: COMP 2659
